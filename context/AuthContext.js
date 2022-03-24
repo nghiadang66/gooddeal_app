@@ -8,6 +8,7 @@ export const AuthContext = createContext();
 export const AuthProvider =  ({ children }) => {
     const [jwt, setJwt] = useState({});
     const [userProfile, setUserProfile] = useState({});
+    
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');

@@ -1,10 +1,11 @@
 import React from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import Spinner from "../components/Spinner";
 import Colors from "../themes/Colors";
 
 const Splash = () => (
   <View style={styles.container}>
-    <ActivityIndicator size="large" color={Colors.primary} />
+    <Spinner />
   </View>
 );
 

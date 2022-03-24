@@ -36,7 +36,8 @@ const TabNav = () => {
                     },
                     tabBarActiveTintColor: Colors.primary,
                     tabBarInactiveTintColor: Colors.muted,
-                  })}
+                    tabBarHideOnKeyboard: true,
+                })}
             >
                 <Tab.Screen
                     name="Home"
