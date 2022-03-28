@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         padding: 12,
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        backgroundColor: Colors.shadow,
     },
     cover: {
         resizeMode: 'cover',

@@ -1,23 +1,25 @@
 import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Colors from '../themes/Colors';
 import Splash from '../screens/Splash';
+import Home from '../screens/Home';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
+import Category from '../screens/Category';
+import MainNav from './MainNav';
 import BottomTabNav from './BottomTabNav';
 import { AuthContext } from '../context/AuthContext';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const StackScreen = () => {
     const { jwt, splashLoading } = useContext(AuthContext);
-
     return (
         <NavigationContainer>
             <Stack.Navigator
-                initialRouteName="Home"
+                initialRouteName="HomeTabNav"
                 headerMode="screen"
                 screenOptions={styles.screen}
             >
@@ -25,18 +27,25 @@ const StackScreen = () => {
                     <Stack.Screen 
                     name="Splash"
                     component={Splash}
-                    options={{
-                        headerTransparent: true,
-                    }}  
+                    options={{ headerShown: false }}  
                 />
                 ) : (
                     <>
                         <Stack.Screen 
-                            name="Home"
-                            component={BottomTabNav}
-                            options={{
-                                headerShown: false,
-                            }}
+                            name="HomeTabNav"
+                            component={
+                                jwt.accessToken
+                                ? BottomTabNav
+                                : Home}
+                            options={
+                                jwt.accessToken
+                                ? { headerShown: false }
+                                : ({ navigation }) => ({
+                                    headerTransparent: true,
+                                    headerTitle: () => (
+                                        <MainNav navigation={navigation} />
+                                    ),
+                            })}
                         />
 
                         {!jwt.accessToken && (
@@ -58,6 +67,12 @@ const StackScreen = () => {
                                 }} 
                             />
                         )}
+
+                        <Stack.Screen 
+                            name="Category"
+                            component={Category}
+                            options={({ route }) => ({ title: route.params.categoryName })} 
+                        />
                     </>
                 )}
             </Stack.Navigator>

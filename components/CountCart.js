@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { getCartCount } from '../services/cart';
 import Colors from "../themes/Colors";
 
-const Cart = ({ userId, token }) => {
+const CountCart = ({ userId, token }) => {
     const [count, setCount] = useState(0);
 
     const getCount = async () => {
@@ -43,4 +43,4 @@ const styles = StyleSheet.create({
     },  
 });
 
-export default Cart;
+export default CountCart;

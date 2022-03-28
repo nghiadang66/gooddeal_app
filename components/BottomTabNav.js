@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
 import StoresManager from '../screens/StoresManager';
@@ -37,7 +37,7 @@ const BottomTabNav = () => {
                     }
                     return <Icon name={iconName} size={size} color={color} />;
                 },
-                tabBarHideOnKeyboard: true
+                tabBarHideOnKeyboard: true,
             })}
         >
             <Tab.Screen

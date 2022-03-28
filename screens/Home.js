@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { listActiveCategories } from '../services/category';
 import { listActiveProducts } from '../services/product';
 import { getlistStores } from '../services/store';
-import { SliderBox } from "react-native-image-slider-box";
+import List from '../components/List';
+import Slider from '../components/Slider';
 import Alert from '../components/Alert';
 import Spinner from '../components/Spinner';
-import { STATIC_URL } from '../config';
-import Colors from '../themes/Colors';
-
-const dimensions = Dimensions.get('screen');
 
 const Home = ({ navigation }) => {
   const [categories, setCategories] = useState();
-  const [categoryImages, setCategoryImages] = useState();
+  const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
   const [products, setProducts] = useState();
   const [stores, setStores] = useState();
 
   const [error, setError] = useState(false);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getData = () => Promise.all([
     listActiveCategories({
@@ -53,7 +50,7 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     setError(false);
-    setLoading(true);
+    setIsLoading(true);
     getData()
       .then(([
         categoriesData,
@@ -61,11 +58,6 @@ const Home = ({ navigation }) => {
         storesData,
       ]) => {
         setCategories(categoriesData.categories);
-        const categoryImagesArray = [];
-        categoriesData.categories.forEach(category => {
-            categoryImagesArray.push(STATIC_URL + category.image);
-        });
-        setCategoryImages(categoryImagesArray);
         setProducts(productsData.products);
         setStores(storesData.stores);
       })
@@ -73,34 +65,44 @@ const Home = ({ navigation }) => {
         setError(true);
       })
       .finally(() => {
-        setLoading(false);
+        setIsLoading(false);
       });
   }, []);
 
-  const handleSliderPress = (index) => navigation.navigator('Category', {
+  const handleSliderPress = (index) => navigation.navigate('Category', {
     categoryId: categories[index]._id,
+    categoryName: categories[index].name,
   });
 
   return (
     <>
       {!isLoading && !error && (
         <ScrollView>
-          {categoryImages && (
-            <View style={styles.sliderContainer}>
-              <SliderBox
-                  images={categoryImages}
-                  sliderBoxHeight={dimensions.height / 2.5}
-                  dotColor={Colors.primary}
-                  inactiveDotColor={Colors.white}
-                  dotStyle={styles.sliderStyle}
-                  autoplay={true}
-                  circleLoop={true}
-                  onCurrentImagePressed={(index) => handleSliderPress(index)}
+          {categories && (
+            <View style={styles.slider}>
+              <Slider
+                items={categories}
+                currentIndex={currentCategoryIndex}
+                handleSliderPress={handleSliderPress}
+                setCurrentindex={setCurrentCategoryIndex}
               />
-          </View>
+            </View>
+          )}
+
+          {products && (
+              <View style={styles.carousel}>
+                  <List navigation={navigation} title="Best Seller" content={products} />
+              </View>
+          )}
+
+          {stores && (
+              <View style={styles.carousel}>
+                  <List navigation={navigation} title="Hot Stores" type="store" content={stores} />
+              </View>
           )}
         </ScrollView>
       )}
+
       {isLoading && <Spinner />}
       {error && <Alert type={'error'} content={error} />}
     </>
@@ -108,17 +110,15 @@ const Home = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
-  sliderContainer: {
+  slider: {
+    flex: 1,
+    marginTop: 64,
+    marginBottom: 16,
+  },
+  carousel: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 64,
-    paddingBottom: 20,
-  },
-  sliderStyle: {
-    width: 30,
-    height: 3,
-    borderRadius: 0,
   },
 });
 
