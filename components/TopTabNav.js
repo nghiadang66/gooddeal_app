@@ -11,7 +11,8 @@ const FollowTabScreen = () => {
   return (
     <FollowTab.Navigator
         initialRouteName="FollowingProduct"
-        tabBarOptions={styles.tab}
+        headerMode="screen"
+        screenOptions={styles.screen}
     >
         <FollowTab.Screen 
             name="FollowingProduct" 
@@ -28,19 +29,20 @@ const FollowTabScreen = () => {
 }
 
 const styles = StyleSheet.create({
-    tab: {
-        activeTintColor: Colors.white,
-        style: {
+    screen: {
+        tabBarActiveTintColor: Colors.white,
+        tabBarStyle: {
           backgroundColor: Colors.primary,
           height: 64,
           justifyContent: 'center',
         },
-        labelStyle: {
+        tabBarLabelStyle: {
           textAlign: 'center',
           fontWeight: 'bold',
-          fontSize: 13,
+          textTransform: 'none',
+          fontSize: 16,
         },
-        indicatorStyle: {
+        tabBarIndicatorStyle: {
           borderBottomColor: Colors.white,
           borderBottomWidth: 3,
         },

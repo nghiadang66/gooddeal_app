@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: 160,
-        backgroundColor: Colors.primary,
+        backgroundColor: Colors.muted,
     },
     wrapper: {
         flex: 1,
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         padding: 12,
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        backgroundColor: Colors.shadow,
     },
     cover: {
         resizeMode: 'cover',
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         color: Colors.white,
-        marginRight: 3,
+        marginRight: 6,
     },
 });
 

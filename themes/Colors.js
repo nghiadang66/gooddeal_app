@@ -10,6 +10,7 @@ const Colors = {
     fun: '#2ddfff',
     pink: '#ed4956',
     success: '#198754',
+    shadow: 'rgba(0, 0, 0, 0.4)',
 }
 
 export default Colors;

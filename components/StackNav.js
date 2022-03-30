@@ -1,155 +1,106 @@
 import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Colors from '../themes/Colors';
 import Splash from '../screens/Splash';
 import Home from '../screens/Home';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
-import Profile from '../screens/Profile';
-import StoresManager from '../screens/StoresManager';
+import Category from '../screens/Category';
 import MainNav from './MainNav';
-import AccountNav from './AccountNav';
+import BottomTabNav from './BottomTabNav';
 import { AuthContext } from '../context/AuthContext';
 
-const HomeStack = createStackNavigator();
-const AccountStack = createStackNavigator();
-const VendorStack = createStackNavigator();
+const Stack = createNativeStackNavigator();
+const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+    ...DefaultTheme.colors,
+    background: Colors.highMuted,
+    },
+};
 
-const HomeStackScreen = () => {
+const StackScreen = () => {
     const { jwt, splashLoading } = useContext(AuthContext);
-
     return (
-        <HomeStack.Navigator
-            initialRouteName="Home"
-            headerMode="screen"
-            screenOptions={styles.screen}
-        >
-            {splashLoading ? (
-                <HomeStack.Screen 
-                name="Splash"
-                component={Splash}
-                options={{
-                    headerTransparent: true,
-                }}  
-            />
-            ) : (
-                <>
-                    <HomeStack.Screen 
-                        name="Home"
-                        component={Home}
-                        options={{
-                            headerTransparent: true,
-                            header: ({ navigation }) => (
-                                <MainNav navigation={navigation} />
-                            ),
-                        }}  
-                    />
-
-                    {!jwt.accessToken && (
-                        <HomeStack.Screen 
-                            name="SignIn"
-                            component={SignIn}
-                            options={{
-                                title: 'SIGN IN',
-                            }} 
+        <NavigationContainer theme={MyTheme}>
+            <Stack.Navigator
+                initialRouteName="HomeTabNav"
+                headerMode="screen"
+                screenOptions={styles.screen}
+            >
+                {splashLoading ? (
+                    <Stack.Screen 
+                    name="Splash"
+                    component={Splash}
+                    options={{ headerShown: false }}  
+                />
+                ) : (
+                    <>
+                        <Stack.Screen 
+                            name="HomeTabNav"
+                            component={
+                                jwt.accessToken
+                                ? BottomTabNav
+                                : Home}
+                            options={
+                                jwt.accessToken
+                                ? { headerShown: false }
+                                : ({ navigation }) => ({
+                                    headerTransparent: true,
+                                    headerTitle: () => (
+                                        <MainNav navigation={navigation} />
+                                    ),
+                            })}
                         />
-                    )}
 
-                    {!jwt.accessToken && (
-                        <HomeStack.Screen 
-                            name="SignUp"
-                            component={SignUp}
-                            options={{
-                                title: 'SIGN UP',
-                            }} 
+                        {!jwt.accessToken && (
+                            <Stack.Screen 
+                                name="SignIn"
+                                component={SignIn}
+                                options={{
+                                    title: 'Sign In',
+                                }} 
+                            />
+                        )}
+
+                        {!jwt.accessToken && (
+                            <Stack.Screen 
+                                name="SignUp"
+                                component={SignUp}
+                                options={{
+                                    title: 'Sign Up',
+                                }} 
+                            />
+                        )}
+
+                        <Stack.Screen 
+                            name="Category"
+                            component={Category}
+                            options={({ route }) => ({ title: route.params.categoryName })} 
                         />
-                    )}
-                </>
-            )}
-            
-        </HomeStack.Navigator>
-    );
-}
-
-const AccountStackScreen = () => {
-    const { jwt, splashLoading } = useContext(AuthContext);
-
-    return (
-        <AccountStack.Navigator
-            initialRouteName="Profile"
-            headerMode="screen"
-            screenOptions={styles.screen}
-        >
-            {splashLoading ? (
-                <AccountStack.Screen 
-                name="Splash"
-                component={Splash}
-                options={{
-                    headerTransparent: true,
-                }}  
-            />
-            ) : (
-                <>
-                    <AccountStack.Screen 
-                        name="Profile"
-                        component={Profile}
-                        options={{
-                            headerTransparent: true,
-                            header: ({ navigation }) => (
-                                <AccountNav navigation={navigation} />
-                            ),
-                        }}
-                    />
-                </>
-            )}
-        </AccountStack.Navigator>
-    );
-}
-
-const VendorStackScreen = () => {
-    const { jwt, splashLoading } = useContext(AuthContext);
-
-    return (
-        <VendorStack.Navigator
-            initialRouteName="StoresManager"
-            headerMode="screen"
-            screenOptions={styles.screen}
-        >
-            {splashLoading ? (
-                <VendorStack.Screen 
-                name="Splash"
-                component={Splash}
-                options={{
-                    headerTransparent: true,
-                }}  
-            />
-            ) : (
-                <>
-                    <VendorStack.Screen 
-                        name="StoresManager"
-                        component={StoresManager}
-                        options={{
-                            title: 'STORES MANAGER',
-                        }} 
-                    />
-                </>
-            )}
-        </VendorStack.Navigator>
+                    </>
+                )}
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 }
 
 const styles = StyleSheet.create({
     screen: {
         headerStyle: {
-          backgroundColor: Colors.primary,
+            backgroundColor: Colors.primary,
         },
         headerTintColor: Colors.white,
         headerTitleStyle: {
-          fontWeight: 'bold',
+            fontWeight: 'bold',
         },
         headerTitleAlign: 'center',
+        // contentStyle: {
+        //     backgroundColor: Colors.highMuted,
+        // },
     },
 });
 
-export { HomeStackScreen, AccountStackScreen,VendorStackScreen };
+export default StackScreen;

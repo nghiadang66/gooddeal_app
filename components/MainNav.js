@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../themes/Colors';
-import Cart from './Cart';
+import CountCart from './CountCart';
 import { AuthContext } from '../context/AuthContext';
 
 const MainNav = ({ navigation }) => {
@@ -26,14 +26,21 @@ const MainNav = ({ navigation }) => {
 
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => navigation.navigate(jwt.accessToken ? (jwt.role ==='admin' ? 'Dashboard' : 'Cart') : 'SignIn')}
+                // onPress={() => navigation.navigate(jwt.accessToken ? (jwt.role ==='admin' ? 'Dashboard' : 'Cart') : 'SignIn')}
+                onPress={() => {
+                    jwt.accessToken
+                    ? (jwt.role ==='admin'
+                        ? console.log('---go to admin dashboard---')
+                        : console.log('---go to cart screen---'))
+                    : navigation.navigate('SignIn')
+                }}
             >
                 <Icon
                     name={jwt.accessToken ? (jwt.role ==='admin' ? 'glasses' : 'cart') : 'log-in'}
                     style={styles.icon1}
                 />
                 {jwt.accessToken && jwt.role === 'user' && jwt._id ? 
-                    (<Cart
+                    (<CountCart
                         userId={jwt._id}
                         token={jwt.accessToken}
                     />) :
