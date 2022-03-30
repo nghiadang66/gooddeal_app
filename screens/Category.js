@@ -3,11 +3,11 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 import { listActiveCategories } from '../services/category';
 import { listActiveProducts } from '../services/product';
 import Slider from '../components/Slider';
-import Card from '../components/Card';
+import List1 from '../components/List1';
+import Filter from '../components/Filter';
 import Alert from '../components/Alert';
 import Spinner from '../components/Spinner';
 import Colors from '../themes/Colors';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 const Category = ({ route, navigation }) => {
     const [categories, setCategories] = useState();
@@ -100,6 +100,7 @@ const Category = ({ route, navigation }) => {
     });
 
     const loadMore = () => {
+        if (isRefreshing) return;
         if (pagination.pageCurrent < pagination.pageCount) {
             setFilter({
                 ...filter,
@@ -124,52 +125,26 @@ const Category = ({ route, navigation }) => {
                     )}
 
                     <View style={styles.wrapper}>
-                        <Text style={styles.result}>{pagination && pagination.size || '0'} results</Text>
-
-                        <TouchableOpacity
-                            style={{
-                                backgroundColor: Colors.primary,
-                                borderRadius: 6,
-                                paddingVertical: 6,
-                                paddingHorizontal: 12, 
-                            }}
-                            onPress={() => {
-                                console.log('---open filters---')
-                            }}
+                        <Text
+                            style={styles.result}
                         >
-                            <Text
-                                style={{
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                }}
-                            >
-                                <Icon name='filter'
-                                    style= {{
-                                        fontSize: 20,
-                                        color: Colors.white
-                                    }}
-                                />
-                                {' '}All filters
-                            </Text>
-                        </TouchableOpacity>
+                            {pagination && pagination.size || '0'} results
+                        </Text>
+
+                        <Filter filter={filter} setFilter={setFilter} />
                     </View>
 
-                    <View style={[styles.list, (!categories || categories.length == 0) && { flex: 1 }]}>
+                    <View
+                        style={[styles.list, (!categories || categories.length == 0) && { flex: 1 }]}
+                    >
                         {products && products.length > 0 && (
-                            <FlatList
-                                numColumns={2}
-                                data={products}
-                                renderItem={({ item }) => (
-                                    <View style={styles.card}>
-                                        <Card navigation={navigation} item={item} />
-                                    </View>
-                                )}
-                                keyExtractor={item => item._id}
-                                onEndReached={loadMore}
+                            <List1
+                                items={products}
+                                navigation={navigation}
+                                loadMore={loadMore}
+                                isRefreshing={isRefreshing}
                             />
                         )}
-
-                        {isRefreshing && <Spinner />}
                     </View>
                 </>
             )}
@@ -183,14 +158,15 @@ const Category = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     slider: {
         flex: 0.3,
-        marginBottom: 6,
+        backgroundColor: Colors.white,
     },
     wrapper: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
-        marginVertical: 6,
+        paddingVertical: 6,
         paddingHorizontal: 12,
+        backgroundColor: Colors.white,
     },
     result: {
         fontSize: 16,
@@ -198,9 +174,6 @@ const styles = StyleSheet.create({
     },
     list: {
         flex: 0.7,
-    },
-    card: {
-        flex: 0.5,
     },
 });
 

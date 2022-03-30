@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Colors from '../themes/Colors';
 import Splash from '../screens/Splash';
@@ -13,11 +13,18 @@ import BottomTabNav from './BottomTabNav';
 import { AuthContext } from '../context/AuthContext';
 
 const Stack = createNativeStackNavigator();
+const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+    ...DefaultTheme.colors,
+    background: Colors.highMuted,
+    },
+};
 
 const StackScreen = () => {
     const { jwt, splashLoading } = useContext(AuthContext);
     return (
-        <NavigationContainer>
+        <NavigationContainer theme={MyTheme}>
             <Stack.Navigator
                 initialRouteName="HomeTabNav"
                 headerMode="screen"
@@ -83,13 +90,16 @@ const StackScreen = () => {
 const styles = StyleSheet.create({
     screen: {
         headerStyle: {
-          backgroundColor: Colors.primary,
+            backgroundColor: Colors.primary,
         },
         headerTintColor: Colors.white,
         headerTitleStyle: {
-          fontWeight: 'bold',
+            fontWeight: 'bold',
         },
         headerTitleAlign: 'center',
+        // contentStyle: {
+        //     backgroundColor: Colors.highMuted,
+        // },
     },
 });
 

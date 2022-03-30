@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: 160,
-        backgroundColor: Colors.primary,
+        backgroundColor: Colors.muted,
     },
     wrapper: {
         flex: 1,
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         color: Colors.white,
-        marginRight: 3,
+        marginRight: 6,
     },
 });
 

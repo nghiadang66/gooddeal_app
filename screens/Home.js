@@ -7,6 +7,7 @@ import List from '../components/List';
 import Slider from '../components/Slider';
 import Alert from '../components/Alert';
 import Spinner from '../components/Spinner';
+import Colors from '../themes/Colors';
 
 const Home = ({ navigation }) => {
   const [categories, setCategories] = useState();
@@ -114,11 +115,14 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 64,
     marginBottom: 16,
+    backgroundColor: Colors.white,
   },
   carousel: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 16,
+    backgroundColor: Colors.white,
   },
 });
 

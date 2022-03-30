@@ -1,13 +1,16 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
+import { Text, Image, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
 import { STATIC_URL } from '../config';
 import Colors from '../themes/Colors';
 
 const placeholderImage = require('../assets/images/placeholder.png');
+const dimensions = Dimensions.get('screen');
+const imageWidth = Math.round(dimensions.width / 2.5);
+const imageHeight = Math.round(Math.round(dimensions.width / 2.5) * 1.5);
 
 const Card = ({ navigation, type='product', item = {} }) => {
-    // const handlePress = () => navigation.navigate('Detail', {
-    //     movieId: item.id,
+    // const handlePress = () => navigation.navigate('Product', {
+    //     productId: item._id,
     // });
 
     const handlePress = () => {
@@ -48,16 +51,16 @@ const styles = StyleSheet.create({
         paddingHorizontal: 6,
         marginVertical: 6,
         alignItems: 'center',
-        height: 200,
+        height: imageHeight,
     },
     image: {
-        width: 150, 
-        height: 200,
+        width: imageWidth, 
+        height: imageHeight,
         borderRadius: 20,
     },
     detail: {
         position: 'absolute',
-        width: 150,
+        width: imageWidth,
         bottom: 0,
         padding: 6,
         margin: 0,
@@ -69,7 +72,7 @@ const styles = StyleSheet.create({
     },
     alt: {
         position: 'absolute',
-        width: 150,
+        width: imageWidth,
         top: 24,
         textAlign: 'center',
     },
