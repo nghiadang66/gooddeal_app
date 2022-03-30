@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react';
-import { signup, signin, signout, refresh } from '../services/auth';
+import { signup, signin, signout, refresh, authsocial } from '../services/auth';
 import { getUserProfile } from '../services/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -37,7 +37,6 @@ export const AuthProvider =  ({ children }) => {
                 }, 3000);
             });
     }
-
     const login = (user) => {
         setIsLoading(true);
         setError('');
@@ -64,7 +63,34 @@ export const AuthProvider =  ({ children }) => {
                 }, 3000);
             });
     }
-
+    const loginSocial = (user) => {
+        setIsLoading(true);
+        setError('');
+        setSuccess('');
+        authsocial(user)
+            .then(data => {
+                if (data.success) {
+                   
+                    const { accessToken, refreshToken, _id, role } = data;
+                    setJwt({ accessToken, refreshToken, _id, role });
+                   AsyncStorage.setItem('jwt', JSON.stringify({ accessToken, refreshToken, _id, role }));
+                }
+                else if (data.error) {
+                    setError(data.error);
+                }
+            })
+            .catch(err => {
+                setError('Server Error!');
+            })
+            .finally(() => {
+                setIsLoading(false);
+                setTimeout(() => {
+                    setError('');
+                    setSuccess('');
+                }, 3000);
+            });
+    }
+   
     const logout = (refreshToken) => {
         setIsLoading(true);
         signout(refreshToken)
@@ -147,6 +173,7 @@ export const AuthProvider =  ({ children }) => {
                 register,
                 login,
                 logout,
+                loginSocial
             }}
         >
             {children}
