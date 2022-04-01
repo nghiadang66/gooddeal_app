@@ -113,7 +113,7 @@ const Home = ({ navigation }) => {
       )}
 
       {isLoading && <Spinner />}
-      {error && <Alert type={'error'} content={error} />}
+      {error && <Alert type={'error'} />}
     </>
   );
 }
