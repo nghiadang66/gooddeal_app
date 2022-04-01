@@ -9,6 +9,9 @@ import { AuthContext } from '../context/AuthContext';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { regexTest } from '../helper/test';
 import Alert from '../components/Alert';
+import { LoginManager, AccessToken } from 'react-native-fbsdk-next'
+import { SocialIcon } from 'react-native-elements'
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const SignIn = ({ navigation }) => {
     const [account, setAccount] = useState({
@@ -17,8 +20,8 @@ const SignIn = ({ navigation }) => {
         isValidUsername: true,
         isValidPassword: true,
     });
-
-    const { isLoading, error, login } = useContext(AuthContext);
+    
+    const { isLoading, error, login,loginSocial} = useContext(AuthContext);
 
     const handleChange = (name, isValidName, value) => {
         setAccount({
@@ -59,6 +62,73 @@ const SignIn = ({ navigation }) => {
         login(user);
     }
 
+    const loginWithFacebook = () => {
+        LoginManager.logInWithPermissions(["public_profile", "email"]).then(
+            function (result) {
+                if (result.isCancelled) {
+                    console.log("Login Cancelled " + JSON.stringify(result))
+                } else {
+                    AccessToken.getCurrentAccessToken().then(data => {
+                        const { accessToken } = data
+                     
+                        fetch('https://graph.facebook.com/v2.5/me?fields=id,email,last_name,first_name,picture.type(large)&access_token=' + accessToken)
+                            .then((response) => response.json())
+                            .then((json) => {
+                                
+                              
+                                const user = {
+                                    firstname: json.first_name,
+                                    lastname:json.last_name,
+                                       
+                                    email: json.email,
+                                    facebookId:json.id
+                                };
+                                
+                                loginSocial(user)
+                                
+                            })
+                            .catch(() => {
+                                reject('ERROR GETTING DATA FROM FACEBOOK')
+                            })
+
+                    });
+                }
+            },
+            function (error) {
+                console.log("Login failed with error: " + error);
+            }
+
+        );
+    };
+    const loginWithGoogle = () => {
+        GoogleSignin.configure({
+            androidClientId: '21928112516===7-6v98u2lsr95ldnc6bf85cvqijcevbdev.apps.googleusercontent.com',
+
+        })
+        GoogleSignin.hasPlayServices().then((hasPlayService) => {
+            if (hasPlayService) {
+
+                GoogleSignin.signIn().then((userInfo) => {
+                    
+                   
+                    const user = {
+                        firstname: userInfo.user.givenName,
+                        lastname:userInfo.user.familyName,
+                           
+                        email: userInfo.user.email,
+                        googleId:userInfo.user.id
+                    };
+                    
+                    loginSocial(user)
+                }).catch((e) => {
+                    console.log("ERROR IS: " + JSON.stringify(e));
+                })
+            }
+        }).catch((e) => {
+            console.log("ERROR IS: " + JSON.stringify(e));
+        })
+    };
+
     return (
         <ScrollView style={styles.container}>
             <Spinner visible={isLoading} />
@@ -69,7 +139,7 @@ const SignIn = ({ navigation }) => {
             </View>
 
             <View style={styles.form}>
-                <Input  
+                <Input
                     type='text'
                     icon='person'
                     title='Email address or phone number'
@@ -81,7 +151,7 @@ const SignIn = ({ navigation }) => {
                     onValidate={value => handleValidate('isValidUsername', value)}
                 />
 
-                <Input  
+                <Input
                     type='password'
                     icon='lock-closed'
                     title='Password'
@@ -99,7 +169,6 @@ const SignIn = ({ navigation }) => {
                     title='Sign in'
                     onPress={handleSubmit}
                 />
-
                 <View style={styles.more}>
                     <Link
                         title='Forgot password?'
@@ -112,6 +181,23 @@ const SignIn = ({ navigation }) => {
                         onPress={() => navigation.navigate('SignUp')}
                     />
                 </View>
+                <SocialIcon
+
+                    title="Continue with Facebook"
+                    button
+                    type="facebook"
+                    onPress={() => loginWithFacebook()}
+                />
+                <SocialIcon
+
+                    title="Continue with Google"
+                    button
+                    type="google"
+                    onPress={() => loginWithGoogle()}
+                />
+               
+             
+               
             </View>
         </ScrollView>
     );
