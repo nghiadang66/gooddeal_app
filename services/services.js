@@ -9,6 +9,6 @@ export const listActiveCategories = async (filter) => {
                 `${API_URL}/active/categories?search=${search}&categoryId=${categoryId}&sortBy=${sortBy}&order=${order}&limit=${limit}&page=${page}`);
         return response.data;
     } catch (error) {
-        console.error(error);
+        console.error('listActiveCategories', error);
     }
 }

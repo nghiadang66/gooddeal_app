@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { listActiveCategories } from '../services/category';
 import { listActiveProducts } from '../services/product';
 import Slider from '../components/Slider';
@@ -11,13 +11,15 @@ import Colors from '../themes/Colors';
 
 const Category = ({ route, navigation }) => {
     const [categories, setCategories] = useState();
-    const [currentCategoryIndex, setCurrentCategoryIndex] = useState();
+    const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
     const [products, setProducts] = useState();
-    const [pagination, setPagination] = useState();
+    const [pagination, setPagination] = useState({
+        size: 0,
+    });
     const [filter, setFilter] = useState({
         search: '',
         rating: '',
-        categoryId: route.params.categoryId,
+        categoryId: route.params.category._id,
         minPrice: '',
         maxPrice: '',
         sortBy: 'sold',
@@ -35,7 +37,7 @@ const Category = ({ route, navigation }) => {
         setIsLoading(true);
         listActiveCategories({
             search: '',
-            categoryId: route.params.categoryId,
+            categoryId: route.params.category._id,
             sortBy: 'name',
             order: 'asc',
             limit: 100,
@@ -81,23 +83,31 @@ const Category = ({ route, navigation }) => {
     }
 
     useEffect(() => {
+        getCategories();
+        setCurrentCategoryIndex(0);
+        setPagination({ size: 0, })
+        setFilter({
+            search: '',
+            rating: '',
+            categoryId: route.params.category._id,
+            minPrice: '',
+            maxPrice: '',
+            sortBy: 'sold',
+            order: 'desc',
+            limit: 4,
+            page: 1,
+        });
+    }, [route.params.category]);
+
+    useEffect(() => {
         getProducts();
     }, [filter]);
 
-    useEffect(() => {
-        getCategories();
-        setCurrentCategoryIndex(0);
-        setFilter({
-            ...filter,
-            page: 1,
-            categoryId: route.params.categoryId,
+    const handleSliderPress = (index) => {
+        navigation.navigate('Category', {
+            category: categories[index],
         });
-    }, [route.params.categoryId]);
-
-    const handleSliderPress = (index) => navigation.navigate('Category', {
-        categoryId: categories[index]._id,
-        categoryName: categories[index].name,
-    });
+    }
 
     const loadMore = () => {
         if (isRefreshing) return;
@@ -112,7 +122,7 @@ const Category = ({ route, navigation }) => {
     return (
         <>
             {!isLoading && !error && (
-                <>
+                <View style={styles.container}>
                     {categories && categories.length > 0 && (
                         <View style={styles.slider}>
                             <Slider
@@ -125,28 +135,28 @@ const Category = ({ route, navigation }) => {
                     )}
 
                     <View style={styles.wrapper}>
-                        <Text
-                            style={styles.result}
-                        >
+                        <Text style={styles.result}>
                             {pagination && pagination.size || '0'} results
                         </Text>
-
-                        <Filter filter={filter} setFilter={setFilter} />
                     </View>
+
+                    <Filter filter={filter} setFilter={setFilter} />
 
                     <View
                         style={[styles.list, (!categories || categories.length == 0) && { flex: 1 }]}
                     >
-                        {products && products.length > 0 && (
-                            <List1
-                                items={products}
-                                navigation={navigation}
-                                loadMore={loadMore}
-                                isRefreshing={isRefreshing}
-                            />
-                        )}
+                        {(isRefreshing && filter.page === 1)
+                            ? <Spinner />
+                            : (products && products.length > 0)
+                                ? (<List1
+                                    items={products}
+                                    navigation={navigation}
+                                    loadMore={loadMore}
+                                    isRefreshing={isRefreshing}
+                                  />)
+                                : null}
                     </View>
-                </>
+                </View>
             )}
 
             {isLoading && <Spinner />}
@@ -156,21 +166,21 @@ const Category = ({ route, navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        position: 'relative',
+        flex: 1,
+    },
     slider: {
         flex: 0.3,
         backgroundColor: Colors.white,
+        marginBottom: 6,
     },
     wrapper: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        paddingVertical: 6,
-        paddingHorizontal: 12,
-        backgroundColor: Colors.white,
+        margin: 6,
     },
     result: {
         fontSize: 16,
-        color: Colors.muted,
+        color: Colors.black,
     },
     list: {
         flex: 0.7,

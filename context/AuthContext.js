@@ -28,6 +28,7 @@ export const AuthProvider =  ({ children }) => {
                 }
             })
             .catch(err => {
+                console.log('register', err);
                 setError('Server Error!');
             })
             .finally(() => {
@@ -55,6 +56,7 @@ export const AuthProvider =  ({ children }) => {
                 }
             })
             .catch(err => {
+                console.log('login', err);
                 setError('Server Error!');
             })
             .finally(() => {

@@ -13,6 +13,6 @@ export const getUserProfile = async (userId, token) => {
         });
         return res.data;
     } catch (error) {
-        console.log(data);
+        console.log('getUserProfile', data);
     }
 }

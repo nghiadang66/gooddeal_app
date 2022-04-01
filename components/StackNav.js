@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { HeaderBackButton } from '@react-navigation/elements';
 import Colors from '../themes/Colors';
 import Splash from '../screens/Splash';
 import Home from '../screens/Home';
@@ -78,7 +79,26 @@ const StackScreen = () => {
                         <Stack.Screen 
                             name="Category"
                             component={Category}
-                            options={({ route }) => ({ title: route.params.categoryName })} 
+                            options={({ route, navigation }) => ({
+                                title: route.params.category.name,
+                                headerLeft: () => (
+                                    <HeaderBackButton
+                                        tintColor={Colors.white}
+                                        pressColor={Colors.white}
+                                        onPress={() => {
+                                            const category = route.params.category;
+                                            if (category.categoryId) {
+                                                navigation.navigate('Category', {
+                                                    category: category.categoryId,
+                                                });
+                                            }
+                                            else {
+                                                navigation.goBack();
+                                            }
+                                        }}
+                                    />
+                                ),
+                            })} 
                         />
                     </>
                 )}

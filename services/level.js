@@ -6,6 +6,6 @@ export const getUserLevel = async (userId) => {
         const res = await axios.get(`${API_URL}/user/level/${userId}`);
         return res.data;
     } catch (error) {
-        console.log(error);
+        console.log('getUserLevel', error);
     }
 }

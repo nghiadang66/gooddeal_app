@@ -15,6 +15,9 @@ const CountCart = ({ userId, token }) => {
 
     useEffect(() => {
         getCount();
+        return () => {
+            setCount(0);
+        };
     }, [userId, token]);
 
     return (
