@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react';
-import { signup, signin, signout, refresh, authsocial } from '../services/auth';
+import { signup, signin, signout, refresh, authsocial,forgotpassword } from '../services/auth';
 import { getUserProfile } from '../services/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -104,7 +104,26 @@ export const AuthProvider =  ({ children }) => {
                 setIsLoading(false);
             });
     }
-
+    const forgotPassword = (username) => {
+        setIsLoading(true);
+        setError('');
+        setSuccess('');
+        forgotpassword({ email: username })
+            .then(data => {
+                if (data.error) setError(data.error);
+                else setSuccess(data.success);
+            })
+            .catch(err => {
+                setError('Server Error!');
+            })
+            .finally(() => {
+                setIsLoading(false);
+                setTimeout(() => {
+                    setError('');
+                    setSuccess('');
+                }, 3000);
+            });
+    }
     const isLoggedIn = async () => {
         try {
             setSplashLoading(true);
@@ -174,7 +193,8 @@ export const AuthProvider =  ({ children }) => {
                 register,
                 login,
                 logout,
-                loginSocial
+                loginSocial,
+                forgotPassword
             }}
         >
             {children}

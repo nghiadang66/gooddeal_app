@@ -11,13 +11,14 @@ import Category from '../screens/Category';
 import MainNav from './MainNav';
 import BottomTabNav from './BottomTabNav';
 import { AuthContext } from '../context/AuthContext';
+import ForgotPassword from '../screens/ForgotPassword';
 
 const Stack = createNativeStackNavigator();
 const MyTheme = {
     ...DefaultTheme,
     colors: {
-    ...DefaultTheme.colors,
-    background: Colors.highMuted,
+        ...DefaultTheme.colors,
+        background: Colors.highMuted,
     },
 };
 
@@ -31,54 +32,62 @@ const StackScreen = () => {
                 screenOptions={styles.screen}
             >
                 {splashLoading ? (
-                    <Stack.Screen 
-                    name="Splash"
-                    component={Splash}
-                    options={{ headerShown: false }}  
-                />
+                    <Stack.Screen
+                        name="Splash"
+                        component={Splash}
+                        options={{ headerShown: false }}
+                    />
                 ) : (
                     <>
-                        <Stack.Screen 
+                        <Stack.Screen
                             name="HomeTabNav"
                             component={
                                 jwt.accessToken
-                                ? BottomTabNav
-                                : Home}
+                                    ? BottomTabNav
+                                    : Home}
                             options={
                                 jwt.accessToken
-                                ? { headerShown: false }
-                                : ({ navigation }) => ({
-                                    headerTransparent: true,
-                                    headerTitle: () => (
-                                        <MainNav navigation={navigation} />
-                                    ),
-                            })}
+                                    ? { headerShown: false }
+                                    : ({ navigation }) => ({
+                                        headerTransparent: true,
+                                        headerTitle: () => (
+                                            <MainNav navigation={navigation} />
+                                        ),
+                                    })}
                         />
 
                         {!jwt.accessToken && (
-                            <Stack.Screen 
+                            <Stack.Screen
                                 name="SignIn"
                                 component={SignIn}
                                 options={{
                                     title: 'Sign In',
-                                }} 
+                                }}
                             />
                         )}
 
                         {!jwt.accessToken && (
-                            <Stack.Screen 
+                            <Stack.Screen
                                 name="SignUp"
                                 component={SignUp}
                                 options={{
                                     title: 'Sign Up',
-                                }} 
+                                }}
                             />
                         )}
 
-                        <Stack.Screen 
+                        <Stack.Screen
                             name="Category"
                             component={Category}
-                            options={({ route }) => ({ title: route.params.categoryName })} 
+                            options={({ route }) => ({ title: route.params.categoryName })}
+                        />
+
+                        <Stack.Screen
+                            name="ForgotPassword"
+                            component={ForgotPassword}
+                            options={{
+                                title: 'Forgot Password',
+                            }}
                         />
                     </>
                 )}

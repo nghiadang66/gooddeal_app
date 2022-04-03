@@ -174,6 +174,7 @@ const SignIn = ({ navigation }) => {
                         title='Forgot password?'
                         onPress={() => {
                             console.log('---forgot password, send email---');
+                            navigation.navigate('ForgotPassword')
                         }}
                     />
                     <Link
