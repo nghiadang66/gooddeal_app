@@ -100,14 +100,28 @@ const Home = ({ navigation }) => {
 
           {products && products.length > 0 && (
               <View style={styles.carousel}>
-                  <List navigation={navigation} title="Best Seller" content={products} />
+                <List
+                  navigation={navigation}
+                  type = 'product'
+                  title='Best Seller'
+                  items={products}
+                  horizontal={true}
+                  border={true}
+                />
               </View>
           )}
 
           {stores && stores.length > 0 && (
-              <View style={styles.carousel}>
-                  <List navigation={navigation} title="Hot Stores" type="store" content={stores} />
-              </View>
+            <View style={styles.carousel}>
+              <List
+                navigation={navigation}
+                type = 'store'
+                title='Hot Stores'
+                items={stores}
+                horizontal={true}
+                border={true}
+              />
+            </View>
           )}
         </ScrollView>
       )}
@@ -127,8 +141,8 @@ const styles = StyleSheet.create({
   },
   carousel: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 16,
     backgroundColor: Colors.white,
   },

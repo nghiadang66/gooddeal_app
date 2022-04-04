@@ -1,50 +1,43 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { SliderBox } from "react-native-image-slider-box";
+import { SliderBox } from 'react-native-image-slider-box';
 import { STATIC_URL } from '../config';
 import Colors from '../themes/Colors';
 
 const dimensions = Dimensions.get('screen');
 
-const Slider = ({ items = [], currentIndex = 0, handleSliderPress = () => {}, setCurrentindex = () => {} }) => {
-  const handlePress = (index) => {
-    if (
-      items[currentIndex].categoryId &&
-      items[currentIndex].categoryId.categoryId &&
-      items[currentIndex].categoryId.categoryId.categoryId
-    ) return;
-    
-    handleSliderPress(index);
-  }
+const Slider = ({
+  items = [],
+  currentIndex = 0,
+  handleSliderPress = () => {},
+  setCurrentindex = () => {}
+}) => (
+  <View style={styles.container}>
+    <SliderBox
+        images={items.map(item => STATIC_URL + item.image)}
+        sliderBoxHeight={dimensions.height / 2.5}
+        dotColor={Colors.primary}
+        inactiveDotColor={Colors.white}
+        dotStyle={styles.sliderStyle}
+        autoplay={true}
+        circleLoop={true}
+        autoplayInterval={3000}
+        onCurrentImagePressed={(index) => handleSliderPress(index)}
+        currentImageEmitter={(index) => setCurrentindex(index)}
+    />
 
-  return (
-    <View style={styles.container}>
-      <SliderBox
-          images={items.map(item => STATIC_URL + item.image)}
-          sliderBoxHeight={dimensions.height / 2.5}
-          dotColor={Colors.primary}
-          inactiveDotColor={Colors.white}
-          dotStyle={styles.sliderStyle}
-          autoplay={true}
-          circleLoop={true}
-          autoplayInterval={3000}
-          onCurrentImagePressed={(index) => handlePress(index)}
-          currentImageEmitter={(index) => setCurrentindex(index)}
-      />
-
-      <View style={styles.detail} pointerEvents="none">
-        <Text style={styles.name}>{items[currentIndex].name}</Text>
-      </View>
+    <View style={styles.detail} pointerEvents="none">
+      <Text style={styles.name}>{items[currentIndex].name}</Text>
     </View>
-  );
-}
+  </View>
+);
 
 const styles = StyleSheet.create({
     container: {
         position: 'relative',
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        justifyContent: 'center',
+        alignItems: 'center',
       },
       sliderStyle: {
         width: 30,

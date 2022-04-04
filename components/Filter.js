@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Dimensions, Animated, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions, Animated, ScrollView, StyleSheet } from 'react-native';
 import RadioForm from 'react-native-simple-radio-button';
 import StarRating from './StarRating';
 import Colors from '../themes/Colors';
@@ -78,7 +78,51 @@ const filterRadio = {
                 filterValue: 1,
             },
         },
-    ]
+    ],
+    price: [
+        {
+            label: 'All',
+            value: {
+                min: 0,
+                max: '',
+            },
+        },
+        {
+            label: '0 - 500,000',
+            value: {
+                min: 0,
+                max: 500000,
+            },
+        },
+        {
+            label: '500,000 - 1,000,000',
+            value: {
+                min: 500000,
+                max: 1000000,
+            },
+        },
+        {
+            label: '1,000,000 - 3,000,000',
+            value: {
+                min: 1000000,
+                max: 300000,
+            },
+        },
+        {
+            label: '3,000,000 - 5,000,000',
+            value: {
+                min: 3000000,
+                max: 5000000,
+            },
+        },
+        {
+            label: '5,000,000 up',
+            value: {
+                min: 5000000,
+                max: '',
+            },
+        },
+    ],
 }
 
 const Filter = ({ filter = {}, setFilter = () => {} }) => {
@@ -93,13 +137,20 @@ const Filter = ({ filter = {}, setFilter = () => {} }) => {
         });
     };
 
-    const animation = () => {
-        Animated.timing(fadeAnim, {
-          toValue: isOpening ? 1: 0,
-          duration: 300,
-          useNativeDriver: true,
-        }).start();
+    const handleSetPrice = ({ min, max }) => {
+        setFilter({
+            ...filter,
+            minPrice: min,
+            maxPrice: max,
+            page: 1,
+        });
     }
+
+    const animation = () => Animated.timing(fadeAnim, {
+        toValue: isOpening ? 1: 0,
+        duration: 300,
+        useNativeDriver: true,
+    }).start();
 
     useEffect(() => {
         animation();
@@ -115,7 +166,7 @@ const Filter = ({ filter = {}, setFilter = () => {} }) => {
             </TouchableOpacity>
 
             <Animated.View
-                pointerEvents={(isOpening ? 'auto' : 'none') || 'none'}
+                pointerEvents={isOpening ? 'auto' : 'none'}
                 style={[
                     styles.filter,
                     {
@@ -123,7 +174,7 @@ const Filter = ({ filter = {}, setFilter = () => {} }) => {
                         transform: [
                             {
                                 translateX: fadeAnim.interpolate({
-                                    inputRange: [0.01, 1],
+                                    inputRange: [0, 1],
                                     outputRange: [150, 0],
                                 }),
                             },
@@ -134,46 +185,67 @@ const Filter = ({ filter = {}, setFilter = () => {} }) => {
                 <Text style={styles.heading}>Filters</Text>
 
                 <View style={styles.filterContainer}>
-                    <View style={styles.filterWrapper}>
-                        <Text style={styles.filterName}>Sort by</Text>
-                        <RadioForm
-                            radio_props={filterRadio.sortBy}
-                            initial={filterRadio.sortBy.findIndex(
-                                elm => elm.value.filterValue === filter.sortBy
-                            )}
-                            formHorizontal={false}
-                            labelHorizontal={true}
-                            buttonColor={Colors.primary}
-                            animation={true}
-                            onPress={(value) => handleFilter({
-                                name: value.filterName,
-                                value: value.filterValue,
-                            })}
-                        />
-                    </View>
+                    <ScrollView>
+                        <View style={styles.filterWrapper}>
+                            <Text style={styles.filterName}>Sort by</Text>
+                            <RadioForm
+                                radio_props={filterRadio.sortBy}
+                                initial={filterRadio.sortBy.findIndex(
+                                    elm => elm.value.filterValue === filter.sortBy
+                                )}
+                                formHorizontal={false}
+                                labelHorizontal={true}
+                                buttonColor={Colors.primary}
+                                animation={true}
+                                onPress={(value) => handleFilter({
+                                    name: value.filterName,
+                                    value: value.filterValue,
+                                })}
+                            />
+                        </View>
 
-                    <View style={styles.filterWrapper}>
-                        <Text style={styles.filterName}>Rating</Text>
-                        <RadioForm
-                            radio_props={filterRadio.rating}
-                            initial={filterRadio.rating.findIndex(
-                                elm => elm.value.filterValue === filter.rating
-                            )}
-                            formHorizontal={false}
-                            labelHorizontal={true}
-                            buttonColor={Colors.primary}
-                            animation={true}
-                            onPress={(value) => handleFilter({
-                                name: value.filterName,
-                                value: value.filterValue,
-                            })}
-                        />
-                    </View>
+                        <View style={styles.filterWrapper}>
+                            <Text style={styles.filterName}>Rating</Text>
+                            <RadioForm
+                                radio_props={filterRadio.rating}
+                                initial={filterRadio.rating.findIndex(
+                                    elm => elm.value.filterValue === filter.rating
+                                )}
+                                formHorizontal={false}
+                                labelHorizontal={true}
+                                buttonColor={Colors.primary}
+                                animation={true}
+                                onPress={(value) => handleFilter({
+                                    name: value.filterName,
+                                    value: value.filterValue,
+                                })}
+                            />
+                        </View>
+
+                        <View style={styles.filterWrapper}>
+                            <Text style={styles.filterName}>Price</Text>
+                            <RadioForm
+                                radio_props={filterRadio.price}
+                                initial={filterRadio.price.findIndex(
+                                    elm => elm.value.min === filter.minPrice
+                                        && elm.value.max === filter.maxPrice
+                                )}
+                                formHorizontal={false}
+                                labelHorizontal={true}
+                                buttonColor={Colors.primary}
+                                animation={true}
+                                onPress={(value) => handleSetPrice({
+                                    min: value.min,
+                                    max: value.max,
+                                })}
+                            />
+                        </View>
+                    </ScrollView>
                 </View>
             </Animated.View>
 
             <Animated.View
-                pointerEvents={(isOpening ? 'auto' : 'none') || 'none'}
+                pointerEvents={isOpening ? 'auto' : 'none'}
                 style={[
                     styles.shadow,
                     { opacity: fadeAnim },
@@ -202,25 +274,27 @@ const styles = StyleSheet.create({
     },
     filter: {
         position: 'absolute',
+        flex: 1,
         top: 0,
         right: 0,
         zIndex: 2,
         width: dimensions.width * 0.8,
-        height: dimensions.height,
+        height: dimensions.height - 128,
         backgroundColor: Colors.white,
-        padding: 16,
     },
     heading: {
         fontSize: 24,
         fontWeight: 'bold',
         color: Colors.black,
-        marginBottom: 16,
+        borderBottomColor: Colors.shadow,
+        borderBottomWidth: 1,
+        padding: 16,
     },
     filterContainer: {
         flex: 1,
     },
     filterWrapper: {
-        marginBottom: 16,
+        margin: 16,
     },
     filterName: {
         fontSize: 16,

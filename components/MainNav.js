@@ -12,9 +12,7 @@ const MainNav = ({ navigation }) => {
         <View style={styles.container}>
             <TouchableOpacity 
                 style={styles.searchbar}
-                onPress={() => {
-                    console.log('---go to search screen---');
-                }}
+                onPress={() => navigation.navigate('Search')}
             >
                 <Icon 
                     name={'search'}

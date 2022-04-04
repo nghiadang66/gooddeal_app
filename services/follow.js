@@ -45,3 +45,12 @@ export const listFollowingStores = async (userId, token, filter) => {
         console.log(error);
     }
 }
+
+export const getNumberOfFollowersForStore = async (storeId) => {
+    try {
+        const res = await axios.get(`${API_URL}/store/number/of/followers/${storeId}`);
+        return res.data
+    } catch (error) {
+        console.log('getNumberOfFollowersForStore', error);
+    }
+};

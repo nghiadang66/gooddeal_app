@@ -9,6 +9,7 @@ import Home from '../screens/Home';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import Category from '../screens/Category';
+import Search from '../screens/Search';
 import MainNav from './MainNav';
 import BottomTabNav from './BottomTabNav';
 import { AuthContext } from '../context/AuthContext';
@@ -100,6 +101,14 @@ const StackScreen = () => {
                                 ),
                             })} 
                         />
+
+                        <Stack.Screen 
+                            name="Search"
+                            component={Search}
+                            options={{
+                                headerShown: false,
+                            }}
+                        />
                     </>
                 )}
             </Stack.Navigator>
@@ -117,9 +126,6 @@ const styles = StyleSheet.create({
             fontWeight: 'bold',
         },
         headerTitleAlign: 'center',
-        // contentStyle: {
-        //     backgroundColor: Colors.highMuted,
-        // },
     },
 });
 

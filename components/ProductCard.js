@@ -1,33 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View, Text, Image, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
-import { getNumberOfFollowersForProduct } from '../services/follow';
 import { STATIC_URL } from '../config';
 import { formatPrice } from '../helper/formatPrice';
+import Followers from './Followers';
 import StarRating from './StarRating';
 import Colors from '../themes/Colors';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 const placeholderImage = require('../assets/images/placeholder.png');
 const dimensions = Dimensions.get('screen');
-const dimensionsWidth = Math.round(dimensions.width / 2.1);
-const dimensionsHeight = 342;
 
-const Card1 = ({ navigation, type='product', item = {} }) => {
-    const [followers, setFollowers] = useState(0);
-
-    const getFollowers = async () => {
-        try {
-            const data = await getNumberOfFollowersForProduct(item._id);
-            setFollowers(data.count);
-        } catch (e) {
-            setFollowers(0);
-        }
-    }
-
-    useEffect(() => {
-        getFollowers();
-    }, [item._id]);
-
+const ProductCard = ({
+    navigation,
+    item = {},
+    horizontalCard = false,
+    borderCard = false,
+}) => {
     // const handlePress = () => navigation.navigate('Product', {
     //     productId: item._id,
     // });
@@ -38,29 +25,44 @@ const Card1 = ({ navigation, type='product', item = {} }) => {
 
     return (
         <TouchableOpacity
-            style={styles.container}
+            style={[
+                styles.container,
+                {
+                    borderColor: borderCard ? Colors.primary : Colors.white,
+                    borderWidth: 1,
+                },
+            ]}
             onPress={handlePress}
         >
             <Image
                 resizeMode="cover"
-                style={styles.image}
+                style={[
+                    styles.image,
+                    { 
+                        width: dimensions.width / (horizontalCard ? 2.2 : 2.1),
+                        height: dimensions.width / (horizontalCard ? 2.2 : 2.1),
+                    },
+                ]}
                 source={
-                    type === 'product'
-                    ? item.listImages  
-                        ? { uri: STATIC_URL + item.listImages[0] }
-                        : placeholderImage
-                    : item.avatar
-                        ? { uri: STATIC_URL + item.avatar }
-                        : placeholderImage
+                    item.listImages  
+                    ? { uri: STATIC_URL + item.listImages[0] }
+                    : placeholderImage
                 }
             />
-            <View style={styles.detail}>
-                <View style={styles.followers}>
-                    <View style={styles.followersWrapper}>
-                        <Icon name='heart' style={styles.followersIcon} />
-                        <Text style={styles.followersText}>{' '}{followers}</Text>
+            <View
+                style={[
+                    styles.detail,
+                    { width: dimensions.width / (horizontalCard ? 2.2 : 2.1) },
+                ]}
+            >
+                <View style={styles.labelContainer}>
+                    <View style={styles.labelWrapper}>
+                        <Followers type='product' id={item._id} />
                     </View>
-                    <View style={{ flex: 1 }}></View>
+
+                    <View style={styles.labelWrapper}>
+                        <Text style={styles.sold}>Sold {item.sold}</Text>
+                    </View>
                 </View>
 
                 <View style={styles.rating}>
@@ -81,55 +83,48 @@ const Card1 = ({ navigation, type='product', item = {} }) => {
                 </View>
             </View>
             
-            {type === 'product' && !item.listImages && <Text style={styles.alt}>{item.name}</Text>}
+            {!item.listImages &&
+                <Text
+                    style={[
+                        styles.alt,
+                        { width: dimensions.width / (horizontalCard ? 2.2 : 2.1) },
+                    ]}
+                >
+                    {item.name}
+                </Text>}
         </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        margin: 6,
         alignItems: 'center',
-        height: dimensionsHeight,
         backgroundColor: Colors.white,
+        margin: 3,
         borderRadius: 6,
+        height: dimensions.width * 0.83,
     },
     image: {
-        width: dimensionsWidth, 
-        height: dimensionsWidth,
         borderTopLeftRadius: 6,
         borderTopRightRadius: 6,
         backgroundColor: Colors.muted,
-        borderColor: Colors.white,
-        borderWidth: 1,
     },
     detail: {
         flex: 1,
-        width: dimensionsWidth,
         padding: 6,
         borderBottomLeftRadius: 6,
         borderBottomRightRadius: 6,
+        borderTopColor: Colors.shadow,
+        borderTopWidth: 1,
     },
-    followers: {
+    labelContainer: {
         flexDirection:'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 6,
     },
-    followersWrapper : {
-        flexDirection:'row',
-        alignItems: 'center',
-        backgroundColor: Colors.pink,
-        paddingVertical: 3,
-        paddingHorizontal: 6,
-        borderRadius: 3,
-    },
-    followersIcon: {
-        fontSize: 12,
-        color: Colors.white,
-    },
-    followersText: {
-        fontSize: 12,
-        color: Colors.white,
+    labelWrapper: {
+        marginRight: 3,
     },
     rating: {
         marginBottom: 6,
@@ -138,9 +133,12 @@ const styles = StyleSheet.create({
         color: Colors.black,
         fontSize: 14,
     },
+    sold: {
+        fontSize: Colors.muted,
+        fontSize: 14,
+    },
     price: {
         justifyContent: 'flex-start',
-        marginBottom: 6,
     },
     unit: {
         textDecorationLine: 'underline',
@@ -157,10 +155,9 @@ const styles = StyleSheet.create({
     },
     alt: {
         position: 'absolute',
-        width: dimensionsWidth,
         top: 24,
         textAlign: 'center',
     },
 });
 
-export default Card1;
+export default ProductCard;

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { listActiveCategories } from '../services/category';
 import { listActiveProducts } from '../services/product';
 import Slider from '../components/Slider';
-import List1 from '../components/List1';
+import List from '../components/List'; 
 import Filter from '../components/Filter';
 import Alert from '../components/Alert';
 import Spinner from '../components/Spinner';
@@ -13,6 +13,7 @@ const Category = ({ route, navigation }) => {
     const [categories, setCategories] = useState();
     const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
     const [products, setProducts] = useState();
+
     const [pagination, setPagination] = useState({
         size: 0,
     });
@@ -20,7 +21,7 @@ const Category = ({ route, navigation }) => {
         search: '',
         rating: '',
         categoryId: route.params.category._id,
-        minPrice: '',
+        minPrice: 0,
         maxPrice: '',
         sortBy: 'sold',
         order: 'desc',
@@ -30,7 +31,7 @@ const Category = ({ route, navigation }) => {
 
     const [error, setError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [isRefreshing, setIsRefreshing] = useState(true);
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
     const getCategories = () => {
         setError(false);
@@ -85,12 +86,12 @@ const Category = ({ route, navigation }) => {
     useEffect(() => {
         getCategories();
         setCurrentCategoryIndex(0);
-        setPagination({ size: 0, })
+        setPagination({ size: 0 });
         setFilter({
             search: '',
             rating: '',
             categoryId: route.params.category._id,
-            minPrice: '',
+            minPrice: 0,
             maxPrice: '',
             sortBy: 'sold',
             order: 'desc',
@@ -103,11 +104,9 @@ const Category = ({ route, navigation }) => {
         getProducts();
     }, [filter]);
 
-    const handleSliderPress = (index) => {
-        navigation.navigate('Category', {
-            category: categories[index],
-        });
-    }
+    const handleSliderPress = (index) => navigation.navigate('Category', {
+        category: categories[index],
+    });
 
     const loadMore = () => {
         if (isRefreshing) return;
@@ -134,27 +133,25 @@ const Category = ({ route, navigation }) => {
                         </View>
                     )}
 
-                    <View style={styles.wrapper}>
-                        <Text style={styles.result}>
-                            {pagination && pagination.size || '0'} results
-                        </Text>
-                    </View>
-
                     <Filter filter={filter} setFilter={setFilter} />
+
+                    <View style={styles.wrapper}>
+                        <Text style={styles.result}>{pagination.size} results</Text>
+                    </View>
 
                     <View
                         style={[styles.list, (!categories || categories.length == 0) && { flex: 1 }]}
                     >
                         {(isRefreshing && filter.page === 1)
                             ? <Spinner />
-                            : (products && products.length > 0)
-                                ? (<List1
-                                    items={products}
+                            : products && products.length > 0 && 
+                                <List
                                     navigation={navigation}
+                                    type='product'
+                                    items={products}
                                     loadMore={loadMore}
                                     isRefreshing={isRefreshing}
-                                  />)
-                                : null}
+                                />}
                     </View>
                 </View>
             )}

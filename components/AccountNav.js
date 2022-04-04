@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native';
 import Colors from '../themes/Colors';
-import UserLevel from './UserLevel';
+import Level from './Level';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from '../context/AuthContext';
 import { STATIC_URL } from '../config';
@@ -24,9 +24,8 @@ const AccountNav = ({ navigation }) => {
                     <View style={styles.profile}>
                         <Text style={styles.name}>{userProfile.firstname + ' ' + userProfile.lastname}</Text>
                         <View style={styles.level}>
-                            <Icon style={styles.icon} name={'shield'} />
                             <Text style={styles.point}>{userProfile.point}</Text>
-                            <UserLevel userId={userProfile._id} />
+                            <Level type='user' id={userProfile._id} />
                         </View>
                         
                     </View>
