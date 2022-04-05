@@ -18,7 +18,7 @@ const UserCard = ({
     // });
 
     const handlePress = () => {
-        console.log(item.firstname + item.lastname);
+        console.log(item.firstname + ' ' + item.lastname);
     }
 
     return (
@@ -59,7 +59,7 @@ const UserCard = ({
                     </View>
                 </View> 
 
-                <Text style={styles.name} numberOfLines={2}>{item.firstname + item.lastname}</Text>
+                <Text style={styles.name} numberOfLines={2}>{item.firstname + ' ' + item.lastname}</Text>
             </View>
             
             {!item.avatar 
@@ -70,7 +70,7 @@ const UserCard = ({
                             width: dimensions.width / (horizontalCard ? 2.3 : 2.1),
                         },
                     ]}>
-                        {item.firstname + item.lastname}
+                        {item.firstname + ' ' + item.lastname}
                     </Text>}
         </TouchableOpacity>
     );

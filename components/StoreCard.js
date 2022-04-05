@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         alignItems: 'center',
         backgroundColor: Colors.white,
-        height: dimensions.width * 0.67,
+        height: dimensions.width * 0.7,
     },
     image: {
         borderTopLeftRadius: 6,

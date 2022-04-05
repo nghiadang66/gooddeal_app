@@ -127,6 +127,7 @@ const filterRadio = {
 
 const Filter = ({ filter = {}, setFilter = () => {} }) => {
     const [isOpening, setIsOpening] = useState(false);
+    const firstRenderRef = useRef(true);
     const fadeAnim = useRef(new Animated.Value(0)).current;
 
     const handleFilter = ({ name, value }) => {
@@ -153,8 +154,12 @@ const Filter = ({ filter = {}, setFilter = () => {} }) => {
     }).start();
 
     useEffect(() => {
-        animation();
-      }, [isOpening]);
+        if (firstRenderRef.current) {
+            firstRenderRef.current = false;
+            return;
+        }
+        return animation();
+    }, [isOpening]);
     
     return (
         <>

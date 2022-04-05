@@ -13,6 +13,16 @@ export const getUserProfile = async (userId, token) => {
         });
         return res.data;
     } catch (error) {
-        console.log('getUserProfile', data);
+        console.log('getUserProfile', error);
     }
 }
+
+export const getlistUsers = async (filter) => {
+    const { search, sortBy, order, limit, page, role } = filter;
+    try {
+        const res = await axios.get(`${API_URL}/users?search=${search}&role=${role}&sortBy=${sortBy}&order=${order}&limit=${limit}&page=${page}`);
+        return res.data;
+    } catch (error) {
+        console.log('getlistUsers', error);
+    }
+};
