@@ -28,6 +28,51 @@ export const getNumberOfFollowersForProduct = async (productId) => {
     }
 };
 
+export const checkFollowingProduct = async (userId, token, productId) => {
+    try {
+        const res = await axios.get(`${API_URL}/check/following/products/${productId}/${userId}`, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log('checkFollowingProduct', error);
+    }
+}
+
+export const followProduct = async (userId, token, productId) => {
+    try {
+        const res = await axios.get(`${API_URL}/follow/product/${productId}/${userId}`, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log('followProduct', error);
+    }
+}
+
+export const unfollowProduct = async (userId, token, productId) => {
+    try {
+        const res = await axios.delete(`${API_URL}/unfollow/product/${productId}/${userId}`, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log('unfollowProduct', error);
+    }
+}
+
 //stores
 export const listFollowingStores = async (userId, token, filter) => {
     try {
@@ -54,3 +99,48 @@ export const getNumberOfFollowersForStore = async (storeId) => {
         console.log('getNumberOfFollowersForStore', error);
     }
 };
+
+export const checkFollowingStore = async (userId, token, storeId) => {
+    try {
+        const res = await axios.get(`${API_URL}/check/following/stores/${storeId}/${userId}`, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log('checkFollowingStore', error);
+    }
+}
+
+export const followStore = async (userId, token, storeId) => {
+    try {
+        const res = await axios.get(`${API_URL}/follow/store/${storeId}/${userId}`, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log('followStore', error);
+    }
+}
+
+export const unfollowStore = async (userId, token, storeId) => {
+    try {
+        const res = await axios.delete(`${API_URL}/unfollow/store/${storeId}/${userId}`, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log('unfollowStore', error);
+    }
+}

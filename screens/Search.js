@@ -12,28 +12,47 @@ import Spinner from '../components/Spinner';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../themes/Colors';
 
-const Search = ({ navigation }) => {
-    const [products, setProducts] = useState();
-    const [stores, setStores] = useState();
-    const [users, setUsers] = useState();
+const fetchFuncs = {
+    'product': listActiveProducts,
+    'store': getlistStores,
+    'user': getlistUsers,
+}
 
-    const [keyword, setKeyword] = useState('');
-    const [option, setOption] = useState('product');
-
-    const [pagination, setPagination] = useState({
-        size: 0,
-    });
-    const [filter, setFilter] = useState({
-        search: keyword,
+const filters = {
+    'product': {
         rating: '',
-        minPrice: '',
+        minPrice: 0,
         maxPrice: '',
         sortBy: 'sold',
         order: 'desc',
         categoryId: '',
         limit: 4,
         page: 1,
-    });
+    },
+    'store': {
+        sortBy: 'rating',
+        sortMoreBy: 'point',
+        isActive: 'true',
+        order: 'desc',
+        limit: 4,
+        page: 1,
+    },
+    'user': {
+        sortBy: 'point',
+        role: 'customer',
+        order: 'desc',
+        limit: 4,
+        page: 1,
+    },
+}
+
+const Search = ({ navigation }) => {
+    const [results, setResults] = useState();
+
+    const [keyword, setKeyword] = useState('');
+    const [option, setOption] = useState('product');
+    const [pagination, setPagination] = useState({ size: 0 });
+    const [filter, setFilter] = useState(filters[option]);
 
     const [error, setError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -41,46 +60,27 @@ const Search = ({ navigation }) => {
 
     const typingTimeoutRef = useRef(null);
 
-    const getProducts = () => {
-        listActiveProducts(filter)
-            .then(data => {
-                if (data.filter.pageCurrent == 1) {
-                    setProducts(data.products);
-                }
-                else {
-                    setProducts([
-                        ...products,
-                        ...data.products,
-                    ]);
-                }
-                setPagination({
-                    size: data.size,
-                    pageCurrent: data.filter.pageCurrent,
-                    pageCount: data.filter.pageCount,
-                });
-
-                setStores();
-                setUsers();
-            })
-            .catch(err => {
-                setError(true);
-            })
-            .finally(() => {
-                setIsLoading(false);
-                setIsRefreshing(false);
-            });
+    const getFilter = () => {
+        setPagination({ size: 0 });
+        setFilter({
+            search: keyword,
+            ...filters[option]
+        });
     }
 
-    const getStores = () => {
-        getlistStores(filter)
+    const getResults = () => {
+        setError(false);
+        if (filter.page === 1) setIsLoading(true);
+        else setIsRefreshing(true);
+        fetchFuncs[option](filter)
             .then(data => {
-                if (data.filter.pageCurrent == 1) {
-                    setStores(data.stores);
-                }
-                else {
-                    setStores([
-                        ...stores,
-                        ...data.stores,
+                // console.log(data);
+                if (data.filter.pageCurrent === 1) {
+                    setResults(data[option+'s']);
+                } else {
+                    setResults([
+                        ...results,
+                        ...data[option+'s'],
                     ]);
                 }
                 setPagination({
@@ -88,39 +88,6 @@ const Search = ({ navigation }) => {
                     pageCurrent: data.filter.pageCurrent,
                     pageCount: data.filter.pageCount,
                 });
-
-                setProducts();
-                setUsers();
-            })
-            .catch(err => {
-                setError(true);
-            })
-            .finally(() => {
-                setIsLoading(false);
-                setIsRefreshing(false);
-            });
-    }
-
-    const getUsers = () => {
-        getlistUsers(filter)
-            .then(data => {
-                if (data.filter.pageCurrent == 1) {
-                    setUsers(data.users);
-                }
-                else {
-                    setUsers([
-                        ...users,
-                        ...data.users,
-                    ]);
-                }
-                setPagination({
-                    size: data.size,
-                    pageCurrent: data.filter.pageCurrent,
-                    pageCount: data.filter.pageCount,
-                });
-
-                setProducts();
-                setStores();
             })
             .catch(err => {
                 setError(true);
@@ -132,35 +99,18 @@ const Search = ({ navigation }) => {
     }
 
     useEffect(() => {
-        setFilter({
-            ...filter,
-            page: 1,
-        });
+        getFilter();
     }, [option])
 
     useEffect(() => {
-        setError(false);
-        if (filter.page == 1) setIsLoading(true);
-        else setIsRefreshing(true);
-
-        if (option === 'product') getProducts();
-        else if (option === 'store') getStores();
-        else if (option === 'user') getUsers();
-
-        return () => {
-            setProducts();
-            setStores();
-            setUsers();
-          };
+        getResults();
     }, [filter]);
 
     const onChangeText = (search) => {
         setKeyword(search);
-
         if (typingTimeoutRef.current) {
             clearTimeout(typingTimeoutRef.current);
         }
-
         typingTimeoutRef.current = setTimeout(() => setFilter({
             ...filter,
             search: search,
@@ -188,7 +138,6 @@ const Search = ({ navigation }) => {
                 >
                     <Icon name='arrow-back' style={styles.backIcon} />
                 </TouchableHighlight>
-
                 <SearchBar
                     placeholder="Search..."
                     onChangeText={onChangeText}
@@ -201,7 +150,6 @@ const Search = ({ navigation }) => {
                         style={styles.iconSearch}
                     />}
                 />
-
                 <View style={styles.pickerContainer}>
                     <Picker
                         selectedValue={option}
@@ -219,44 +167,28 @@ const Search = ({ navigation }) => {
                     </Picker>
                 </View>
             </View>
-            
-            {!isLoading && !error && (
-                <View style={styles.resultsContainer}>
+            <View style={styles.resultsContainer}>
+                {option === 'product' && (
                     <Filter filter={filter} setFilter={setFilter} />
-                    
-                    <Text style={styles.result}>{pagination.size} results</Text>
-
-                    <View style={styles.list}>
-                        {option === 'product' && products && products.length > 0 && 
-                            <List
-                                navigation={navigation}
-                                type='product'
-                                items={products}
-                                loadMore={loadMore}
-                                isRefreshing={isRefreshing}
-                            />}
-                        {option === 'store' && stores && stores.length > 0 && 
-                            <List
-                                navigation={navigation}
-                                type='store'
-                                items={stores}
-                                loadMore={loadMore}
-                                isRefreshing={isRefreshing}
-                            />}
-                        {option === 'user' && users && users.length > 0 && 
-                            <List
-                                navigation={navigation}
-                                type='user'
-                                items={users}
-                                loadMore={loadMore}
-                                isRefreshing={isRefreshing}
-                            />}
-                    </View>
-                </View>
-            )}
-            
-            {isLoading && <Spinner />}
-            {error && <Alert type={'error'} />}
+                )}
+                {!isLoading && !error && (
+                    <>
+                        <Text style={styles.result}>{pagination.size} results</Text>
+                        <View style={styles.list}>
+                            {results && results.length > 0 && 
+                                <List
+                                    navigation={navigation}
+                                    type={option}
+                                    items={results}
+                                    loadMore={loadMore}
+                                    isRefreshing={isRefreshing}
+                                />}
+                        </View>
+                    </>
+                )}
+                {isLoading && <Spinner />}
+                {error && <Alert type={'error'} />}
+            </View>
         </>
     );
 }
@@ -292,6 +224,8 @@ const styles = StyleSheet.create({
         height: 32,
         borderTopLeftRadius: 16,
         borderBottomLeftRadius: 16,
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
         backgroundColor: Colors.white,
     },
     input: {
@@ -306,6 +240,7 @@ const styles = StyleSheet.create({
         width: 124,
         height: 32,
         justifyContent: 'center',
+        alignItems: 'center',
         borderColor: Colors.white,
         borderWidth: 1,
         borderTopRightRadius: 16,
@@ -329,6 +264,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: Colors.black,
         marginTop: 6,
+        marginLeft: 2,
     },
     list: {
         flex: 1,

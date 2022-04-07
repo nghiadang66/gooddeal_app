@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native';
 import Colors from '../themes/Colors';
 import Level from './Level';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from '../context/AuthContext';
 import { STATIC_URL } from '../config';
 

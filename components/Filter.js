@@ -195,9 +195,7 @@ const Filter = ({ filter = {}, setFilter = () => {} }) => {
                             <Text style={styles.filterName}>Sort by</Text>
                             <RadioForm
                                 radio_props={filterRadio.sortBy}
-                                initial={filterRadio.sortBy.findIndex(
-                                    elm => elm.value.filterValue === filter.sortBy
-                                )}
+                                initial={0}
                                 formHorizontal={false}
                                 labelHorizontal={true}
                                 buttonColor={Colors.primary}
@@ -213,9 +211,7 @@ const Filter = ({ filter = {}, setFilter = () => {} }) => {
                             <Text style={styles.filterName}>Rating</Text>
                             <RadioForm
                                 radio_props={filterRadio.rating}
-                                initial={filterRadio.rating.findIndex(
-                                    elm => elm.value.filterValue === filter.rating
-                                )}
+                                initial={0}
                                 formHorizontal={false}
                                 labelHorizontal={true}
                                 buttonColor={Colors.primary}
@@ -231,10 +227,7 @@ const Filter = ({ filter = {}, setFilter = () => {} }) => {
                             <Text style={styles.filterName}>Price</Text>
                             <RadioForm
                                 radio_props={filterRadio.price}
-                                initial={filterRadio.price.findIndex(
-                                    elm => elm.value.min === filter.minPrice
-                                        && elm.value.max === filter.maxPrice
-                                )}
+                                initial={0}
                                 formHorizontal={false}
                                 labelHorizontal={true}
                                 buttonColor={Colors.primary}

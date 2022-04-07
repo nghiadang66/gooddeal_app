@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, Image, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
 import { STATIC_URL } from '../config';
 import Followers from './Followers';
 import Level from './Level';
 import StarRating from './StarRating';
 import Colors from '../themes/Colors';
+import { AuthContext } from '../context/AuthContext';
+import FollowBtn from './FollowBtn';
 
 const placeholderImage = require('../assets/images/placeholder.png');
 const dimensions = Dimensions.get('screen');
@@ -15,6 +17,7 @@ const StoreCard = ({
     horizontalCard = false,
     borderCard = false,
 }) => {
+    const { jwt } = useContext(AuthContext);
     // const handlePress = () => navigation.navigate('Store', {
     //     storeId: item._id,
     // });
@@ -90,6 +93,15 @@ const StoreCard = ({
                             width: dimensions.width / (horizontalCard ? 2.2 : 2.1),
                         },
                     ]}>{item.name}</Text>}
+
+            {jwt && jwt.accessToken && (
+                <FollowBtn
+                    type='store'
+                    userId={jwt._id}
+                    token={jwt.accessToken}
+                    itemId={item._id}
+                />
+            )}
         </TouchableOpacity>
     );
 }
