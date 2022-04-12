@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import FollowingProduct from '../screens/FollowingProduct';
-import FollowingStore from '../screens/FollowingStore';
+import Following from '../screens/Following';
 import Colors from '../themes/Colors';
 
 const FollowTab = createMaterialTopTabNavigator();
@@ -15,15 +14,17 @@ const FollowTabScreen = () => {
         screenOptions={styles.screen}
     >
         <FollowTab.Screen 
-            name="FollowingProduct" 
-            component={FollowingProduct}
+            name="FollowingProduct"
             options={{ tabBarLabel: 'Following Products' }}
-        />
+        >
+          {props => <Following {...props} type='product' />}
+        </FollowTab.Screen>
         <FollowTab.Screen 
-            name="FollowingStore" 
-            component={FollowingStore} 
+            name="FollowingStore"
             options={{ tabBarLabel: 'Following Stores' }}
-        />
+        >
+          {props => <Following {...props} type='store' />}
+        </FollowTab.Screen>
     </FollowTab.Navigator>
   );
 }

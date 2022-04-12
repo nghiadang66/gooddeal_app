@@ -18,13 +18,9 @@ const ProductCard = ({
     borderCard = false,
 }) => {
     const { jwt } = useContext(AuthContext);
-    // const handlePress = () => navigation.navigate('Product', {
-    //     productId: item._id,
-    // });
-
-    const handlePress = () => {
-        console.log(item.name);
-    }
+    const handlePress = () => navigation.navigate('Product', {
+        productId: item._id,
+    });
 
     return (
         <TouchableOpacity
@@ -114,7 +110,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         margin: 3,
         borderRadius: 6,
-        height: dimensions.width * 0.83,
+        height: dimensions.width * 0.88,
     },
     image: {
         borderTopLeftRadius: 6,
@@ -123,6 +119,7 @@ const styles = StyleSheet.create({
     },
     detail: {
         flex: 1,
+        justifyContent: 'center',
         padding: 6,
         borderBottomLeftRadius: 6,
         borderBottomRightRadius: 6,

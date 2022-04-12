@@ -4,12 +4,17 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../themes/Colors';
 import CountCart from './CountCart';
 import { AuthContext } from '../context/AuthContext';
+import BackBtn from './BackBtn';
 
-const MainNav = ({ navigation }) => {
+const HomeNav = ({ navigation, isMain = true }) => {
     const { jwt } = useContext(AuthContext);
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, !isMain && { paddingLeft: 0, paddingRight: 36, }]}
+        >
+            {!isMain && (
+                <BackBtn navigation={navigation} />
+            )}
             <TouchableOpacity 
                 style={styles.searchbar}
                 onPress={() => navigation.navigate('Search')}
@@ -88,4 +93,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default MainNav;
+export default HomeNav;

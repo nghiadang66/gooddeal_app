@@ -1,14 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
 import { View, StyleSheet } from 'react-native';
 import { AuthContext } from "../context/AuthContext";
-import { listFollowingProducts } from "../services/follow";
+import { listFollowingProducts, listFollowingStores } from "../services/follow";
 import WishList from '../components/WishList';
 import { useIsFocused } from "@react-navigation/core";
 
-const FollowingProduct = ({ navigation }) => {
+const fetchFuncs = {
+    'product': listFollowingProducts,
+    'store': listFollowingStores,
+}
+
+const Following = ({ navigation, type }) => {
     const isFocused = useIsFocused();
 
-    const [products, setProducts] = useState([]);
+    const [option, setOptions] = useState('product');
+    const [items, setItems] = useState([]);
     const [pagination, setPagination] = useState({
         size: 0,
     });
@@ -23,15 +29,15 @@ const FollowingProduct = ({ navigation }) => {
 
     const { jwt } = useContext(AuthContext);
 
-    const getProducts = async () => {
+    const getItems = async () => {
         setIsRefreshing(true);
         try {
-            const data = await listFollowingProducts(jwt._id, jwt.accessToken, filter);
+            const data = await fetchFuncs[option](jwt._id, jwt.accessToken, filter);
             if (data.filter.pageCurrent === 1) {
-                setProducts(data.products);
+                setItems(data[option+'s']);
             }
             else {
-                setProducts([...products, ...data.products]);
+                setItems([...products, ...data[option+'s']]);
             }
             setPagination({
                 size: data.size,
@@ -43,10 +49,11 @@ const FollowingProduct = ({ navigation }) => {
     }
 
     useEffect(() => {
-        getProducts();
+        getItems();
     }, [filter, jwt]);
 
     useEffect(() => {
+        setOptions(type);
         if (isFocused) {
             setFilter({
                 search: '',
@@ -56,7 +63,7 @@ const FollowingProduct = ({ navigation }) => {
                 page: 1,
             });
         }
-    }, [isFocused]);
+    }, [isFocused, type]);
 
     const loadMore = () => {
         if (isRefreshing) return;
@@ -70,11 +77,11 @@ const FollowingProduct = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            {products && products.length > 0 && (
+            {items && items.length > 0 && (
                 <WishList
                     navigation={navigation}
-                    type='product'
-                    items={products}
+                    type={option}
+                    items={items}
                     loadMore={loadMore}
                     isRefreshing={isRefreshing}
                 />
@@ -90,4 +97,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default FollowingProduct;
+export default Following;

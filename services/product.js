@@ -21,3 +21,12 @@ export const listActiveProducts = async (filter) => {
         console.log('listActiveProducts', error);
     }
 }
+
+export const getProduct = async (productId) => {
+    try { 
+        const res = await axios.get(`${API_URL}/product/${productId}`);
+        return res.data;
+    } catch (error) {
+        console.log('getProduct', error);
+    }
+}

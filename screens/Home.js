@@ -8,6 +8,7 @@ import Slider from '../components/Slider';
 import Alert from '../components/Alert';
 import Spinner from '../components/Spinner';
 import Colors from '../themes/Colors';
+import Link from '../components/Link';
 
 const Home = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
@@ -123,6 +124,14 @@ const Home = ({ navigation }) => {
               />
             </View>
           )}
+
+            <View style={styles.discovery}>
+              <Link
+                title='discover...'
+                fontSize={24}
+                onPress={() => navigation.navigate('Search')}
+              />
+            </View>
         </ScrollView>
       )}
 
@@ -145,7 +154,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
     backgroundColor: Colors.white,
+    borderRadius: 3,
   },
+  discovery: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  }
 });
 
 export default Home;

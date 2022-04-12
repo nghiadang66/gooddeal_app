@@ -10,7 +10,8 @@ import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import Category from '../screens/Category';
 import Search from '../screens/Search';
-import MainNav from './MainNav';
+import Product from '../screens/Product';
+import HomeNav from './HomeNav';
 import BottomTabNav from './BottomTabNav';
 import { AuthContext } from '../context/AuthContext';
 
@@ -28,7 +29,6 @@ const StackScreen = () => {
     return (
         <NavigationContainer theme={MyTheme}>
             <Stack.Navigator
-                initialRouteName="HomeTabNav"
                 headerMode="screen"
                 screenOptions={styles.screen}
             >
@@ -51,9 +51,7 @@ const StackScreen = () => {
                                 ? { headerShown: false }
                                 : ({ navigation }) => ({
                                     headerTransparent: true,
-                                    headerTitle: () => (
-                                        <MainNav navigation={navigation} />
-                                    ),
+                                    headerTitle: () => <HomeNav navigation={navigation} />,
                             })}
                         />
 
@@ -108,6 +106,18 @@ const StackScreen = () => {
                             options={{
                                 headerShown: false,
                             }}
+                        />
+
+                        <Stack.Screen 
+                            name="Product"
+                            component={Product}
+                            options={({ navigation }) => ({
+                                headerTransparent: true,
+                                headerBackVisible: false,
+                                // headerLeft: ()=> null,
+                                // headerRight: () => null,
+                                headerTitle: () => <HomeNav navigation={navigation} isMain={false} />,
+                            })}
                         />
                     </>
                 )}

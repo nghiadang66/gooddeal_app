@@ -6,7 +6,7 @@ import StoresManager from '../screens/StoresManager';
 import { FollowTabScreen } from './TopTabNav';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../themes/Colors';
-import MainNav from './MainNav';
+import HomeNav from './HomeNav';
 import AccountNav from './AccountNav';
 import { AuthContext } from '../context/AuthContext';
 
@@ -46,7 +46,7 @@ const BottomTabNav = () => {
                 options={{
                     headerTransparent: true,
                     header: ({ navigation }) => (
-                        <MainNav navigation={navigation} />
+                        <HomeNav navigation={navigation} />
                     ),
                 }}
             />

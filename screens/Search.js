@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { listActiveProducts } from '../services/product';
 import { getlistStores } from '../services/store';
 import { getlistUsers } from '../services/user';
 import { SearchBar } from 'react-native-elements';
+import BackBtn from '../components/BackBtn';
 import List from '../components/List'; 
 import Filter from '../components/Filter';
 import Alert from '../components/Alert';
@@ -131,13 +132,7 @@ const Search = ({ navigation }) => {
     return (
         <>
             <View style={styles.header}>
-                <TouchableHighlight
-                    underlayColor={Colors.light}
-                    style={styles.backBtn}
-                    onPress={() => navigation.goBack()}
-                >
-                    <Icon name='arrow-back' style={styles.backIcon} />
-                </TouchableHighlight>
+                <BackBtn navigation={navigation} />
                 <SearchBar
                     placeholder="Search..."
                     onChangeText={onChangeText}
@@ -201,17 +196,6 @@ const styles = StyleSheet.create({
         height: 64,
         paddingVertical: 12,
         paddingHorizontal: 12,
-    },
-    backBtn: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    backIcon: {
-        fontSize: 24,
-        color: Colors.white,
     },
     searchBarContainer: {
         flex: 1,

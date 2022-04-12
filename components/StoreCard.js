@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         alignItems: 'center',
         backgroundColor: Colors.white,
-        height: dimensions.width * 0.7,
+        height: dimensions.width * 0.74,
     },
     image: {
         borderTopLeftRadius: 6,
@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
     },
     detail: {
         flex: 1,
+        justifyContent: 'center',
         padding: 6,
         borderBottomLeftRadius: 6,
         borderBottomRightRadius: 6,
