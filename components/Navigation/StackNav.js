@@ -12,6 +12,7 @@ import Category from '../../screens/Category';
 import Search from '../../screens/Search';
 import Product from '../../screens/Product';
 import Description from '../../screens/Description';
+import ReviewsAndRating from '../../screens/ReviewsAndRating';
 import HomeNav from '../Navbar/HomeNav';
 import BottomTabNav from './BottomTabNav';
 import { AuthContext } from '../../context/AuthContext';
@@ -126,6 +127,14 @@ const StackScreen = () => {
                             component={Description}
                             options={{
                                 title: 'Description',
+                            }} 
+                        />
+
+                        <Stack.Screen 
+                            name="ReviewsAndRating"
+                            component={ReviewsAndRating}
+                            options={{
+                                title: 'Reviews & Rating',
                             }} 
                         />
                     </>

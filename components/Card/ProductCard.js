@@ -141,13 +141,17 @@ const styles = StyleSheet.create({
     name: {
         color: Colors.black,
         fontSize: 14,
+        marginBottom: 6,
     },
     sold: {
         fontSize: Colors.muted,
         fontSize: 14,
     },
     price: {
+        flexDirection: 'row',
         justifyContent: 'flex-start',
+        alignItems: 'flex-end',
+        flexWrap: 'wrap',
     },
     unit: {
         textDecorationLine: 'underline',
@@ -156,6 +160,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: Colors.muted,
         textDecorationLine: 'line-through',
+        marginRight: 12,
     },
     newPrice: {
         fontSize: 20,

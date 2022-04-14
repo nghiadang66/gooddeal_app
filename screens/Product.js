@@ -11,11 +11,11 @@ import Alert from '../components/Other/Alert';
 import Spinner from '../components/Other/Spinner';
 import Link from '../components/Other/Link';
 import SmallCard from '../components/Card/SmallCard';
-import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../themes/Colors';
 
 const Product = ({ navigation, route }) => {
     const [product, setProduct] = useState();
+    const [productImages, setProductImages] = useState();
 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -28,6 +28,7 @@ const Product = ({ navigation, route }) => {
         getProductAPi(route.params.productId)
             .then(data => {
                 setProduct(data.product);
+                setProductImages(data.product.listImages);
             })
             .catch((error) => {
                 setError(true);
@@ -50,20 +51,21 @@ const Product = ({ navigation, route }) => {
         description: description,
     });
 
-    const onPressViewAllReivews = (id) => navigation.navigate('Reviews&Rating', {
-        id: id,
-        type: 'product',
+    const onPressViewAllReivews = (productId) => navigation.navigate('ReviewsAndRating', {
+        productId: productId,
+        storeId: '',
+        userId: '',
     });
-
+    
     return (
         <>
             {!isLoading && !error && (
                 <ScrollView>
                     {product && (
                         <>
-                            {product.listImages && product.listImages.length > 0 && (
+                            {productImages && productImages.length > 0 && (
                                 <View style={styles.slider}>
-                                    <Slider images={product.listImages}/>
+                                    <Slider images={productImages}/>
                                     {jwt && jwt.accessToken && (
                                         <FollowBtn
                                             type='product'
@@ -187,18 +189,18 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: Colors.black,
         textTransform: 'uppercase',
+        marginBottom: 12,
     },
     name: {
         color: Colors.black,
         fontSize: 20,
-        // fontWeight: 'bold',
         marginBottom: 12,
     },
     price: {
-        // flexDirection: 'row',
+        flexDirection: 'row',
         justifyContent: 'flex-start',
-        // alignItems: 'flex-start',
-        // flexWrap: 'wrap-reverse',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap-reverse',
         marginBottom: 12,
     },
     unit: {
@@ -211,7 +213,7 @@ const styles = StyleSheet.create({
         marginRight: 12,
     },
     newPrice: {
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold',
         color: Colors.primary,
     },
@@ -239,7 +241,7 @@ const styles = StyleSheet.create({
     },
     viewMore: {
         alignItems: 'center',
-        padding: 6,
+        // padding: 6,
     },
 });
 

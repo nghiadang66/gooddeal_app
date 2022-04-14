@@ -19,7 +19,6 @@ const Slider = ({
         autoplay={true}
         circleLoop={true}
         autoplayInterval={3000}
-        initialNumToRender={6}
     />
   </View>
 );
