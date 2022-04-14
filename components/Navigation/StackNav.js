@@ -3,17 +3,18 @@ import { StyleSheet } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HeaderBackButton } from '@react-navigation/elements';
-import Colors from '../themes/Colors';
-import Splash from '../screens/Splash';
-import Home from '../screens/Home';
-import SignIn from '../screens/SignIn';
-import SignUp from '../screens/SignUp';
-import Category from '../screens/Category';
-import Search from '../screens/Search';
-import Product from '../screens/Product';
-import HomeNav from './HomeNav';
+import Colors from '../../themes/Colors';
+import Splash from '../../screens/Splash';
+import Home from '../../screens/Home';
+import SignIn from '../../screens/SignIn';
+import SignUp from '../../screens/SignUp';
+import Category from '../../screens/Category';
+import Search from '../../screens/Search';
+import Product from '../../screens/Product';
+import Description from '../../screens/Description';
+import HomeNav from '../Navbar/HomeNav';
 import BottomTabNav from './BottomTabNav';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 
 const Stack = createNativeStackNavigator();
 const MyTheme = {
@@ -118,6 +119,14 @@ const StackScreen = () => {
                                 // headerRight: () => null,
                                 headerTitle: () => <HomeNav navigation={navigation} isMain={false} />,
                             })}
+                        />
+
+                        <Stack.Screen 
+                            name="Description"
+                            component={Description}
+                            options={{
+                                title: 'Description',
+                            }} 
                         />
                     </>
                 )}

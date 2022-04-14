@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../screens/Home';
-import Profile from '../screens/Profile';
-import StoresManager from '../screens/StoresManager';
+import Home from '../../screens/Home';
+import Profile from '../../screens/Profile';
+import StoresManager from '../../screens/StoresManager';
 import { FollowTabScreen } from './TopTabNav';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Colors from '../themes/Colors';
-import HomeNav from './HomeNav';
-import AccountNav from './AccountNav';
-import { AuthContext } from '../context/AuthContext';
+import Colors from '../../themes/Colors';
+import HomeNav from '../Navbar/HomeNav';
+import AccountNav from '../Navbar/AccountNav';
+import { AuthContext } from '../../context/AuthContext';
 
 const Tab = createBottomTabNavigator();
 

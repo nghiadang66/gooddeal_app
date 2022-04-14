@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { getUserLevel, getStoreLevel } from '../services/level';
+import { getUserLevel, getStoreLevel } from '../../services/level';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Colors from '../themes/Colors';
+import Colors from '../../themes/Colors';
 
 const Level = ({ type = 'user', id }) => {
     const [level, setLevel] = useState({});

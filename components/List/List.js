@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-import ProductCard from './ProductCard';
-import StoreCard from './StoreCard';
-import UserCard from './UserCard';
-import Spinner from './Spinner';
-import Colors from '../themes/Colors';
+import ProductCard from '../Card/ProductCard';
+import StoreCard from '../Card/StoreCard';
+import UserCard from '../Card/UserCard';
+import Spinner from '../Other/Spinner';
+import Colors from '../../themes/Colors';
 
 const List = ({
     navigation,

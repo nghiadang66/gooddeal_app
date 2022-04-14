@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import Following from '../screens/Following';
-import Colors from '../themes/Colors';
+import Following from '../../screens/Following';
+import Colors from '../../themes/Colors';
 
 const FollowTab = createMaterialTopTabNavigator();
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { View, StyleSheet } from 'react-native';
 import { AuthContext } from "../context/AuthContext";
 import { listFollowingProducts, listFollowingStores } from "../services/follow";
-import WishList from '../components/WishList';
+import WishList from '../components/List/WishList';
 import { useIsFocused } from "@react-navigation/core";
 
 const fetchFuncs = {

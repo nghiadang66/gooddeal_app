@@ -1,14 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, ScrollView, Text, StyleSheet } from 'react-native';
-import Logo from '../components/Logo';
-import Button from '../components/Button';
-import Input from '../components/Input';
-import Link from '../components/Link';
+import Logo from '../components/Other/Logo';
+import Button from '../components/Button/Button';
+import Input from '../components/Form/Input';
+import Link from '../components/Other/Link';
 import Colors from '../themes/Colors';
 import { AuthContext } from '../context/AuthContext';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { regexTest } from '../helper/test';
-import Alert from '../components/Alert';
+import Alert from '../components/Other/Alert';
 import { LoginManager, AccessToken } from 'react-native-fbsdk-next'
 import { SocialIcon } from 'react-native-elements'
 import { GoogleSignin } from '@react-native-google-signin/google-signin';

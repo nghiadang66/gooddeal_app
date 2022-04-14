@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native';
-import Colors from '../themes/Colors';
-import Level from './Level';
-import { AuthContext } from '../context/AuthContext';
-import { STATIC_URL } from '../config';
+import Colors from '../../themes/Colors';
+import Level from '../Label/Level';
+import { AuthContext } from '../../context/AuthContext';
+import { STATIC_URL } from '../../config';
 
 const AccountNav = ({ navigation }) => {
     const { jwt, userProfile } = useContext(AuthContext);

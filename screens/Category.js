@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { listActiveCategories } from '../services/category';
 import { listActiveProducts } from '../services/product';
-import Slider from '../components/Slider';
-import List from '../components/List'; 
-import Filter from '../components/Filter';
-import Alert from '../components/Alert';
-import Spinner from '../components/Spinner';
+import Slider from '../components/Slider/CategorySlider';
+import List from '../components/List/List'; 
+import Filter from '../components/Filter/Filter';
+import Alert from '../components/Other/Alert';
+import Spinner from '../components/Other/Spinner';
 import Colors from '../themes/Colors';
 
 const Category = ({ route, navigation }) => {

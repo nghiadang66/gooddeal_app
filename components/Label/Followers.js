@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { getNumberOfFollowersForProduct, getNumberOfFollowersForStore } from '../services/follow';
-import Colors from '../themes/Colors';
+import { getNumberOfFollowersForProduct, getNumberOfFollowersForStore } from '../../services/follow';
+import Colors from '../../themes/Colors';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Followers = ({ type = 'product', id }) => {

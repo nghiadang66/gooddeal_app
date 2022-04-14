@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
-import { STATIC_URL } from '../config';
-import Level from './Level';
-import Colors from '../themes/Colors';
+import { STATIC_URL } from '../../config';
+import Level from '../Label/Level';
+import Colors from '../../themes/Colors';
 
-const placeholderImage = require('../assets/images/placeholder.png');
+const placeholderImage = require('../../assets/images/placeholder.png');
 const dimensions = Dimensions.get('screen');
 
 const UserCard = ({

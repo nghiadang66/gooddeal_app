@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableHighlight, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Colors from '../themes/Colors';
+import Colors from '../../themes/Colors';
 
 const BackBtn = ({ navigation }) => (
     <TouchableHighlight
@@ -13,7 +13,7 @@ const BackBtn = ({ navigation }) => (
     </TouchableHighlight>
 );
 
-const styles = {
+const styles = StyleSheet.create({
     backBtn: {
         width: 40,
         height: 40,
@@ -26,6 +26,6 @@ const styles = {
         fontSize: 24,
         color: Colors.white,
     },
-}
+});
 
 export default BackBtn;

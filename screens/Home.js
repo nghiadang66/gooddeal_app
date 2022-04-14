@@ -3,12 +3,12 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { listActiveCategories } from '../services/category';
 import { listActiveProducts } from '../services/product';
 import { getlistStores } from '../services/store';
-import List from '../components/List';
-import Slider from '../components/Slider';
-import Alert from '../components/Alert';
-import Spinner from '../components/Spinner';
+import List from '../components/List/List';
+import Slider from '../components/Slider/CategorySlider';
+import Alert from '../components/Other/Alert';
+import Spinner from '../components/Other/Spinner';
 import Colors from '../themes/Colors';
-import Link from '../components/Link';
+import Link from '../components/Other/Link';
 
 const Home = ({ navigation }) => {
   const [categories, setCategories] = useState([]);

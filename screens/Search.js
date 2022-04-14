@@ -5,11 +5,11 @@ import { listActiveProducts } from '../services/product';
 import { getlistStores } from '../services/store';
 import { getlistUsers } from '../services/user';
 import { SearchBar } from 'react-native-elements';
-import BackBtn from '../components/BackBtn';
-import List from '../components/List'; 
-import Filter from '../components/Filter';
-import Alert from '../components/Alert';
-import Spinner from '../components/Spinner';
+import BackBtn from '../components/Button/BackBtn';
+import List from '../components/List/List'; 
+import Filter from '../components/Filter/Filter';
+import Alert from '../components/Other/Alert';
+import Spinner from '../components/Other/Spinner';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../themes/Colors';
 

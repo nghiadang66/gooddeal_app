@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import Colors from "../themes/Colors";
+import Colors from "../../themes/Colors";
 
 const Logo = ({ background = true }) => {
     return (

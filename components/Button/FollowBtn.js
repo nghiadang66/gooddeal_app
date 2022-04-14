@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableHighlight, StyleSheet } from 'react-native';
-import { checkFollowingProduct, followProduct, unfollowProduct, checkFollowingStore, followStore, unfollowStore } from '../services/follow';
+import { checkFollowingProduct, followProduct, unfollowProduct, checkFollowingStore, followStore, unfollowStore } from '../../services/follow';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Colors from '../themes/Colors';
+import Colors from '../../themes/Colors';
 
 const fetchFuncs = {
     'product': checkFollowingProduct,
@@ -68,11 +68,11 @@ const FollowBtn = ({ type = 'product', userId, token, itemId }) => {
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        top: 6,
-        right: 6,
-        width: 30,
-        height: 30,
-        borderRadius: 15,
+        top: '3%',
+        right: '5%',
+        width: 40,
+        height: 40,
+        borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
     },

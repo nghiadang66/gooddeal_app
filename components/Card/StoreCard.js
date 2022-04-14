@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import { View, Text, Image, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
-import { STATIC_URL } from '../config';
-import Followers from './Followers';
-import Level from './Level';
-import StarRating from './StarRating';
-import Colors from '../themes/Colors';
-import { AuthContext } from '../context/AuthContext';
-import FollowBtn from './FollowBtn';
+import { STATIC_URL } from '../../config';
+import Followers from '../Label/Followers';
+import Level from '../Label/Level';
+import StarRating from '../Other/StarRating';
+import Colors from '../../themes/Colors';
+import { AuthContext } from '../../context/AuthContext';
+import FollowBtn from '../Button/FollowBtn';
 
-const placeholderImage = require('../assets/images/placeholder.png');
+const placeholderImage = require('../../assets/images/placeholder.png');
 const dimensions = Dimensions.get('screen');
 
 const StoreCard = ({

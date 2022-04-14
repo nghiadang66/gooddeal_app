@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box';
-import { STATIC_URL } from '../config';
-import Colors from '../themes/Colors';
+import { STATIC_URL } from '../../config';
+import Colors from '../../themes/Colors';
 
 const dimensions = Dimensions.get('screen');
 
-const Slider = ({
+const CategorySlider = ({
   items = [],
   currentIndex = 0,
   handleSliderPress = () => {},
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
       },
 });
 
-export default Slider;
+export default CategorySlider;

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
-import Button from '../components/Button';
+import Button from '../components/Button/Button';
 
 const Profile = (props) => {
     const { jwt, logout, userProfile } = useContext(AuthContext);

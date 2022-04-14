@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
-import Colors from "../themes/Colors";
+import Colors from "../../themes/Colors";
 
 const Link = ({ title='this is a link', onPress=()=>{}, fontSize=16 }) => {
     return (

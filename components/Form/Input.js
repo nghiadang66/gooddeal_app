@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { regexTest, numberTest } from '../helper/test';
-import useToggle from '../hooks/useToggle';
+import { regexTest, numberTest } from '../../helper/test';
+import useToggle from '../../hooks/useToggle';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Colors from '../themes/Colors';
+import Colors from '../../themes/Colors';
 
 const Input = ({
     type='text',

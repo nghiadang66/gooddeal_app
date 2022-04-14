@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Colors from '../themes/Colors';
+import Colors from '../../themes/Colors';
 
 const StarRating = ({ stars = 3, noStar = false }) => {
     const render = () => {

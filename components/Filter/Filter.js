@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, Animated, ScrollView, StyleSheet } from 'react-native';
 import RadioForm from 'react-native-simple-radio-button';
-import StarRating from './StarRating';
-import Colors from '../themes/Colors';
+import StarRating from '../Other/StarRating';
+import Colors from '../../themes/Colors';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const dimensions = Dimensions.get('screen');

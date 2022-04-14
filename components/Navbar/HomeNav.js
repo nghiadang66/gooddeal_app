@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Colors from '../themes/Colors';
-import CountCart from './CountCart';
-import { AuthContext } from '../context/AuthContext';
-import BackBtn from './BackBtn';
+import Colors from '../../themes/Colors';
+import CountCart from '../Label/CountCart';
+import { AuthContext } from '../../context/AuthContext';
+import BackBtn from '../Button/BackBtn';
 
 const HomeNav = ({ navigation, isMain = true }) => {
     const { jwt } = useContext(AuthContext);
