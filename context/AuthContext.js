@@ -1,6 +1,7 @@
 import React, { useState, useEffect, createContext } from 'react';
 import { signup, signin, signout, refresh, authsocial } from '../services/auth';
 import { getUserProfile } from '../services/user';
+import { getCartCount } from '../services/cart';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const AuthContext = createContext();
@@ -8,6 +9,7 @@ export const AuthContext = createContext();
 export const AuthProvider =  ({ children }) => {
     const [jwt, setJwt] = useState({});
     const [userProfile, setUserProfile] = useState({});
+    const [countCart, setCountCart] = useState(0);
     
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
@@ -20,12 +22,8 @@ export const AuthProvider =  ({ children }) => {
         setSuccess('');
         signup(user)
             .then(data => {
-                if (data.success) {
-                    setSuccess(data.success);
-                }
-                else if (data.error) {
-                    setError(data.error);
-                }
+                if (data.success) setSuccess(data.success);
+                else if (data.error) setError(data.error);
             })
             .catch(err => {
                 console.log('register', err);
@@ -50,9 +48,7 @@ export const AuthProvider =  ({ children }) => {
                     setJwt({ accessToken, refreshToken, _id, role });
                     AsyncStorage.setItem('jwt', JSON.stringify({ accessToken, refreshToken, _id, role }));
                 }
-                else if (data.error) {
-                    setError(data.error);
-                }
+                else if (data.error) setError(data.error);
             })
             .catch(err => {
                 console.log('login', err);
@@ -73,14 +69,11 @@ export const AuthProvider =  ({ children }) => {
         authsocial(user)
             .then(data => {
                 if (data.success) {
-                   
                     const { accessToken, refreshToken, _id, role } = data;
                     setJwt({ accessToken, refreshToken, _id, role });
                    AsyncStorage.setItem('jwt', JSON.stringify({ accessToken, refreshToken, _id, role }));
                 }
-                else if (data.error) {
-                    setError(data.error);
-                }
+                else if (data.error) setError(data.error);
             })
             .catch(err => {
                 setError('Server Error!');
@@ -105,6 +98,14 @@ export const AuthProvider =  ({ children }) => {
                 AsyncStorage.removeItem('jwt');
                 setIsLoading(false);
             });
+    }
+
+    const resetCountCart = (userId, token) => {
+        getCartCount(userId, token)
+            .then(data => {
+                setCountCart(data.count);
+            })
+            .catch(error => {});
     }
 
     const isLoggedIn = async () => {
@@ -145,15 +146,16 @@ export const AuthProvider =  ({ children }) => {
 
             if (jwt && jwt._id && jwt.accessToken) {
                 const data = await getUserProfile(jwt._id, jwt.accessToken);
+                const data1 =  await getCartCount(jwt._id, jwt.accessToken);
                 setUserProfile(data.user);
+                setCountCart(data1.count);
             }
 
             setSplashLoading(false);
-        } catch (err) { 
+        } catch (err) {
             // console.log(err);
             setSplashLoading(false);
         }
-
     }
 
     useEffect(() => {
@@ -169,6 +171,7 @@ export const AuthProvider =  ({ children }) => {
             value={{
                 jwt,
                 userProfile,
+                countCart,
                 isLoading,
                 splashLoading,
                 error,
@@ -176,7 +179,8 @@ export const AuthProvider =  ({ children }) => {
                 register,
                 login,
                 logout,
-                loginSocial
+                loginSocial,
+                resetCountCart,
             }}
         >
             {children}

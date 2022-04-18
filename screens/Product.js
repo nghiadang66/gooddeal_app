@@ -11,6 +11,8 @@ import Alert from '../components/Other/Alert';
 import Spinner from '../components/Other/Spinner';
 import Link from '../components/Other/Link';
 import SmallCard from '../components/Card/SmallCard';
+import AddToCart from '../components/Form/AddToCart';
+import ListRecommend from '../components/List/ListRecommend';
 import Colors from '../themes/Colors';
 
 const Product = ({ navigation, route }) => {
@@ -113,7 +115,8 @@ const Product = ({ navigation, route }) => {
                             </View>
 
                             <View style={styles.container}>
-                                <Text>Select styles form...</Text>
+                                <Text style={styles.heading}>Add To Cart</Text>
+                                <AddToCart product={product} navigation={navigation} />
                             </View>
 
                             <View style={styles.container}>
@@ -162,6 +165,37 @@ const Product = ({ navigation, route }) => {
                                     </View>
                                 </View>
                             </View>
+
+                            <View style={styles.recommend}>
+                                <ListRecommend
+                                    type='product'
+                                    title='Similar Products'
+                                    sortBy='sold'
+                                    categoryId={
+                                        product.categoryId &&
+                                        product.categoryId.categoryId &&
+                                        product.categoryId.categoryId.categoryId &&
+                                        product.categoryId.categoryId.categoryId._id
+                                    }
+                                    navigation={navigation}
+                                />
+                            </View>
+
+                            <View style={styles.recommend}>
+                                <ListRecommend
+                                    type='product'
+                                    title={
+                                        product.storeId &&
+                                        product.storeId.name + "'s Products"
+                                    }
+                                    sortBy='sold'
+                                    storeId={
+                                        product.storeId &&
+                                        product.storeId._id
+                                    }
+                                    navigation={navigation}
+                                />
+                            </View>
                         </>
                     )}
                 </ScrollView>
@@ -184,6 +218,13 @@ const styles = StyleSheet.create({
         padding: 12,
         marginBottom: 16,
         backgroundColor: Colors.white,
+        borderRadius: 3,
+    },
+    recommend: {
+        flex: 1,
+        marginBottom: 16,
+        backgroundColor: Colors.white,
+        borderRadius: 3,
     },
     heading: {
         fontSize: 20,

@@ -1,30 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet } from 'react-native';
-import { getCartCount } from '../../services/cart';
+import { AuthContext } from "../../context/AuthContext";
 import Colors from "../../themes/Colors";
 
-const CountCart = ({ userId, token }) => {
-    const [count, setCount] = useState(0);
-
-    const getCount = async () => {
-        try {
-            const data =  await getCartCount(userId, token);
-            setCount(data.count);
-        } catch (err) {
-            setCount(0);
-        }
-    }
-
-    useEffect(() => {
-        getCount();
-        return () => {
-            setCount(0);
-        };
-    }, [userId, token]);
-
+const CountCart = (props) => {
+    const { countCart } = useContext(AuthContext);
     return (
         <View style={styles.container}>
-            <Text style={styles.cart}>{count > 9 ? '9+' : count}</Text>
+            <Text style={styles.cart}>{countCart > 9 ? '9+' : countCart}</Text>
         </View>
     );
 }

@@ -35,6 +35,9 @@ const FollowBtn = ({ type = 'product', userId, token, itemId }) => {
 
     useEffect(() => {
         getIsFollowing();
+        return () => {
+            setIsFollowing(false);
+        }
     }, [type, userId, itemId]);
 
     const handleFollow = () => {

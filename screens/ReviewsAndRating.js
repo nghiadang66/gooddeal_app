@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { listReviews } from '../services/review';
 import ListReviews from '../components/List/ListReviews';
+import RatingFilter from '../components/Filter/RatingFilter';
 import Alert from '../components/Other/Alert';
 import Spinner from '../components/Other/Spinner';
 import Colors from '../themes/Colors';
@@ -27,7 +28,6 @@ const ReviewsAndRating = ({ navigation, route }) => {
     const [isRefreshing, setIsRefreshing] = useState(false);
 
     const getReviews = () => {
-        console.log(filter);
         setError(false);
         if (filter.page === 1) setIsLoading(true);
         else setIsRefreshing(true);
@@ -85,10 +85,11 @@ const ReviewsAndRating = ({ navigation, route }) => {
     }
 
     return (
-        <>
+        <View style={styles.container}>
+            <RatingFilter filter={filter} setFilter={setFilter} />
+            
             {!isLoading && !error && (
-                <View style={styles.container}>
-                    {/* <ReviewFilter filter={filter} setFilter={setFilter} /> */}
+                <>
                     <Text style={styles.result}>{pagination.size} results</Text>
                     {reviews && reviews.length > 0 && (
                         <View style={styles.list}>
@@ -100,12 +101,12 @@ const ReviewsAndRating = ({ navigation, route }) => {
                             />
                         </View>
                     )}
-                </View>
+                </>
             )}
 
             {isLoading && <Spinner />}
             {error && <Alert type={'error'} />}
-        </>
+        </View>
     );
 }
 

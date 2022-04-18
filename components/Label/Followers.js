@@ -20,6 +20,9 @@ const Followers = ({ type = 'product', id }) => {
 
     useEffect(() => {
         getFollowers();
+        return () => {
+            setFollowers(0);
+        }
     }, [id]);
 
     return (

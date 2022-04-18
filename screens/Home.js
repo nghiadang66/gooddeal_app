@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { listActiveCategories } from '../services/category';
 import { listActiveProducts } from '../services/product';
 import { getlistStores } from '../services/store';
-import List from '../components/List/List';
+import ListRecommend from '../components/List/ListRecommend';
 import Slider from '../components/Slider/CategorySlider';
 import Alert from '../components/Other/Alert';
 import Spinner from '../components/Other/Spinner';
@@ -13,8 +13,8 @@ import Link from '../components/Other/Link';
 const Home = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
-  const [products, setProducts] = useState([]);
-  const [stores, setStores] = useState([]);
+  // const [products, setProducts] = useState([]);
+  // const [stores, setStores] = useState([]);
 
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -28,26 +28,26 @@ const Home = ({ navigation }) => {
       limit: 5,
       page: 1,
     }),
-    listActiveProducts({
-      search: '',
-      rating: '',
-      categoryId: '',
-      minPrice: '',
-      maxPrice: '',
-      sortBy: 'sold',
-      order: 'desc',
-      limit: 6,
-      page: 1,
-    }),
-    getlistStores({
-      search: '',
-      sortBy: 'rating',
-      sortMoreBy: 'point',
-      isActive: 'true',
-      order: 'desc',
-      limit: 6,
-      page: 1,
-    }),
+    // listActiveProducts({
+    //   search: '',
+    //   rating: '',
+    //   categoryId: '',
+    //   minPrice: '',
+    //   maxPrice: '',
+    //   sortBy: 'sold',
+    //   order: 'desc',
+    //   limit: 6,
+    //   page: 1,
+    // }),
+    // getlistStores({
+    //   search: '',
+    //   sortBy: 'rating',
+    //   sortMoreBy: 'point',
+    //   isActive: 'true',
+    //   order: 'desc',
+    //   limit: 6,
+    //   page: 1,
+    // }),
   ]);
   
   const init = () => {
@@ -56,12 +56,12 @@ const Home = ({ navigation }) => {
     getData()
       .then(([
         categoriesData,
-        productsData,
-        storesData,
+        // productsData,
+        // storesData,
       ]) => {
         setCategories(categoriesData.categories);
-        setProducts(productsData.products);
-        setStores(storesData.stores);
+        // setProducts(productsData.products);
+        // setStores(storesData.stores);
       })
       .catch(err => {
         setError(true);
@@ -75,8 +75,8 @@ const Home = ({ navigation }) => {
     init();
     return () => {
       setCategories([]);
-      setProducts([]);
-      setStores([]);
+      // setProducts([]);
+      // setStores([]);
     };
   }, []);
 
@@ -98,40 +98,32 @@ const Home = ({ navigation }) => {
               />
             </View>
           )}
+          
+          <View style={styles.carousel}>
+            <ListRecommend
+              type='product'
+              title='Best Seller'
+              sortBy='sold'
+              navigation={navigation}
+            />
+          </View>
 
-          {products && products.length > 0 && (
-              <View style={styles.carousel}>
-                <List
-                  navigation={navigation}
-                  type = 'product'
-                  title='Best Seller'
-                  items={products}
-                  horizontal={true}
-                  border={true}
-                />
-              </View>
-          )}
+          <View style={styles.carousel}>
+            <ListRecommend
+              type='store'
+              title='Hot Stores'
+              sortBy='rating'
+              navigation={navigation}
+            />
+          </View>
 
-          {stores && stores.length > 0 && (
-            <View style={styles.carousel}>
-              <List
-                navigation={navigation}
-                type = 'store'
-                title='Hot Stores'
-                items={stores}
-                horizontal={true}
-                border={true}
-              />
-            </View>
-          )}
-
-            <View style={styles.discovery}>
-              <Link
-                title='discover...'
-                fontSize={24}
-                onPress={() => navigation.navigate('Search')}
-              />
-            </View>
+          <View style={styles.discovery}>
+            <Link
+              title='discover...'
+              fontSize={24}
+              onPress={() => navigation.navigate('Search')}
+            />
+          </View>
         </ScrollView>
       )}
 
