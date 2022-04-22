@@ -7,12 +7,12 @@ import { FollowTabScreen } from './TopTabNav';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../../themes/Colors';
 import HomeNav from '../Navbar/HomeNav';
-import AccountNav from '../Navbar/AccountNav';
+import PerNav from '../Navbar/PerNav';
 import { AuthContext } from '../../context/AuthContext';
 
 const Tab = createBottomTabNavigator();
 
-const BottomTabNav = () => {
+const BottomTabNav = ({ parNav, parRoute }) => {
     const { jwt } = useContext(AuthContext);
     return (
         <Tab.Navigator
@@ -57,8 +57,8 @@ const BottomTabNav = () => {
                     component={Profile}
                     options={{
                         headerTransparent: true,
-                        header: ({ navigation }) => (
-                            <AccountNav navigation={navigation} />
+                        header: ({ navigation, route }) => (
+                            <PerNav navigation={navigation} route={route} />
                         ),
                     }}
                 />

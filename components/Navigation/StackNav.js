@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HeaderBackButton } from '@react-navigation/elements';
@@ -15,6 +15,8 @@ import Description from '../../screens/Description';
 import ReviewsAndRating from '../../screens/ReviewsAndRating';
 import HomeNav from '../Navbar/HomeNav';
 import BottomTabNav from './BottomTabNav';
+import { StoreTabScreen } from './TopTabNav';
+import PerNav from '../Navbar/PerNav';
 import { AuthContext } from '../../context/AuthContext';
 
 const Stack = createNativeStackNavigator();
@@ -116,8 +118,6 @@ const StackScreen = () => {
                             options={({ navigation }) => ({
                                 headerTransparent: true,
                                 headerBackVisible: false,
-                                // headerLeft: ()=> null,
-                                // headerRight: () => null,
                                 headerTitle: () => <HomeNav navigation={navigation} isMain={false} />,
                             })}
                         />
@@ -137,6 +137,18 @@ const StackScreen = () => {
                                 title: 'Reviews & Rating',
                             }} 
                         />
+
+                        <Stack.Screen
+                            name="Store"
+                            options={{
+                                headerTransparent: true,
+                                header: ({ navigation, route }) => (
+                                    <PerNav navigation={navigation} route={route} type='store' />
+                                ),
+                            }}
+                        >
+                            {({ route }) => <StoreTabScreen parRoute={route} />}
+                        </Stack.Screen>
                     </>
                 )}
             </Stack.Navigator>

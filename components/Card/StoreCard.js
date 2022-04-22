@@ -18,13 +18,10 @@ const StoreCard = ({
     borderCard = false,
 }) => {
     const { jwt } = useContext(AuthContext);
-    // const handlePress = () => navigation.navigate('Store', {
-    //     storeId: item._id,
-    // });
-
-    const handlePress = () => {
-        console.log(item.name);
-    }
+    const handlePress = () => navigation.navigate('Store', {
+        storeId: item._id,
+        itemId: item._id,
+    });
 
     return (
         <TouchableOpacity

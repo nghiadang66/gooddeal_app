@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { listActiveCategories } from '../services/category';
-import { listActiveProducts } from '../services/product';
-import { getlistStores } from '../services/store';
+// import { listActiveProducts } from '../services/product';
+// import { getlistStores } from '../services/store';
 import ListRecommend from '../components/List/ListRecommend';
 import Slider from '../components/Slider/CategorySlider';
 import Alert from '../components/Other/Alert';

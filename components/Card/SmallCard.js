@@ -10,22 +10,18 @@ const SmallCard = ({
     type = 'product',
     item = {},
 }) => {
-    // const onPress = () => navigation.navigate(
-    //     type === 'product' ?
-    //         'Product' :
-    //         type === 'store' ?
-    //             'Store' :
-    //             'User',
-    //     type === 'product' ?
-    //         { productId: item._id } :
-    //         type === 'store' ?
-    //             { storeId: item._id } :
-    //             { userId: item._id },
-    // );
-
-    const handlePress = () => {
-        console.log(item.name);
-    }
+    const handlePress = () => navigation.navigate(
+        type === 'product' ?
+            'Product' :
+            type === 'store' ?
+                'Store' :
+                'User',
+        type === 'product' ?
+            { productId: item._id } :
+            type === 'store' ?
+                { storeId: item._id, itemId: item._id } :
+                { userId: item._id, itemId: item._id },
+    );
 
     return (
         <TouchableOpacity

@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: '3%',
         right: '5%',
+        zIndex: 9999,
         width: 40,
         height: 40,
         borderRadius: 20,

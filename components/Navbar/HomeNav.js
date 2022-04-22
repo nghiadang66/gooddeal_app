@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../../themes/Colors';
-import CountCart from '../Label/CountCart';
 import { AuthContext } from '../../context/AuthContext';
-import BackBtn from '../Button/BackBtn';
+import HeaderBtn from '../Button/HeaderBtn';
 
 const HomeNav = ({ navigation, isMain = true }) => {
     const { jwt } = useContext(AuthContext);
@@ -13,7 +12,7 @@ const HomeNav = ({ navigation, isMain = true }) => {
         <View style={[styles.container, !isMain && { paddingLeft: 0, paddingRight: 36, }]}
         >
             {!isMain && (
-                <BackBtn navigation={navigation} />
+                <HeaderBtn icon='arrow-back' onPress={() => navigation.goBack()} />
             )}
             <TouchableOpacity 
                 style={styles.searchbar}
@@ -27,29 +26,18 @@ const HomeNav = ({ navigation, isMain = true }) => {
                 <Text style={styles.textSearch}>Search...</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-                style={styles.button}
-                // onPress={() => navigation.navigate(jwt.accessToken ? (jwt.role ==='admin' ? 'Dashboard' : 'Cart') : 'SignIn')}
-                onPress={() => {
-                    jwt.accessToken
-                    ? (jwt.role ==='admin'
-                        ? console.log('---go to admin dashboard---')
-                        : console.log('---go to cart screen---'))
-                    : navigation.navigate('SignIn')
-                }}
-            >
-                <Icon
-                    name={jwt.accessToken ? (jwt.role ==='admin' ? 'glasses' : 'cart') : 'log-in'}
-                    style={styles.iconBtn}
-                />
-                {jwt.accessToken && jwt.role === 'user' && jwt._id ? 
-                    (<CountCart
-                        userId={jwt._id}
-                        token={jwt.accessToken}
-                    />) :
-                    null
-                }
-            </TouchableOpacity>
+            {jwt && jwt.accessToken ? (
+                <>
+                    {jwt.role === 'admin' ? (
+                        <HeaderBtn icon='glasses' onPress={() => navigation.navigate('Dashboard')} />
+                    ) : (
+                        <HeaderBtn icon='cart' jwt={jwt} isCart={true} onPress={() => navigation.navigate('Cart')} />
+                    )}
+                </>
+            ) : (
+                <HeaderBtn icon='log-in' onPress={() => navigation.navigate('SignIn')} />
+            )}
+
         </View>
     );
 }
@@ -71,7 +59,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 32,
         paddingHorizontal: 6,
-        marginRight: 12,
+        marginHorizontal: 12,
         borderRadius: 16,
         backgroundColor: Colors.white,
     },

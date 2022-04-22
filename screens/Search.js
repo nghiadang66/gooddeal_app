@@ -5,7 +5,7 @@ import { listActiveProducts } from '../services/product';
 import { getlistStores } from '../services/store';
 import { getlistUsers } from '../services/user';
 import { SearchBar } from 'react-native-elements';
-import BackBtn from '../components/Button/BackBtn';
+import HeaderBtn from '../components/Button/HeaderBtn';
 import List from '../components/List/List'; 
 import Filter from '../components/Filter/Filter';
 import Alert from '../components/Other/Alert';
@@ -132,7 +132,7 @@ const Search = ({ navigation }) => {
     return (
         <>
             <View style={styles.header}>
-                <BackBtn navigation={navigation} />
+                <HeaderBtn icon='arrow-back' onPress={() => navigation.goBack()} />
                 <SearchBar
                     placeholder="Search..."
                     onChangeText={onChangeText}
@@ -203,6 +203,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 0,
         borderBottomWidth: 0,
         padding: 0,
+        marginLeft: 6,
     },
     inputContainer: {
         height: 32,

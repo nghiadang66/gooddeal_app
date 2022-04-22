@@ -27,3 +27,12 @@ export const getlistStores = async (filter) => {
         console.log('getlistStores', error);
     }
 }
+
+export const getStore = async (storeId) => {
+    try {
+        const res = await axios.get(`${API_URL}/store/${storeId}`);
+        return res.data;
+    } catch (error) {
+        console.log('getStore', error);
+    }
+}
