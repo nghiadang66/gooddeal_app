@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../../themes/Colors';
 import { AuthContext } from '../../context/AuthContext';
-import HeaderBtn from '../Button/HeaderBtn';
+import { BackBtn, SignInBtn, DashboardBtn, CartBtn } from '../Button/HeaderBtn';
 
 const HomeNav = ({ navigation, isMain = true }) => {
     const { jwt } = useContext(AuthContext);
@@ -12,7 +12,7 @@ const HomeNav = ({ navigation, isMain = true }) => {
         <View style={[styles.container, !isMain && { paddingLeft: 0, paddingRight: 36, }]}
         >
             {!isMain && (
-                <HeaderBtn icon='arrow-back' onPress={() => navigation.goBack()} />
+                <BackBtn navigation={navigation} />
             )}
             <TouchableOpacity 
                 style={styles.searchbar}
@@ -29,13 +29,13 @@ const HomeNav = ({ navigation, isMain = true }) => {
             {jwt && jwt.accessToken ? (
                 <>
                     {jwt.role === 'admin' ? (
-                        <HeaderBtn icon='glasses' onPress={() => navigation.navigate('Dashboard')} />
+                        <DashboardBtn navigation={navigation} />
                     ) : (
-                        <HeaderBtn icon='cart' jwt={jwt} isCart={true} onPress={() => navigation.navigate('Cart')} />
+                        <CartBtn navigation={navigation} jwt={jwt} />
                     )}
                 </>
             ) : (
-                <HeaderBtn icon='log-in' onPress={() => navigation.navigate('SignIn')} />
+                <SignInBtn navigation={navigation} />
             )}
 
         </View>

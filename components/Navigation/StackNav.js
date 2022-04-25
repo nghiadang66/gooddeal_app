@@ -115,11 +115,9 @@ const StackScreen = () => {
                         <Stack.Screen 
                             name="Product"
                             component={Product}
-                            options={({ navigation }) => ({
-                                headerTransparent: true,
-                                headerBackVisible: false,
-                                headerTitle: () => <HomeNav navigation={navigation} isMain={false} />,
-                            })}
+                            options={{
+                                headerShown: false,
+                            }}
                         />
 
                         <Stack.Screen 

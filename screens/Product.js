@@ -3,6 +3,7 @@ import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { getProduct as getProductAPi } from '../services/product';
 import { AuthContext } from '../context/AuthContext';
 import { formatPrice } from '../helper/formatPrice';
+import { BackBtn, CartBtn } from '../components/Button/HeaderBtn';
 import Slider from '../components/Slider/Slider';
 import FollowBtn from '../components/Button/FollowBtn';
 import Followers from '../components/Label/Followers';
@@ -64,7 +65,19 @@ const Product = ({ navigation, route }) => {
             {!isLoading && !error && (
                 <ScrollView>
                     {product && (
-                        <>
+                        <View style={styles.container}>
+                            <View style={styles.header}>
+                                <View style={styles.headerItem}>
+                                    <BackBtn navigation={navigation} background={true} />
+                                </View>
+
+                                {jwt && jwt.accessToken && (
+                                    <View style={styles.headerItem}>
+                                        <CartBtn navigation={navigation} jwt={jwt} background={true} />
+                                    </View>
+                                )}
+                            </View>
+
                             {productImages && productImages.length > 0 && (
                                 <View style={styles.slider}>
                                     <Slider images={productImages}/>
@@ -79,7 +92,7 @@ const Product = ({ navigation, route }) => {
                                 </View>
                             )}
 
-                            <View style={styles.container}>
+                            <View style={styles.wrapper}>
                                 <Text style={styles.name}>{product.name}</Text>
                                 
                                 <View style={styles.price}>
@@ -114,12 +127,12 @@ const Product = ({ navigation, route }) => {
                                 </View>
                             </View>
 
-                            <View style={styles.container}>
+                            <View style={styles.wrapper}>
                                 <Text style={styles.heading}>Add To Cart</Text>
                                 <AddToCart product={product} navigation={navigation} />
                             </View>
 
-                            <View style={styles.container}>
+                            <View style={styles.wrapper}>
                                 <Text style={styles.heading}>Description</Text>
                                 <View style={styles.category}>
                                     <Link
@@ -154,7 +167,7 @@ const Product = ({ navigation, route }) => {
                                 </View>
                             </View>
 
-                            <View style={styles.container}>
+                            <View style={styles.wrapper}>
                                 <Text style={styles.heading}>Reviews {'&'} Rating</Text>
                                 <View style={styles.labelWrapper}>
                                     <View style={styles.label}>
@@ -196,7 +209,7 @@ const Product = ({ navigation, route }) => {
                                     navigation={navigation}
                                 />
                             </View>
-                        </>
+                        </View>
                     )}
                 </ScrollView>
             )}
@@ -208,12 +221,25 @@ const Product = ({ navigation, route }) => {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    header: {
+        position: 'absolute',
+        top: 6,
+        left: 6,
+        zIndex: 9999,
+        flex: 1,
+        flexDirection: 'row',
+    },
+    headerItem: {
+        marginRight: 6,
+    },
     slider: {
         flex: 1,
-        marginTop: 64,
         backgroundColor: Colors.white,
     },
-    container: {
+    wrapper: {
         flex: 1,
         padding: 12,
         marginBottom: 16,

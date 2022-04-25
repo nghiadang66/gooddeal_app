@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
 import { STATIC_URL } from '../../config';
 import { getStore } from '../../services/store';
-import HeaderBtn from '../Button/HeaderBtn';
+import { BackBtn, CartBtn } from '../Button/HeaderBtn';
 import FollowBtn from '../Button/FollowBtn';
 import Followers from '../Label/Followers';
 import StarRating from '../Other/StarRating';
@@ -42,12 +42,14 @@ const PerNav = ({ navigation, route, type = 'account' }) => {
                     {type !== 'account' && (
                         <View style={styles.header}>
                             <View style={styles.headerItem}>
-                                <HeaderBtn icon='arrow-back' background={true} onPress={() => navigation.goBack()} />
+                                <BackBtn navigation={navigation} background={true} />
                             </View>
 
-                            <View style={styles.headerItem}>
-                                <HeaderBtn icon='cart' jwt={jwt} isCart={true} background={true} onPress={() => navigation.navigate('Cart')} />
-                            </View>
+                            {jwt && jwt.accessToken && (
+                                <View style={styles.headerItem}>
+                                    <CartBtn navigation={navigation} jwt={jwt} background={true} />
+                                </View>
+                            )}
                         </View>
                     )}
 
@@ -136,9 +138,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'flex-start',
-        paddingVertical: 6,
-        marginHorizontal: 24,
-        borderRadius: 6,
+        marginLeft: 24,
+        height: 154,
     },
     name: {
         fontSize: 24,
@@ -175,8 +176,8 @@ const styles = StyleSheet.create({
     },
     header: {
         position: 'absolute',
-        top: '6%',
-        left: '2%',
+        top: 6,
+        left: 6,
         zIndex: 9999,
         flex: 1,
         flexDirection: 'row',

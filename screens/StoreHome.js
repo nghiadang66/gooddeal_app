@@ -80,6 +80,17 @@ const StoreHome = ({ navigation, route }) => {
 }
 
 const styles = StyleSheet.create({
+    header: {
+        position: 'absolute',
+        top: '6%',
+        left: '2%',
+        zIndex: 9999,
+        flex: 1,
+        flexDirection: 'row',
+    },
+    headerItem: {
+        marginRight: 6,
+    },
     slider: {
         flex: 1,
         marginBottom: 16,

@@ -1,64 +1,191 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import { getStore as getStoreAPi } from '../services/store';
-import { AuthContext } from '../context/AuthContext';
-import Slider from '../components/Slider/Slider';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import useUpdateEffect from '../hooks/useUpdateEffect';
+import { listSellingProductsByStore } from '../services/product';
+import { SearchBar } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Alert from '../components/Other/Alert';
 import Spinner from '../components/Other/Spinner';
-import Link from '../components/Other/Link';
-import SmallCard from '../components/Card/SmallCard';
-import ListRecommend from '../components/List/ListRecommend';
+import List from '../components/List/List'; 
+import Filter from '../components/Filter/Filter';
 import Colors from '../themes/Colors';
 
 const StoreSearch = ({ navigation, route }) => {
-    const [store, setStore] = useState();
-    const [storeImages, setStoreImages] = useState();
-
-    const [isLoading, setIsLoading] = useState(false);
+    const [products, setProducts] = useState([]);
+    const [keyword, setKeyword] = useState('');
+    const [pagination, setPagination] = useState({ size: 0 });
+    const [filter, setFilter] = useState({
+        search: keyword,
+        rating: '',
+        minPrice: 0,
+        maxPrice: '',
+        sortBy: 'sold',
+        order: 'desc',
+        categoryId: '',
+        limit: 4,
+        page: 1,
+    });
     const [error, setError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
-    const { jwt } = useContext(AuthContext);
+    const typingTimeoutRef = useRef(null);
 
-    const getStore = () => {
+    const getProducts = () => {
         setError(false);
-        setIsLoading(true);
-        getStoreAPi(route.params.storeId)
+        if (filter.page === 1) setIsLoading(true);
+        else setIsRefreshing(true);
+        listSellingProductsByStore(filter, route.params.storeId)
             .then(data => {
-                setStore(data.store);
-                setStoreImages(data.store.featured_images);
+                if (data.filter.pageCurrent === 1) {
+                    setProducts(data.products);
+                } else {
+                    setProducts([
+                        ...products,
+                        ...data.products,
+                    ]);
+                }
+                setPagination({
+                    size: data.size,
+                    pageCurrent: data.filter.pageCurrent,
+                    pageCount: data.filter.pageCount,
+                });
             })
-            .catch((error) => {
+            .catch(err => {
                 setError(true);
             })
             .finally(() => {
                 setIsLoading(false);
+                setIsRefreshing(false);
             });
     }
 
     useEffect(() => {
-        getStore();
-    }, [route.params.storeId]);
+        getProducts();
+    }, [filter, route.params.storeId]);
+
+    useUpdateEffect(() => {
+        setFilter({
+            ...filter,
+            search: keyword,
+            page: 1,
+        });
+    }, [keyword]);
+
+    const onChangeText = (search) => {
+        setKeyword(search);
+        if (typingTimeoutRef.current) {
+            clearTimeout(typingTimeoutRef.current);
+        }
+        typingTimeoutRef.current = setTimeout(() => setFilter({
+            ...filter,
+            search: search,
+            page: 1,
+        }), 600);
+    }
+
+    const loadMore = () => {
+        if (isRefreshing) return;
+        if (pagination.pageCurrent < pagination.pageCount) {
+            setFilter({
+                ...filter,
+                page: filter.page + 1,
+            }); 
+        }
+    }
 
     return (
         <>
-            {!isLoading && !error && (
-                <ScrollView>
-                    {store && (
-                        <>
-                            <Text>{store._id}</Text>
-                        </>
-                    )}
-                </ScrollView>
-            )}
+            <View style={styles.container}>
+                <SearchBar
+                    placeholder="Search..."
+                    onChangeText={onChangeText}
+                    value={keyword}
+                    containerStyle={styles.searchBarContainer}
+                    inputContainerStyle={styles.inputContainer}
+                    inputStyle={styles.input}
+                    searchIcon={<Icon 
+                        name={'search'}
+                        style={styles.iconSearch}
+                    />}
+                />
 
-            {isLoading && <Spinner />}
-            {error && <Alert type={'error'} />}
+                <Filter filter={filter} setFilter={setFilter} />
+
+                {!isLoading && !error && (
+                    <>
+                        <Text style={styles.result}>{pagination.size} results</Text>
+                        <View style={styles.list}>
+                            {products && products.length > 0 && 
+                                <List
+                                    navigation={navigation}
+                                    type={'product'}
+                                    items={products}
+                                    loadMore={loadMore}
+                                    isRefreshing={isRefreshing}
+                                />}
+                        </View>
+                    </>
+                )}
+                {isLoading && <Spinner />}
+                {error && <Alert type={'error'} />}
+            </View>
         </>
     );
 }
 
 const styles = StyleSheet.create({
-
+    container: {
+        position: 'relative',
+        flex: 1,
+    },
+    searchBarContainer: {
+        backgroundColor: 'transparent',
+        borderTopWidth: 0,
+        borderBottomWidth: 0,
+        padding: 12,
+    },
+    inputContainer: {
+        height: 32,
+        borderRadius: 16,
+        backgroundColor: Colors.white,
+    },
+    input: {
+        height: 32,
+        marginLeft: 0,
+    },
+    iconSearch: {
+        fontSize: 24,
+        color: Colors.primary,
+    },
+    pickerContainer: {
+        width: 124,
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: Colors.white,
+        borderWidth: 1,
+        borderTopRightRadius: 16,
+        borderBottomRightRadius: 16,
+        overflow: 'hidden',
+    },
+    picker: {
+        width: 124,
+        height: 32,
+        color: Colors.white,
+        backgroundColor: Colors.primary,
+    },
+    itemPicker: { 
+        height: 32,
+    },
+    result: {
+        fontSize: 16,
+        color: Colors.black,
+        marginLeft: 2,
+    },
+    list: {
+        flex: 1,
+    },
 });
 
 export default StoreSearch;

@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
         right: 0,
         zIndex: 2,
         width: dimensions.width * 0.8,
-        height: dimensions.height - 128,
+        height: '100%',
         backgroundColor: Colors.white,
     },
     heading: {
