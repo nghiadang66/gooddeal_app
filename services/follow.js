@@ -15,7 +15,7 @@ export const listFollowingProducts = async (userId, token, filter) => {
         });
         return res.data;
     } catch (error) {
-        console.log(error);
+        console.log('listFollowingProducts', error);
     }
 }
 
@@ -24,7 +24,7 @@ export const getNumberOfFollowersForProduct = async (productId) => {
         const res = await axios.get(`${API_URL}/product/number/of/followers/${productId}`);
         return res.data
     } catch (error) {
-        console.log(error);
+        console.log('getNumberOfFollowersForProduct', error);
     }
 };
 

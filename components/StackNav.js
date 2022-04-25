@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { HeaderBackButton } from '@react-navigation/elements';
 import Colors from '../themes/Colors';
 import Splash from '../screens/Splash';
 import Home from '../screens/Home';
@@ -12,6 +13,9 @@ import MainNav from './MainNav';
 import BottomTabNav from './BottomTabNav';
 import { AuthContext } from '../context/AuthContext';
 import ForgotPassword from '../screens/ForgotPassword';
+import ChangeProfile from '../screens/ChangeProfile';
+import ChangePassword from '../screens/ChangePassword';
+import EditProfile from '../screens/EditProfile';
 
 const Stack = createNativeStackNavigator();
 const MyTheme = {
@@ -75,20 +79,60 @@ const StackScreen = () => {
                                 }}
                             />
                         )}
-
-                        <Stack.Screen
-                            name="Category"
-                            component={Category}
-                            options={({ route }) => ({ title: route.params.categoryName })}
-                        />
-
-                        <Stack.Screen
+                         <Stack.Screen
                             name="ForgotPassword"
                             component={ForgotPassword}
                             options={{
                                 title: 'Forgot Password',
                             }}
+                            />
+                             <Stack.Screen
+                            name="ChangeProfile"
+                            component={ChangeProfile}
+                            options={{
+                                title: 'Change Profile',
+                            }}
+                            />
+                            <Stack.Screen
+                            name="ChangePassword"
+                            component={ChangePassword}
+                            options={{
+                                title: 'Change Password',
+                            }}
+                            />
+                              <Stack.Screen
+                            name="EditProfile"
+                            component={EditProfile}
+                            options={({ route, navigation })=>({
+                                title:route.params.title
+                            })}
+                            />
+                        <Stack.Screen
+                            name="Category"
+                            component={Category}
+                            options={({ route, navigation }) => ({
+                                title: route.params.category.name,
+                                headerLeft: () => (
+                                    <HeaderBackButton
+                                        tintColor={Colors.white}
+                                        pressColor={Colors.white}
+                                        onPress={() => {
+                                            const category = route.params.category;
+                                            if (category.categoryId) {
+                                                navigation.navigate('Category', {
+                                                    category: category.categoryId,
+                                                });
+                                            }
+                                            else {
+                                                navigation.goBack();
+                                            }
+                                        }}
+                                    />
+                                ),
+                            })} 
+
                         />
+
                     </>
                 )}
             </Stack.Navigator>

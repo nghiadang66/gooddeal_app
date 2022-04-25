@@ -10,10 +10,10 @@ import Spinner from '../components/Spinner';
 import Colors from '../themes/Colors';
 
 const Home = ({ navigation }) => {
-  const [categories, setCategories] = useState();
+  const [categories, setCategories] = useState([]);
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
-  const [products, setProducts] = useState();
-  const [stores, setStores] = useState();
+  const [products, setProducts] = useState([]);
+  const [stores, setStores] = useState([]);
 
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,8 +48,8 @@ const Home = ({ navigation }) => {
       page: 1,
     }),
   ]);
-
-  useEffect(() => {
+  
+  const init = () => {
     setError(false);
     setIsLoading(true);
     getData()
@@ -68,18 +68,26 @@ const Home = ({ navigation }) => {
       .finally(() => {
         setIsLoading(false);
       });
+  }
+
+  useEffect(() => {
+    init();
+    return () => {
+      setCategories([]);
+      setProducts([]);
+      setStores([]);
+    };
   }, []);
 
   const handleSliderPress = (index) => navigation.navigate('Category', {
-    categoryId: categories[index]._id,
-    categoryName: categories[index].name,
+      category: categories[index],
   });
 
   return (
     <>
       {!isLoading && !error && (
         <ScrollView>
-          {categories && (
+          {categories && categories.length > 0 && (
             <View style={styles.slider}>
               <Slider
                 items={categories}
@@ -90,13 +98,13 @@ const Home = ({ navigation }) => {
             </View>
           )}
 
-          {products && (
+          {products && products.length > 0 && (
               <View style={styles.carousel}>
                   <List navigation={navigation} title="Best Seller" content={products} />
               </View>
           )}
 
-          {stores && (
+          {stores && stores.length > 0 && (
               <View style={styles.carousel}>
                   <List navigation={navigation} title="Hot Stores" type="store" content={stores} />
               </View>
@@ -105,7 +113,7 @@ const Home = ({ navigation }) => {
       )}
 
       {isLoading && <Spinner />}
-      {error && <Alert type={'error'} content={error} />}
+      {error && <Alert type={'error'} />}
     </>
   );
 }

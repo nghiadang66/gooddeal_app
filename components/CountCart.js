@@ -10,11 +10,16 @@ const CountCart = ({ userId, token }) => {
         try {
             const data =  await getCartCount(userId, token);
             setCount(data.count);
-        } catch (err) { }
+        } catch (err) {
+            setCount(0);
+        }
     }
 
     useEffect(() => {
         getCount();
+        return () => {
+            setCount(0);
+        };
     }, [userId, token]);
 
     return (

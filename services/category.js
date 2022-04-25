@@ -8,6 +8,6 @@ export const listActiveCategories = async (filter) => {
             .get(`${API_URL}/active/categories?search=${search}&categoryId=${categoryId}&sortBy=${sortBy}&order=${order}&limit=${limit}&page=${page}`);
         return res.data;
     } catch (error) {
-        console.error(error);
+        console.error('listActiveCategories', error);
     }
 }

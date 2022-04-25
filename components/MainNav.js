@@ -18,10 +18,10 @@ const MainNav = ({ navigation }) => {
             >
                 <Icon 
                     name={'search'}
-                    style={styles.icon}
+                    style={styles.iconSearch}
                 />
 
-                <Text style={styles.text}>Search...</Text>
+                <Text style={styles.textSearch}>Search...</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -37,7 +37,7 @@ const MainNav = ({ navigation }) => {
             >
                 <Icon
                     name={jwt.accessToken ? (jwt.role ==='admin' ? 'glasses' : 'cart') : 'log-in'}
-                    style={styles.icon1}
+                    style={styles.iconBtn}
                 />
                 {jwt.accessToken && jwt.role === 'user' && jwt._id ? 
                     (<CountCart
@@ -55,10 +55,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
         height: 64,
-        padding: 12,
+        paddingVertical: 12,
+        paddingHorizontal: 24,
         backgroundColor: Colors.primary,
     },
     searchbar: {
@@ -68,25 +68,25 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 32,
         paddingHorizontal: 6,
-        marginHorizontal: 12,
+        marginRight: 12,
         borderRadius: 16,
         backgroundColor: Colors.white,
     },
     button: {
-        marginRight: 12,
+        paddingHorizontal: 6,
     },
-    icon: {
+    iconSearch: {
         fontSize: 24,
         color: Colors.primary,
         marginRight: 12,
     },
-    icon1: {
-        fontSize: 36,
-        color: Colors.white,
-    },
-    text: {
+    textSearch: {
         fontSize: 16,
         color: Colors.muted,
+    },
+    iconBtn: {
+        fontSize: 36,
+        color: Colors.white,
     },
 });
 

@@ -13,6 +13,6 @@ export const getCartCount = async (userId, token) => {
         });
         return res.data;
     } catch (error) {
-        console.log(error);
+        console.log('getCartCount', error);
     }
 }

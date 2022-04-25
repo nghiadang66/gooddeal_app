@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext } from 'react';
 import { signup, signin, signout, refresh, authsocial,forgotpassword } from '../services/auth';
-import { getUserProfile } from '../services/user';
+import { getUserProfile,updateavatar,updatecover,updatePassword,updateProfile } from '../services/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const AuthContext = createContext();
@@ -28,6 +28,7 @@ export const AuthProvider =  ({ children }) => {
                 }
             })
             .catch(err => {
+                console.log('register', err);
                 setError('Server Error!');
             })
             .finally(() => {
@@ -54,6 +55,7 @@ export const AuthProvider =  ({ children }) => {
                 }
             })
             .catch(err => {
+                console.log('login', err);
                 setError('Server Error!');
             })
             .finally(() => {
@@ -172,7 +174,103 @@ export const AuthProvider =  ({ children }) => {
         }
 
     }
-
+    const updateAvatar= async(photo)=>{
+        
+            setIsLoading(true);
+            setError('');
+         
+            updateavatar(jwt._id, jwt.accessToken, photo)
+            .then((data) => {
+                if (data.error) {
+                    setError(data.error);
+                    setTimeout(() => {
+                        setError('');
+                    }, 3000);
+               
+                } 
+              setUserProfile(data.user);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.log(error)
+                setError('Server Error');
+                setIsLoading(false);
+                setTimeout(() => {
+                    setError('');
+                }, 3000);
+            });
+    }
+    const updateCover= async(photo)=>{
+        
+        setIsLoading(true);
+        setError('');
+     
+        updatecover(jwt._id, jwt.accessToken, photo)
+        .then((data) => {
+            if (data.error) {
+                setError(data.error);
+                setTimeout(() => {
+                    setError('');
+                }, 3000);
+           
+            } 
+          
+          setUserProfile(data.user);
+            setIsLoading(false);
+        })
+        .catch((error) => {
+            console.log(error)
+            setError('Server Error');
+            setIsLoading(false);
+            setTimeout(() => {
+                setError('');
+            }, 3000);
+        });
+}
+const changePassword = (user) => {
+    setIsLoading(true);
+    setError('');
+    setSuccess('');
+    updatePassword(jwt._id, jwt.accessToken,user)
+        .then(data => {
+            if (data.error) setError(data.error);
+            else setSuccess(data.success);
+        })
+        .catch(err => {
+            setError('Server Error!');
+        })
+        .finally(() => {
+            setIsLoading(false);
+            setTimeout(() => {
+                setError('');
+                setSuccess('');
+            }, 3000);
+        });
+}
+const changeProfile = (user) => {
+    setIsLoading(true);
+    setError('');
+    setSuccess('');
+    updateProfile(jwt._id, jwt.accessToken,user)
+        .then(data => {
+            if (data.error) setError(data.error);
+            else{
+                setSuccess(data.success);
+                setUserProfile(data.user); 
+            }
+             
+        })
+        .catch(err => {
+            setError('Server Error!');
+        })
+        .finally(() => {
+            setIsLoading(false);
+            setTimeout(() => {
+                setError('');
+                setSuccess('');
+            }, 3000);
+        });
+}
     useEffect(() => {
         isLoggedIn();
     }, []);
@@ -194,7 +292,11 @@ export const AuthProvider =  ({ children }) => {
                 login,
                 logout,
                 loginSocial,
-                forgotPassword
+                forgotPassword,
+                updateAvatar,
+               updateCover,
+               changePassword,
+               changeProfile
             }}
         >
             {children}
