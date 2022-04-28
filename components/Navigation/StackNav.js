@@ -15,16 +15,23 @@ import Description from '../../screens/Description';
 import ReviewsAndRating from '../../screens/ReviewsAndRating';
 import HomeNav from '../Navbar/HomeNav';
 import BottomTabNav from './BottomTabNav';
+
 import { StoreTabScreen } from './TopTabNav';
 import PerNav from '../Navbar/PerNav';
 import { AuthContext } from '../../context/AuthContext';
+
+import ForgotPassword from '../../screens/ForgotPassword';
+import ChangeProfile from '../../screens/ChangeProfile';
+import ChangePassword from '../../screens/ChangePassword';
+import EditProfile from '../../screens/EditProfile';
+
 
 const Stack = createNativeStackNavigator();
 const MyTheme = {
     ...DefaultTheme,
     colors: {
-    ...DefaultTheme.colors,
-    background: Colors.highMuted,
+        ...DefaultTheme.colors,
+        background: Colors.highMuted,
     },
 };
 
@@ -37,49 +44,79 @@ const StackScreen = () => {
                 screenOptions={styles.screen}
             >
                 {splashLoading ? (
-                    <Stack.Screen 
-                    name="Splash"
-                    component={Splash}
-                    options={{ headerShown: false }}  
-                />
+                    <Stack.Screen
+                        name="Splash"
+                        component={Splash}
+                        options={{ headerShown: false }}
+                    />
                 ) : (
                     <>
-                        <Stack.Screen 
+                        <Stack.Screen
                             name="HomeTabNav"
                             component={
                                 jwt.accessToken
-                                ? BottomTabNav
-                                : Home}
+                                    ? BottomTabNav
+                                    : Home}
                             options={
                                 jwt.accessToken
+
                                 ? { headerShown: false }
                                 : ({ navigation }) => ({
                                     headerTransparent: true,
                                     headerTitle: () => <HomeNav navigation={navigation} />,
                             })}
+
+                                    
                         />
 
                         {!jwt.accessToken && (
-                            <Stack.Screen 
+                            <Stack.Screen
                                 name="SignIn"
                                 component={SignIn}
                                 options={{
                                     title: 'Sign In',
-                                }} 
+                                }}
                             />
                         )}
 
                         {!jwt.accessToken && (
-                            <Stack.Screen 
+                            <Stack.Screen
                                 name="SignUp"
                                 component={SignUp}
                                 options={{
                                     title: 'Sign Up',
-                                }} 
+                                }}
                             />
                         )}
-
-                        <Stack.Screen 
+                         <Stack.Screen
+                            name="ForgotPassword"
+                            component={ForgotPassword}
+                            options={{
+                                title: 'Forgot Password',
+                            }}
+                            />
+                             <Stack.Screen
+                            name="ChangeProfile"
+                            component={ChangeProfile}
+                            options={{
+                                title: 'Change Profile',
+                            }}
+                            />
+                            <Stack.Screen
+                            name="ChangePassword"
+                            component={ChangePassword}
+                            options={{
+                                title: 'Change Password',
+                            }}
+                            />
+                              <Stack.Screen
+                            name="EditProfile"
+                            component={EditProfile}
+                            options={({ route, navigation })=>({
+                                title:route.params.title
+                            })}
+                            />
+                        <Stack.Screen
                             name="Category"
                             component={Category}
                             options={({ route, navigation }) => ({
@@ -102,6 +139,7 @@ const StackScreen = () => {
                                     />
                                 ),
                             })} 
+
                         />
 
                         <Stack.Screen 

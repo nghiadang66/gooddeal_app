@@ -102,7 +102,7 @@ const SignIn = ({ navigation }) => {
     };
     const loginWithGoogle = () => {
         GoogleSignin.configure({
-            androidClientId: '21928112516===7-6v98u2lsr95ldnc6bf85cvqijcevbdev.apps.googleusercontent.com',
+            androidClientId: '219281125167-6v98u2lsr95ldnc6bf85cvqijcevbdev.apps.googleusercontent.com',
 
         })
         GoogleSignin.hasPlayServices().then((hasPlayService) => {
@@ -174,6 +174,7 @@ const SignIn = ({ navigation }) => {
                         title='Forgot password?'
                         onPress={() => {
                             console.log('---forgot password, send email---');
+                            navigation.navigate('ForgotPassword')
                         }}
                     />
                     <Link

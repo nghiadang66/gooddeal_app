@@ -55,6 +55,19 @@ export const signout = async (refreshToken) => {
         console.log('signout', error);
     }
 }
+export const forgotpassword = async (username) => {
+    
+    return await fetch(`${API_URL}/forgot/password`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(username),
+    })
+        .then((res) => res.json())
+        .catch((error) => console.log(error));
+}
 
 export const refresh = async (refreshToken) => {
     try {

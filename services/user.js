@@ -17,6 +17,7 @@ export const getUserProfile = async (userId, token) => {
     }
 }
 
+
 export const getlistUsers = async (filter) => {
     const { search, sortBy, order, limit, page, role } = filter;
     try {
@@ -25,4 +26,63 @@ export const getlistUsers = async (filter) => {
     } catch (error) {
         console.log('getlistUsers', error);
     }
+}
+
+export const updateavatar = async (userId, token, photo) => {
+   
+    return await fetch(`${API_URL}/user/avatar/${userId}`, {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: photo,
+    })
+        .then((res) => res.json())
+        .catch((error) => console.log(error));
+   
+    
+}
+export const updatecover = async (userId, token, photo) => {
+    return await fetch(`${API_URL}/user/cover/${userId}`, {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: photo,
+    })
+        .then((res) => res.json())
+        .catch((error) => console.log(error));
+}
+export const updatePassword = async (userId, token, user) => {
+    return await fetch(`${API_URL}/user/password/${userId}`, {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(user),
+    })
+        .then((res) => res.json())
+        .catch((error) => console.log(error));
+};
+export const updateProfile = async (userId, token, user) => {
+    return await fetch(`${API_URL}/user/profile/${userId}`, {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(user),
+    })
+        .then((res) => res.json())
+        .catch((error) => console.log(error));
+
 };

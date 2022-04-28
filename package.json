@@ -26,6 +26,7 @@
     "react-native-elements": "^3.4.2",
     "react-native-fbsdk-next": "^7.3.3",
     "react-native-gesture-handler": "^2.3.0",
+    "react-native-image-crop-picker": "^0.37.3",
     "react-native-image-slider-box": "^1.1.20",
     "react-native-loading-spinner-overlay": "^3.0.0",
     "react-native-off-canvas-menu": "^0.1.32",
