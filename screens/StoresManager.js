@@ -2,8 +2,12 @@ import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet } from 'react-native';
 import { AuthContext } from "../context/AuthContext";
 import { listStoresByUser } from '../services/store';
+import List from '../components/List/List';
+import Alert from '../components/Other/Alert';
+import Spinner from '../components/Other/Spinner';
+import Colors from '../themes/Colors';
 
-const StoresManager = (props) => {
+const StoresManager = ({ navigation }) => {
     const [stores, setStores] = useState([]);
     const [pagination, setPagination] = useState({
         size: 0,
@@ -16,28 +20,75 @@ const StoresManager = (props) => {
         limit: 6,
         page: 1,
     });
+    const [isLoading, setIsLoading] = useState(false);
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [error, setError] = useState(false);
     
     const { jwt } = useContext(AuthContext);
 
-    const getStores = async () => {
-        try {
-            const data = await listStoresByUser(jwt._id, jwt.accessToken, filter);
-            setStores(data.stores);
-            setPagination({
-                size: data.size,
-                pageCurrent: data.filter.pageCurrent,
-                pageCount: data.filter.pageCount,
+    const getStores = () => {
+        setError(false);
+        if (filter.page === 1) setIsLoading(true);
+        else setIsRefreshing(true);
+        listStoresByUser(jwt._id, jwt.accessToken, filter)
+            .then(data => {
+                if (data.filter.pageCurrent === 1)
+                    setStores(data.stores);
+                else 
+                    setStores([
+                        ...stores,
+                        ...data.stores,
+                    ]);
+                setPagination({
+                    size: data.size,
+                    pageCurrent: data.filter.pageCurrent,
+                    pageCount: data.filter.pageCount,
+                });
+            })
+            .catch(err => {
+                setError(true);
+            })
+            .finally(() => {
+                setIsLoading(false);
+                setIsRefreshing(false);
             });
-        } catch (err) { }
+            
     }
 
     useEffect(() => {
         getStores();
     }, [filter]);
 
+    const loadMore = () => {
+        if (isRefreshing) return;
+        if (pagination.pageCurrent < pagination.pageCount) {
+            setFilter({
+                ...filter,
+                page: filter.page + 1,
+            }); 
+        }
+    }
+
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>You own {stores.length} stores in page 1.</Text>
+            {!isLoading && !error && (
+                <>
+                    <Text style={styles.result}>{pagination.size} results</Text>
+                    <View style={styles.list}>
+                        {stores && stores.length > 0 && 
+                            <List
+                                navigation={navigation}
+                                type={'vendor'}
+                                items={stores}
+                                loadMore={loadMore}
+                                isRefreshing={isRefreshing}
+                            />}
+                    </View>
+                </>
+            )}
+            
+            {isLoading && <Spinner />}
+            {error && <Alert type={'error'} />}
         </View>
     );
 }
@@ -45,11 +96,15 @@ const StoresManager = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
     },
-    text: {
+    result: {
         fontSize: 16,
+        color: Colors.black,
+        marginTop: 6,
+        marginLeft: 2,
+    },
+    list: {
+        flex: 1,
     },
 });
 

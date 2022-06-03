@@ -12,7 +12,7 @@ import { AuthContext } from '../../context/AuthContext';
 
 const Tab = createBottomTabNavigator();
 
-const BottomTabNav = ({ parNav, parRoute }) => {
+const BottomTabNav = () => {
     const { jwt } = useContext(AuthContext);
     return (
         <Tab.Navigator

@@ -51,3 +51,20 @@ export const getProduct = async (productId) => {
         console.log('getProduct', error);
     }
 }
+
+export const listProductsForManager = async (userId, token, filter, storeId) => {
+    try {
+        const { search, sortBy, order, limit, page, isSelling } = filter;
+        const res = await axios.get(`${API_URL}/products/by/store/${storeId}/${userId}?search=${search}&isSelling=${isSelling}&sortBy=${sortBy}&order=${order}&limit=${limit}&page=${page}`,
+        {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log('listProductsForManager', error);
+    }
+}

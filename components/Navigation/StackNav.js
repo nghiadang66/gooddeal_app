@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HeaderBackButton } from '@react-navigation/elements';
@@ -15,6 +15,7 @@ import Description from '../../screens/Description';
 import ReviewsAndRating from '../../screens/ReviewsAndRating';
 import HomeNav from '../Navbar/HomeNav';
 import BottomTabNav from './BottomTabNav';
+import VendorDrawer from './DrawerNav';
 
 import { StoreTabScreen } from './TopTabNav';
 import PerNav from '../Navbar/PerNav';
@@ -88,34 +89,39 @@ const StackScreen = () => {
                                 }}
                             />
                         )}
-                         <Stack.Screen
+                        
+                        <Stack.Screen
                             name="ForgotPassword"
                             component={ForgotPassword}
                             options={{
                                 title: 'Forgot Password',
                             }}
-                            />
-                             <Stack.Screen
+                        />
+
+                        <Stack.Screen
                             name="ChangeProfile"
                             component={ChangeProfile}
                             options={{
                                 title: 'Change Profile',
                             }}
-                            />
-                            <Stack.Screen
+                        />
+                        
+                        <Stack.Screen
                             name="ChangePassword"
                             component={ChangePassword}
                             options={{
                                 title: 'Change Password',
                             }}
-                            />
-                              <Stack.Screen
+                        />
+
+                        <Stack.Screen
                             name="EditProfile"
                             component={EditProfile}
                             options={({ route, navigation })=>({
                                 title:route.params.title
                             })}
-                            />
+                        />
+
                         <Stack.Screen
                             name="Category"
                             component={Category}
@@ -185,6 +191,14 @@ const StackScreen = () => {
                         >
                             {({ route }) => <StoreTabScreen parRoute={route} />}
                         </Stack.Screen>
+
+                        {jwt.accessToken && <Stack.Screen 
+                            name="VendorDashboard"
+                            component={VendorDrawer}
+                            options={{
+                                headerShown: false,
+                            }} 
+                        />}
                     </>
                 )}
             </Stack.Navigator>

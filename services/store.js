@@ -36,3 +36,19 @@ export const getStore = async (storeId) => {
         console.log('getStore', error);
     }
 }
+
+export const getStoreProfile = async (userId, token, storeId) => {
+    try {
+        const res = await axios.get(`${API_URL}/store/profile/${storeId}/${userId}`,
+            {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+        return res.data;
+    } catch (error) {
+        console.log('getStore', error);
+    }
+};

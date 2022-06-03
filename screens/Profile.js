@@ -59,13 +59,10 @@ const Profile = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
-    
-        width:"100%"
+        marginTop: 164,
     },
     icon: {
         fontSize: 20,
-     
         marginRight: 3,
     },
 });
