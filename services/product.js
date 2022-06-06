@@ -68,3 +68,20 @@ export const listProductsForManager = async (userId, token, filter, storeId) => 
         console.log('listProductsForManager', error);
     }
 }
+
+export const sellOrStoreProduct = async (userId, token, value, storeId, productId) => {
+    try {
+        const res = await axios.put(`${API_URL}/product/selling/${productId}/${storeId}/${userId}`,
+        value,
+        {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log('sellOrStoreProduct', error);
+    }
+}

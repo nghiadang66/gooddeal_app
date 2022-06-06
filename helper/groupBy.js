@@ -5,10 +5,6 @@ import {
     formatTime,
 } from './humanReadable';
 
-import {
-    formatPrice
-} from './formatPrice';
-
 export const groupByDate = (items, by) => {
     let formatFunc = formatTime;
     if (by === 'date') formatFunc = formatDate;
@@ -66,3 +62,25 @@ export const groupBySold = (items, by, sliceEnd) => {
             return acc;
         }, []);
 };
+
+export const groupByStyle = (listValues) => {
+    let output = [];
+    listValues.forEach((value) => {
+        let flag = true;
+        output.forEach((list) => {
+            if (value.styleId._id === list[0].styleId._id) {
+                list.push(value);
+                flag = false;
+            }
+            list.sort((a, b) => {
+                const nameA = a.name.toUpperCase();
+                const nameB = b.name.toUpperCase();
+                if (nameA < nameB) return -1;
+                if (nameA > nameB) return 1;
+                return 0;
+            });
+        });
+        if (flag) output.push([value]);
+    });
+    return output;
+}

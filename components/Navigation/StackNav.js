@@ -66,8 +66,6 @@ const StackScreen = () => {
                                     headerTransparent: true,
                                     headerTitle: () => <HomeNav navigation={navigation} />,
                             })}
-
-                                    
                         />
 
                         {!jwt.accessToken && (

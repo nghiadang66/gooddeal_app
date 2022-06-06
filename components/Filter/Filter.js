@@ -4,6 +4,7 @@ import RadioForm from 'react-native-simple-radio-button';
 import StarRating from '../Other/StarRating';
 import Colors from '../../themes/Colors';
 import Icon from 'react-native-vector-icons/Ionicons';
+import FloatBtn from '../Button/FloatBtn';
 
 const dimensions = Dimensions.get('screen');
 const filterRadio = {
@@ -163,13 +164,7 @@ const Filter = ({ filter = {}, setFilter = () => {} }) => {
     
     return (
         <>
-            <TouchableOpacity
-                style={styles.floatBtn}
-                onPress={() => setIsOpening(!isOpening)}
-            >
-                <Icon name={!isOpening ? 'filter' : 'close'} style={styles.icon} />
-            </TouchableOpacity>
-
+            <FloatBtn onPress={() => setIsOpening(!isOpening)} icon={!isOpening ? 'filter' : 'close'} />
             <Animated.View
                 pointerEvents={isOpening ? 'auto' : 'none'}
                 style={[
@@ -254,22 +249,6 @@ const Filter = ({ filter = {}, setFilter = () => {} }) => {
 }
 
 const styles = StyleSheet.create({
-    floatBtn: {
-        position: 'absolute',                                   
-        bottom: 10,
-        right: 10,
-        zIndex: 9999,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 60,
-        height: 60,
-        borderRadius: 30,     
-        backgroundColor: Colors.primary,
-    },
-    icon: {
-        fontSize: 24,
-        color: Colors.white
-    },
     filter: {
         position: 'absolute',
         flex: 1,

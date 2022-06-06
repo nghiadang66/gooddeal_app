@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import useUpdateEffect from '../hooks/useUpdateEffect';
 import { listSellingProductsByStore } from '../services/product';
-import { SearchBar } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Search from '../components/Other/Search';
 import Alert from '../components/Other/Alert';
 import Spinner from '../components/Other/Spinner';
 import List from '../components/List/List'; 
@@ -97,17 +96,9 @@ const StoreSearch = ({ navigation, route }) => {
     return (
         <>
             <View style={styles.container}>
-                <SearchBar
-                    placeholder="Search..."
+                <Search
                     onChangeText={onChangeText}
                     value={keyword}
-                    containerStyle={styles.searchBarContainer}
-                    inputContainerStyle={styles.inputContainer}
-                    inputStyle={styles.input}
-                    searchIcon={<Icon 
-                        name={'search'}
-                        style={styles.iconSearch}
-                    />}
                 />
 
                 <Filter filter={filter} setFilter={setFilter} />

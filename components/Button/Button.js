@@ -2,10 +2,10 @@ import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import Colors from "../../themes/Colors";
 
-const Button = ({ type='primary', title='Button', outline=false, onPress=()=>{} }) => {
+const Button = ({ type='primary', title='Button', outline=false, onPress=()=>{}, disabled=false }) => {
     return (
-        <TouchableOpacity style={[styles.button.primary, styles.button[type], outline && styles.outline]} onPress={onPress}>
-            <Text style={[styles.text.primary, styles.text[type], outline && styles.outlineText[type]]}>{title}</Text>
+        <TouchableOpacity style={[styles.button.primary, styles.button[type], outline && styles.outline, disabled && styles.disabled]} onPress={onPress} disabled={disabled}>
+            <Text style={[styles.text.primary, styles.text[type], outline && styles.outlineText[type], disabled && styles.disabled]}>{title}</Text>
         </TouchableOpacity>
     );
 }
@@ -33,6 +33,10 @@ const styles = StyleSheet.create({
             backgroundColor: Colors.pink,
             borderColor: Colors.pink,
         },
+        secondary: {
+            backgroundColor: Colors.muted,
+            borderColor: Colors.muted,
+        },
     },
     text: {
         primary: {
@@ -54,7 +58,13 @@ const styles = StyleSheet.create({
         pinky: {
             color: Colors.pink,
         },
+        secondary: {
+            color: Colors.muted,
+        }
     },
+    disabled: {
+        opacity: 0.6,
+    }
 });
 
 export default Button;
