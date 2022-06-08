@@ -110,7 +110,7 @@ const VendorHome = ({ navigation, route }) => {
         init();
     }, [jwt, storeProfile]);
 
-    const redirect = () => navigation.navigate('HomeTabNav');
+    const redirect = () => navigation.goBack();
 
     return  (
         <View style={styles.container}>
@@ -261,7 +261,7 @@ const VendorHome = ({ navigation, route }) => {
                                     )}
                                 </View>
                             ) : (
-                                <Alert type={'error'} content={'Can not draw chart, try choose other type!'} />
+                                <Alert type={'error'} content={'Can not draw chart, not enough data!'} />
                             )}
 
                             <View style={[styles.container, styles.mt12, styles.mb12]}>

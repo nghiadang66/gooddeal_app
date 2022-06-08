@@ -9,6 +9,7 @@ const SmallCard = ({
     navigation,
     type = 'product',
     item = {},
+    unlink = false,
 }) => {
     const handlePress = () => navigation.navigate(
         type === 'product' ?
@@ -26,7 +27,7 @@ const SmallCard = ({
     return (
         <TouchableOpacity
             style={styles.container}
-            onPress={handlePress}
+            onPress={unlink ? ()=>{} : handlePress}
         >
             <Image
                 resizeMode="cover"

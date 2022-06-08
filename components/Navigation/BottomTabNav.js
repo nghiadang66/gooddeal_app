@@ -51,6 +51,16 @@ const BottomTabNav = () => {
                 }}
             />
 
+            {jwt.accessToken && jwt.role === 'user' && (
+                <Tab.Screen
+                    name="Following"
+                    component={FollowTabScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+            )}
+
             {jwt.accessToken && (
                 <Tab.Screen
                     name="Account"
@@ -60,16 +70,6 @@ const BottomTabNav = () => {
                         header: ({ navigation, route }) => (
                             <PerNav navigation={navigation} route={route} />
                         ),
-                    }}
-                />
-            )}
-
-            {jwt.accessToken && jwt.role === 'user' && (
-                <Tab.Screen
-                    name="Following"
-                    component={FollowTabScreen}
-                    options={{
-                        headerShown: false,
                     }}
                 />
             )}

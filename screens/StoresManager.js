@@ -6,8 +6,11 @@ import List from '../components/List/List';
 import Alert from '../components/Other/Alert';
 import Spinner from '../components/Other/Spinner';
 import Colors from '../themes/Colors';
+import { useIsFocused } from "@react-navigation/core";
 
 const StoresManager = ({ navigation }) => {
+    const isFocused = useIsFocused();
+
     const [stores, setStores] = useState([]);
     const [pagination, setPagination] = useState({
         size: 0,
@@ -57,7 +60,7 @@ const StoresManager = ({ navigation }) => {
 
     useEffect(() => {
         getStores();
-    }, [filter]);
+    }, [filter, isFocused]);
 
     const loadMore = () => {
         if (isRefreshing) return;

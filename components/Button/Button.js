@@ -37,6 +37,10 @@ const styles = StyleSheet.create({
             backgroundColor: Colors.muted,
             borderColor: Colors.muted,
         },
+        fun: {
+            backgroundColor: Colors.fun,
+            borderColor: Colors.fun,
+        },
     },
     text: {
         primary: {
@@ -60,7 +64,10 @@ const styles = StyleSheet.create({
         },
         secondary: {
             color: Colors.muted,
-        }
+        },
+        fun: {
+            color: Colors.fun,
+        },
     },
     disabled: {
         opacity: 0.6,

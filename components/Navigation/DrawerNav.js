@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import VendorHome from '../../screens/VendorHome';
 import VendorProfile from '../../screens/VendorProfile';
 import VendorProductStackScreen from './VendorProductStackNav';
+import VendorStaffStackScreen from './VendorStaffStackNav';
 import Colors from '../../themes/Colors';
 
 const Drawer = createDrawerNavigator();
@@ -44,6 +45,16 @@ const VendorDrawer = () => {
             <Icon name="cube" size={22} color={color} />
           ),
           title: "Product",
+        }}
+      />
+      <Drawer.Screen
+        name="VendorStaffStackNav"
+        component={VendorStaffStackScreen}
+        options={{
+          drawerIcon: ({color}) => (
+            <Icon name="people" size={22} color={color} />
+          ),
+          title: "Staff",
         }}
       />
     </Drawer.Navigator>
