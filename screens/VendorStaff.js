@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
 import { VendorContext } from '../context/VendorContext';
 import { cancelStaff, deleteStaff } from '../services/store';
@@ -11,6 +11,7 @@ import Spinner from '../components/Other/Spinner';
 import Alert from '../components/Other/Alert';
 import Search from '../components/Other/Search';
 import Image from '../components/Other/Image';
+import { createTwoButtonAlert } from '../components/Other/Confirm';
 import Colors from '../themes/Colors';
 
 const compareFunc = (sortBy, order) => {
@@ -154,10 +155,17 @@ const VendorStaff = ({ navigation, route }) => {
 
     return  (
         <>
-            {jwt._id == storeProfile.ownerId._id ? (
+            {storeProfile.ownerId && storeProfile.ownerId._id == jwt._id ? (
                 <FloatBtn onPress={() => navigation.navigate('AddStaff')} />
             ) : (
-                <FloatBtn type={'danger'} icon={'close'} onPress={handlecancelStaff} />
+                <FloatBtn 
+                    type={'danger'} 
+                    icon={'close'} 
+                    onPress={() => createTwoButtonAlert(
+                        'Leave Store',
+                        handlecancelStaff,
+                    )}
+                />
             )}
             
             <ScrollView>
@@ -194,54 +202,62 @@ const VendorStaff = ({ navigation, route }) => {
 
                 <View style={styles.container}>
                     <ScrollView horizontal={true}>
-                                <View style={styles.tableContainer}>
-                                    <Table borderStyle={styles.table}>
-                                        <Row 
-                                            data={['#', 'Avatar', 'Name', 'ID', 'Email', 'Phone', '']}
-                                            style={styles.head}
-                                            widthArr={[24, 120, 120, 120, 120, 120, flag && jwt._id == storeProfile.ownerId._id ? 120 : 0]}
-                                            textStyle={[styles.m6, styles.tw]}
-                                        />
-                                    </Table>
-                                    <Table borderStyle={styles.table}>
-                                        {flag ?
-                                            <Rows 
-                                                data={staffs.map((staff, index) => [
-                                                    index,
-                                                    <View style={styles.rowContainer}>
-                                                        <Image image={staff.avatar} />
-                                                    </View>,
-                                                    staff.firstname + ' ' + staff.lastname,
-                                                    staff.id_card,
-                                                    staff.email,
-                                                    staff.phone,
-                                                    jwt._id == storeProfile.ownerId._id ?
-                                                    <View style={styles.m6}>
-                                                        <Button type='danger' title='Del' onPress={() => handleDeleteStaff(staff._id)} />
-                                                    </View> :
-                                                    null,
-                                                ])}
-                                                widthArr={[24, 120, 120, 120, 120, 120, jwt._id == storeProfile.ownerId._id ? 120 : 0]}
-                                                textStyle={styles.m6}
-                                            /> :
-                                            <Row 
-                                                data={[
-                                                    0,
-                                                    <View style={styles.rowContainer}>
-                                                        <Image image={storeProfile.ownerId.avatar} />
-                                                    </View>,
-                                                    storeProfile.ownerId.firstname + ' ' + storeProfile.ownerId.lastname,
-                                                    storeProfile.ownerId.id_card,
-                                                    storeProfile.ownerId.email,
-                                                    storeProfile.ownerId.phone,
-                                                ]}
-                                                widthArr={[24, 120, 120, 120, 120, 120]}
-                                                textStyle={styles.m6}
-                                            />
-                                        }
-                                    </Table>
-                                </View>
-                        </ScrollView>
+                        <View style={styles.tableContainer}>
+                            <Table borderStyle={styles.table}>
+                                <Row 
+                                    data={['#', 'Avatar', 'Name', 'ID', 'Email', 'Phone', '']}
+                                    style={styles.head}
+                                    widthArr={[24, 120, 120, 120, 120, 120, flag && storeProfile.ownerId && jwt._id == storeProfile.ownerId._id ? 120 : 0]}
+                                    textStyle={[styles.m6, styles.tw]}
+                                />
+                            </Table>
+                            <Table borderStyle={styles.table}>
+                                {flag ?
+                                    <Rows 
+                                        data={staffs.map((staff, index) => [
+                                            index,
+                                            <View style={styles.rowContainer}>
+                                                <Image image={staff.avatar} />
+                                            </View>,
+                                            staff.firstname + ' ' + staff.lastname,
+                                            staff.id_card,
+                                            staff.email,
+                                            staff.phone,
+                                            storeProfile.ownerId && jwt._id == storeProfile.ownerId._id ?
+                                            <View style={styles.m6}>
+                                                <Button
+                                                    type='danger'
+                                                    title='Del' 
+                                                    onPress={() => createTwoButtonAlert(
+                                                        'Delete Staff',
+                                                        () => handleDeleteStaff(staff._id),
+                                                        staff.firstname + ' ' + staff.lastname,
+                                                    )} 
+                                                />
+                                            </View> :
+                                            null,
+                                        ])}
+                                        widthArr={[24, 120, 120, 120, 120, 120, storeProfile.ownerId && jwt._id == storeProfile.ownerId._id ? 120 : 0]}
+                                        textStyle={styles.m6}
+                                    /> :
+                                    <Row 
+                                        data={[
+                                            0,
+                                            <View style={styles.rowContainer}>
+                                                <Image image={storeProfile.ownerId && storeProfile.ownerId.avatar} />
+                                            </View>,
+                                            storeProfile.ownerId && storeProfile.ownerId.firstname + ' ' + storeProfile.ownerId.lastname,
+                                            storeProfile.ownerId && storeProfile.ownerId.id_card,
+                                            storeProfile.ownerId && storeProfile.ownerId.email,
+                                            storeProfile.ownerId && storeProfile.ownerId.phone,
+                                        ]}
+                                        widthArr={[24, 120, 120, 120, 120, 120]}
+                                        textStyle={styles.m6}
+                                    />
+                                }
+                            </Table>
+                        </View>
+                    </ScrollView>
                 </View>
             </ScrollView>
             

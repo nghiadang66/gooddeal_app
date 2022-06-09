@@ -14,6 +14,7 @@ import Search from '../components/Other/Search';
 import Image from '../components/Other/Image';
 import Pagination from '../components/Other/Pagination';
 import FloatBtn from '../components/Button/FloatBtn';
+import { createTwoButtonAlert } from '../components/Other/Confirm';
 import Colors from '../themes/Colors';
 
 const VendorProduct = ({ navigation, route }) => {
@@ -184,8 +185,26 @@ const VendorProduct = ({ navigation, route }) => {
                                                     </View>
                                                     <View style={styles.m6}>
                                                         {filter.isSelling ? 
-                                                            <Button type='secondary' title='Store' outline={true} onPress={() => handleSellOrStore(product._id, true)} /> :
-                                                            <Button type='primary' title='Sell' outline={true} onPress={() => handleSellOrStore(product._id, false)} />
+                                                            <Button 
+                                                                type='secondary' 
+                                                                title='Store' 
+                                                                outline={true} 
+                                                                onPress={() => createTwoButtonAlert(
+                                                                    'Store Product',
+                                                                    () => handleSellOrStore(product._id, true),
+                                                                    product.name,
+                                                                )}
+                                                            /> :
+                                                            <Button 
+                                                                type='primary' 
+                                                                title='Sell' 
+                                                                outline={true} 
+                                                                onPress={() => createTwoButtonAlert(
+                                                                    'Sell Product',
+                                                                    () => handleSellOrStore(product._id, false),
+                                                                    product.name,
+                                                                )}
+                                                            />
                                                         }
                                                     </View>
                                                 </View>,

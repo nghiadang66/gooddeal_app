@@ -16,6 +16,7 @@ import { VendorContext } from '../../context/VendorContext';
 import { STATIC_URL } from '../../config';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../../themes/Colors';
+import { createTwoButtonAlert } from '../Other/Confirm';
 
 const placeholderImage = require('../../assets/images/placeholder.png');
 
@@ -26,8 +27,8 @@ const CustomDrawer = props => {
   const { navigation } = props;
 
   const handleBack = () => {
-    vendorLogout();
     navigation.navigate('HomeTabNav');
+    vendorLogout();
   }
 
   return (
@@ -87,7 +88,7 @@ const CustomDrawer = props => {
       </DrawerContentScrollView>
 
       <View style={styles.itemBottom}>
-        <TouchableOpacity onPress={handleBack} style={styles.btn}>
+        <TouchableOpacity onPress={() => createTwoButtonAlert('Leave The Dashboard', handleBack)} style={styles.btn}>
           <View style={styles.profile}>
             <Icon name="exit" size={22} />
             

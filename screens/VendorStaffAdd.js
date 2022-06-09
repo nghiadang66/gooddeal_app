@@ -4,10 +4,11 @@ import { getlistUsers } from '../services/user';
 import { addStaffs } from '../services/store';
 import { AuthContext } from '../context/AuthContext';
 import { VendorContext } from '../context/VendorContext';
-import Link from '../components/Other/Link';
 import Search from '../components/Other/Search';
 import Spinner from '../components/Other/Spinner';
 import Alert from '../components/Other/Alert';
+import { createTwoButtonAlert } from '../components/Other/Confirm';
+import { BackBtn } from '../components/Button/HeaderBtn';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../themes/Colors';
 import { STATIC_URL } from '../config';
@@ -111,8 +112,6 @@ const VendorStaffAdd = ({ navigation, route }) => {
 
     const handleAdd = (user) => {
         const newListRight = [...listRight, user];
-        
-
         const staffs = newListRight.map((r) => r._id);
         setError1('');
         setSuccess1('');
@@ -138,97 +137,87 @@ const VendorStaffAdd = ({ navigation, route }) => {
 
     return  (
         <View style={styles.container}>
-            <View style={styles.container}>
-                <View>
+            <View style={styles.rowConrainer}>
+                <BackBtn navigation={navigation} color='primary' />
+                <View style={styles.container}>
                     <Search
                         onChangeText={onChangeText}
                         value={keyword}
                     />
                 </View>
-
-                {isLoading1 && <Spinner />}
-                {error1 ? 
-                    <View style={{flex: 0.1}}>
-                        <Alert type='error' />
-                    </View> :
-                    null
-                }
-                {success1 ? 
-                    <View style={{flex: 0.1}}>
-                        <Alert type='success' content={success1} />
-                    </View> :
-                    null
-                }
-                
-                <View style={styles.container}>
-                    {!isLoading && !error && (
-                        <>
-                            <Text style={styles.result}>{pagination.size} results</Text>
-
-                            <View style={styles.list}>
-                                <FlatList
-                                    data={listLeft}
-                                    renderItem={({ item }) => (
-                                        <View
-                                            style={styles.card}
-                                           
-                                        >
-                                            <View style={styles.rowConrainer}>
-                                                <View style={[styles.rowConrainer, {flex: 0.9}]}>
-                                                    <Image
-                                                        resizeMode="cover"
-                                                        style={styles.image}
-                                                        source={item.avatar ?
-                                                            { uri: STATIC_URL + item.avatar } :
-                                                            placeholderImage
-                                                        }
-                                                    />
-                                                    <View style={styles.detail}>
-                                                        <Text style={styles.name} numberOfLines={1}>
-                                                            {item.firstname + ' ' + item.lastname}
-                                                        </Text>
-                                                    </View>
-                                                </View>
-
-                                                <TouchableOpacity
-                                                    style={styles.btn}
-                                                    onPress={() => handleAdd(item)}
-                                                >
-                                                    <Icon name={'add-circle'} style={[styles.icon, {fontSize: 24,}]} />
-                                                </TouchableOpacity>
-                                            </View>
-                                        </View>
-                                    )}
-                                    keyExtractor={item => item._id}
-                                    onEndReached={loadMore}
-                                    onEndReachedThreshold={0.2}
-                                    refreshing={isRefreshing}
-                                    ListFooterComponent={() => {
-                                        if (isRefreshing) return <Spinner />;
-                                        return null;
-                                    }}
-                                />
-                            </View>
-                        </>
-                    )}
-                    {isLoading && <Spinner />}
-                    {error && <Alert type={'error'} />}
-                </View>
             </View>
 
-            <View styles={styles.back}>
-                <View style={styles.p12}>
-                    <Link
-                        title={
-                            <>
-                                <Icon name={'arrow-back'} style={styles.icon} />
-                                Back
-                            </>
-                        }
-                        size={24}
-                        onPress={() => navigation.goBack()}
-                    />
-                </View>
+            {isLoading1 && <Spinner />}
+            {error1 ? 
+                <View style={{flex: 0.1}}>
+                    <Alert type='error' />
+                </View> :
+                null
+            }
+            {success1 ? 
+                <View style={{flex: 0.1}}>
+                    <Alert type='success' content={success1} />
+                </View> :
+                null
+            }
+            
+            <View style={styles.container}>
+                {!isLoading && !error && (
+                    <>
+                        <Text style={styles.result}>{pagination.size} results</Text>
+
+                        <View style={styles.list}>
+                            <FlatList
+                                data={listLeft}
+                                renderItem={({ item }) => (
+                                    <View
+                                        style={styles.card}
+                                        
+                                    >
+                                        <View style={styles.rowConrainer}>
+                                            <View style={[styles.rowConrainer, {flex: 0.9}]}>
+                                                <Image
+                                                    resizeMode="cover"
+                                                    style={styles.image}
+                                                    source={item.avatar ?
+                                                        { uri: STATIC_URL + item.avatar } :
+                                                        placeholderImage
+                                                    }
+                                                />
+                                                <View style={styles.detail}>
+                                                    <Text style={styles.name} numberOfLines={1}>
+                                                        {item.firstname + ' ' + item.lastname}
+                                                    </Text>
+                                                </View>
+                                            </View>
+
+                                            <TouchableOpacity
+                                                style={styles.btn}
+                                                onPress={() => createTwoButtonAlert(
+                                                    'Add Staff',
+                                                    () => handleAdd(item),
+                                                    item.firstname + ' ' + item.lastname,
+                                                )}
+                                            >
+                                                <Icon name={'add-circle'} style={[styles.icon, {fontSize: 24,}]} />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                )}
+                                keyExtractor={item => item._id}
+                                onEndReached={loadMore}
+                                onEndReachedThreshold={0.2}
+                                refreshing={isRefreshing}
+                                ListFooterComponent={() => {
+                                    if (isRefreshing) return <Spinner />;
+                                    return null;
+                                }}
+                            />
+                        </View>
+                    </>
+                )}
+                {isLoading && <Spinner />}
+                {error && <Alert type={'error'} />}
             </View>
         </View>
     );
@@ -242,10 +231,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-    },
-    back: {
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
     },
     result: {
         fontSize: 16,
