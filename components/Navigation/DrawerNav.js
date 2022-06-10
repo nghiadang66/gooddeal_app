@@ -25,6 +25,7 @@ const VendorDrawer = () => {
           drawerIcon: ({color}) => (
             <Icon name="pie-chart" size={22} color={color} />
           ),
+          headerTitle: "Vendor Dashboard",
         }}
       />
       <Drawer.Screen
@@ -63,7 +64,6 @@ const VendorDrawer = () => {
 
 const styles = StyleSheet.create({
   screen: {
-    // headerShown: false,
     drawerActiveBackgroundColor: Colors.primary,
     drawerActiveTintColor: Colors.white,
     drawerInactiveTintColor: Colors.muted,
@@ -71,6 +71,13 @@ const styles = StyleSheet.create({
       marginLeft: -25,
       fontSize: 15,
     },
+    headerStyle: {
+      backgroundColor: Colors.primary,
+    },
+    headerTitleStyle: {
+      color: Colors.white,
+    },
+    headerTintColor: Colors.white,
   },
 });
 

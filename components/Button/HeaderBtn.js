@@ -41,4 +41,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export { BackBtn, SignInBtn, CartBtn, DashboardBtn };
+export { BackBtn, SignInBtn, CartBtn, DashboardBtn, HeaderBtn };

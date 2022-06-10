@@ -75,11 +75,11 @@ const VendorEditProfile = ({ navigation, route }) => {
                     <BackBtn navigation={navigation} color='primary' />
                 </View>
                 <View style={styles.container}>
-                    <Text style={styles.heading}>Edit Profile</Text>
+                    <Text style={styles.heading}>Edit Store Profile</Text>
                 </View>
             </View>
             <View style={styles.form}>
-                <Text style={styles.title}>Store name</Text>
+                <Text style={styles.title}>Name</Text>
                 <Input
                     type='text'
                     title='Store name'
@@ -95,9 +95,9 @@ const VendorEditProfile = ({ navigation, route }) => {
                     }
                 />
 
-                <Text style={styles.title}>Store bio</Text>
+                <Text style={styles.title}>Bio</Text>
                 <TextArea
-                    title='Store bio'
+                    title='Store Bio'
                     value={profile.bio}
                     isValid={profile.isValidBio}
                     validator={'bio'}
@@ -130,7 +130,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        // backgroundColor: Colors.white,
     },
     form: {
         flex: 0.6,
@@ -142,7 +141,7 @@ const styles = StyleSheet.create({
     },
     title: {
         color: Colors.primary,
-        fontSize: 16,
+        marginLeft: 6,
     },
 });
 export default VendorEditProfile;

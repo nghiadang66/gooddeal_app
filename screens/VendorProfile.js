@@ -90,7 +90,7 @@ const VendorProfile = ({navigation, route}) => {
                 navigation.navigate('VendorJoined');
                 break;
             default:
-                navigation.navigate('VendorEditProfile');
+                navigation.navigate('VendorChangeProfile');
           }
     }
 

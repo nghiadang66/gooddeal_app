@@ -1,23 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, Text, StyleSheet } from 'react-native';
 import { getStore as getStoreAPi } from '../services/store';
-import { AuthContext } from '../context/AuthContext';
-import Slider from '../components/Slider/Slider';
+import { humanReadableDate } from '../helper/humanReadable';
 import Alert from '../components/Other/Alert';
 import Spinner from '../components/Other/Spinner';
-import Link from '../components/Other/Link';
-import SmallCard from '../components/Card/SmallCard';
-import ListRecommend from '../components/List/ListRecommend';
 import Colors from '../themes/Colors';
 
 const StoreAbout = ({ navigation, route }) => {
-    const [store, setStore] = useState();
-    const [storeImages, setStoreImages] = useState();
+    const [store, setStore] = useState({});
 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(false);
-
-    const { jwt } = useContext(AuthContext);
 
     const getStore = () => {
         setError(false);
@@ -25,7 +18,6 @@ const StoreAbout = ({ navigation, route }) => {
         getStoreAPi(route.params.storeId)
             .then(data => {
                 setStore(data.store);
-                setStoreImages(data.store.featured_images);
             })
             .catch((error) => {
                 setError(true);
@@ -42,12 +34,37 @@ const StoreAbout = ({ navigation, route }) => {
     return (
         <>
             {!isLoading && !error && (
-                <ScrollView>
-                    {store && (
-                        <>
-                            <Text>{store._id}</Text>
-                        </>
-                    )}
+                <ScrollView style={styles.container}>
+                    <View style={styles.wrapper}>
+                        <Text style={styles.title}>Name</Text>
+                        <Text style={styles.content}>
+                            {store.name}
+                        </Text>
+                    </View>
+
+                    <View style={styles.wrapper}>
+                        <Text style={styles.title}>Bio</Text>
+                        <Text style={styles.content}>
+                            {store.bio}
+                        </Text>
+                    </View>
+
+                    <View style={styles.wrapper}>
+                        <Text style={styles.title}>Bussiness Type</Text>
+                        <Text style={styles.content}>
+                            {store.commissionId && store.commissionId.name && store.commissionId.name.charAt(0).toUpperCase() + store.commissionId.name.slice(1)}
+                            {' ('}
+                            {store.commissionId && store.commissionId.cost && store.commissionId.cost.$numberDecimal}
+                            {'%/order)'}
+                        </Text>
+                    </View>
+
+                    <View style={styles.wrapper}>
+                        <Text style={styles.title}>Joined At</Text>
+                        <Text style={styles.content}>
+                            {humanReadableDate(store.createdAt)}
+                        </Text>
+                    </View>
                 </ScrollView>
             )}
 
@@ -58,7 +75,24 @@ const StoreAbout = ({ navigation, route }) => {
 }
 
 const styles = StyleSheet.create({
-
+    container: {
+        flex: 1,
+        paddingHorizontal: 6,
+        paddingVertical: 12,
+    },
+    wrapper: {
+        backgroundColor: Colors.white,
+        padding: 6,
+        borderRadius: 3,
+        marginBottom: 3,
+    },
+    title: {
+        color: Colors.primary,
+    },
+    content: {
+        fontSize: 16,
+        paddingVertical: 6,
+    },
 });
 
 export default StoreAbout;

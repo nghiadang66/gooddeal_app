@@ -21,15 +21,6 @@ const StoreCard = ({
 }) => {
     const { jwt } = useContext(AuthContext);
     const { vendorLogin } = useContext(VendorContext);
-    // const handlePress = () => navigation.navigate(type === 'store' ? 'Store' : 'VendorDashboard', type === 'store' ? {
-    //     storeId: item._id,
-    //     itemId: item._id,
-    // } : {
-    //     screen: 'Home',
-    //     params: {
-    //         storeId: item._id,
-    //     },
-    // });
 
     const handlePress = () => {
         if (type === 'store') {
