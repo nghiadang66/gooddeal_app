@@ -14,7 +14,7 @@ const EditProfile = ({ navigation,route }) => {
        
     });
 
-    const { isLoading, error, success,changeProfile,userProfile } = useContext(AuthContext);
+    const { isLoading, error, success, changeProfile, userProfile } = useContext(AuthContext);
     const handleChange = (name, isValidName, value) => {
         setAccount({
             ...account,

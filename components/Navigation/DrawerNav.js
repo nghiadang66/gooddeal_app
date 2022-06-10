@@ -4,7 +4,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomDrawer from './CustomDrawer ';
 import Icon from 'react-native-vector-icons/Ionicons';
 import VendorHome from '../../screens/VendorHome';
-import VendorProfile from '../../screens/VendorProfile';
+import VendorProfileStackScreen from './VendorProfileStackNav';
 import VendorProductStackScreen from './VendorProductStackNav';
 import VendorStaffStackScreen from './VendorStaffStackNav';
 import Colors from '../../themes/Colors';
@@ -28,8 +28,8 @@ const VendorDrawer = () => {
         }}
       />
       <Drawer.Screen
-        name="VendorProfile"
-        component={VendorProfile}
+        name="VendorProfileStackScreen"
+        component={VendorProfileStackScreen}
         options={{
           drawerIcon: ({color}) => (
             <Icon name="person" size={22} color={color} />

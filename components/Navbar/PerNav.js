@@ -30,7 +30,7 @@ const PerNav = ({ navigation, route, type = 'account' }) => {
     useEffect(() => {
         if (type === 'account') setItem(userProfile);
         else getItem();
-    }, [route.params, type]);
+    }, [route.params, type, userProfile]);
 
     return (
         <View style={styles.container}>

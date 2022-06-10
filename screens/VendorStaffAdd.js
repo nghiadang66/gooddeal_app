@@ -19,7 +19,7 @@ const VendorStaffAdd = ({ navigation, route }) => {
     const typingTimeoutRef = useRef(null);
 
     const { jwt } = useContext(AuthContext);
-    const { storeProfile, vendorLogin, vendorLogout } = useContext(VendorContext);
+    const { storeProfile, setStoreProfile } = useContext(VendorContext);
 
     const [error, setError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -118,7 +118,7 @@ const VendorStaffAdd = ({ navigation, route }) => {
         setIsLoading1(true);
         addStaffs(jwt._id, jwt.accessToken, { 'staffs' : staffs }, storeProfile._id)
             .then(data => {
-                vendorLogin(jwt._id, jwt.accessToken, storeProfile._id);
+                setStoreProfile(data.store);
                 setListRight(newListRight);
                 setListLeft(listLeft.filter((u) => u._id != user._id));
                 setSuccess1(data.success);
@@ -172,7 +172,6 @@ const VendorStaffAdd = ({ navigation, route }) => {
                                 renderItem={({ item }) => (
                                     <View
                                         style={styles.card}
-                                        
                                     >
                                         <View style={styles.rowConrainer}>
                                             <View style={[styles.rowConrainer, {flex: 0.9}]}>

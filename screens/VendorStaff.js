@@ -40,7 +40,7 @@ const compareFunc = (sortBy, order) => {
 
 const VendorStaff = ({ navigation, route }) => {
     const { jwt } = useContext(AuthContext);
-    const { storeProfile, vendorLogin, vendorLogout } = useContext(VendorContext);
+    const { storeProfile, vendorLogout, setStoreProfile } = useContext(VendorContext);
     const [flag, toggleFlag] = useToggle(true);
 
     const [isLoading, setIsLoading] = useState(false);
@@ -138,7 +138,7 @@ const VendorStaff = ({ navigation, route }) => {
         setIsLoading(true);
         deleteStaff(jwt._id, jwt.accessToken, staff, storeProfile._id)
             .then(data => {
-                vendorLogin(jwt._id, jwt.accessToken, storeProfile._id);
+                setStoreProfile(data.store);
                 setSuccess(data.success);
                 setTimeout(() => {
                     setSuccess('');
