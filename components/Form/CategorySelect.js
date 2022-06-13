@@ -3,14 +3,20 @@ import { View, Text, StyleSheet } from 'react-native';
 import { listActiveCategories } from '../../services/category';
 import CategorySelectItem from './CategorySelectItem';
 import Colors from '../../themes/Colors';
+import Spinner from '../Other/Spinner';
+import Alert from '../Other/Alert';
 
 const CategorySelect = ({ 
     defaultValue,
     selectedValue = '',
     onSet = () => {},
 }) => {
-    const [isloading, setIsLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [isLoading1, setIsLoading1] = useState(false);
+    const [isLoading2, setIsLoading2] = useState(false);
+    const [isLoading3, setIsLoading3] = useState(false);
+    const [error1, setError1] = useState(false);
+    const [error2, setError2] = useState(false);
+    const [error3, setError3] = useState(false);
 
     const [lv1Categories, setLv1Categories] = useState([]);
     const [lv2Categories, setLv2Categories] = useState([]);
@@ -43,6 +49,8 @@ const CategorySelect = ({
 
     const init = () => {
         if (defaultValue) {
+            setIsLoading1(true);
+            setError1(false);
             listActiveCategories(lv1Filter)
                 .then(data => {
                     setLv1Categories(data.categories);
@@ -56,8 +64,8 @@ const CategorySelect = ({
                     });
                     onSet(defaultValue._id);
                 })
-                .catch(error => setError('Server Error'))
-                .finally(() => setIsLoading(false));
+                .catch(error => setError1('Server Error'))
+                .finally(() => setIsLoading1(false));
         }
         else {
             loadCategories(1);
@@ -65,10 +73,9 @@ const CategorySelect = ({
     }
 
     const loadCategories = (index) => {
-        setError('');
-        setIsLoading(true);
-        
         if (index === 1) {
+            setIsLoading1(true);
+            setError1('');
             listActiveCategories(lv1Filter)
                 .then(data => {
                     setLv1Categories(data.categories);
@@ -77,10 +84,12 @@ const CategorySelect = ({
                         categoryId: data.categories[0]._id,
                     });
                 })
-                .catch(error => setError('Server Error'))
-                .finally(() => setIsLoading(false));
+                .catch(error => setError1('Server Error'))
+                .finally(() => setIsLoading1(false));
         }
         else if (index === 2) {
+            setIsLoading2(true);
+            setError2('');
             listActiveCategories(lv2Filter)
                 .then(data => {
                     setLv2Categories(data.categories);
@@ -89,17 +98,19 @@ const CategorySelect = ({
                         categoryId: data.categories[0]._id,
                     });
                 })
-                .catch(error => setError('Server Error'))
-                .finally(() => setIsLoading(false));
+                .catch(error => setError2('Server Error'))
+                .finally(() => setIsLoading2(false));
         }
-        else {
+        else if (index === 3) {
+            setIsLoading3(true);
+            setError3('');
             listActiveCategories(lv3Filter)
                 .then(data => {
                     setLv3Categories(data.categories);
                     onSet(data.categories[0]._id);
                 })
-                .catch(error => setError('Server Error'))
-                .finally(() => setIsLoading(false));
+                .catch(error => setError3('Server Error'))
+                .finally(() => setIsLoading3(false));
         }
     };
 
@@ -136,33 +147,33 @@ const CategorySelect = ({
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Level 1</Text>
-            <CategorySelectItem
+            {!isLoading1 && !error1 && <CategorySelectItem
                 values={lv1Categories}
                 selectedValue={lv2Categories.categoryId}
                 onChange={(value) => handleChange(1, value)}
-            />
+            />}
+            {isLoading1 && <Spinner />}
+            {error1 ? <Alert type='error' content={error1} /> : null}
 
-            {lv2Categories.length > 0 && (
-                <>
-                    <Text style={styles.title}>Level 2</Text>
-                    <CategorySelectItem 
-                        values={lv2Categories}
-                        selectedValue={lv3Categories.categoryId}
-                        onChange={(value) => handleChange(2, value)}
-                    />
-                </>
-            )}
+            <Text style={styles.title}>Level 2</Text>
+            {!isLoading2 && !error2 && lv2Categories.length > 0 && (
+                <CategorySelectItem 
+                    values={lv2Categories}
+                    selectedValue={lv3Categories.categoryId}
+                    onChange={(value) => handleChange(2, value)}
+                />)}
+            {isLoading2 && <Spinner />}
+            {error2 ? <Alert type='error' content={error2} /> : null}
 
-            {lv3Categories.length > 0 && (
-                <>
-                    <Text style={styles.title}>Level 3</Text>
-                    <CategorySelectItem
-                        values={lv3Categories}
-                        selectedValue={selectedValue}
-                        onChange={(value) => handleChange(3, value)}
-                    />
-                </>
-            )}
+            <Text style={styles.title}>Level 3</Text>
+            {!isLoading3 && lv3Categories.length > 0 &&  (
+                <CategorySelectItem
+                    values={lv3Categories}
+                    selectedValue={selectedValue}
+                    onChange={(value) => handleChange(3, value)}
+                />)}
+            {isLoading3 && <Spinner />}
+            {/* {error3 ? <Alert type='error' content={error3} /> : null} */}
 
             <Text style={styles.title}>Choosed category</Text>
             <Text style={styles.content}>{lv3Categories.find(category => category._id == selectedValue) ?

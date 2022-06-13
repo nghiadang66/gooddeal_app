@@ -13,7 +13,7 @@ import Alert from '../components/Other/Alert';
 import Button from '../components/Button/Button';
 import ImageInput from '../components/Form/ImageInput';
 import CategorySelect from '../components/Form/CategorySelect';
-import Icon from 'react-native-vector-icons/Ionicons';
+import StyleSelect from '../components/Form/StyleSelect';
 import Colors from '../themes/Colors';
 
 const VendorProductAdd = ({ navigation, route }) => {
@@ -24,7 +24,6 @@ const VendorProductAdd = ({ navigation, route }) => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
-    // const []
     const [newProduct, setNewProduct] = useState({
         name: '',
         categoryId: '',
@@ -38,7 +37,7 @@ const VendorProductAdd = ({ navigation, route }) => {
         quantity: 0,
         price: 0,
         promotionalPrice: 0,
-        styleValueIds: '',
+        styleValueIds: [],
         isValidName: true,
         isValidImage0: true,
         isValidImage1: true,
@@ -137,8 +136,6 @@ const VendorProductAdd = ({ navigation, route }) => {
         if (newProduct.image4) formData.append('image4', newProduct.image4);
         if (newProduct.image5) formData.append('image5', newProduct.image5);
 
-        console.log(formData);
-
         setError('');
         setSuccess('');
         setIsLoading(true);
@@ -190,7 +187,6 @@ const VendorProductAdd = ({ navigation, route }) => {
 
                 <Text style={styles.title}>Avatar</Text>
                 <ImageInput
-                    // defaultSrc={newProduct.image0}
                     isValid={newProduct.isValidImage0}
                     isRequired={true}
                     onChange={(value) =>
@@ -203,7 +199,6 @@ const VendorProductAdd = ({ navigation, route }) => {
                     {Array.apply(null, Array(5)).map((x, i) => (
                         <ImageInput
                             key={i+1}
-                            // defaultSrc={newProduct[`image${i+1}`]}
                             onChange={(value) =>
                                 handleChange(`image${i+1}`, `isValidImage${i+1}`, value)
                             }
@@ -289,6 +284,16 @@ const VendorProductAdd = ({ navigation, route }) => {
                     onSet={(value) => setNewProduct({
                         ...newProduct,
                         categoryId: value,
+                   })}
+                />
+
+                <Text style={styles.title}>Styles</Text>
+                <StyleSelect
+                    selectedValues={newProduct.styleValueIds}
+                    categoryId={newProduct.categoryId}
+                    onSet={(values) => setNewProduct({
+                        ...newProduct,
+                        styleValueIds: values,
                    })}
                 />
                 
