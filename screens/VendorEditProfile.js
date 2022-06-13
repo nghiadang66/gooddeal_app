@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     form: {
-        flex: 0.6,
+        flex: 1,
         paddingVertical: 12,
     },
     heading: {

@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     feedback: {
         position: 'absolute',
         left: 6,
-        top: 48,
+        bottom: 10,
         fontSize: 12,
         color: Colors.danger,
         // flex: 1,

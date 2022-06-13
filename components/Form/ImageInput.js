@@ -1,0 +1,111 @@
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Colors from '../../themes/Colors';
+import { STATIC_URL } from '../../config';
+
+const placeholderImage = require('../../assets/images/placeholder.png');
+
+const ImageInput = ({
+    onChange = () => {},
+    feedback = 'File is required.',
+    defaultSrc = '',
+    isRequired = false,
+    isValid= false,
+    key,
+}) => {
+    const [src, setSrc] = useState('');
+
+    useEffect(() => {
+        if (defaultSrc) setSrc(STATIC_URL + defaultSrc)
+        else setSrc('');
+    }, [defaultSrc]);
+
+    const chooseImage = () => {
+        ImagePicker.openPicker({
+            includeBase64: true,
+        }).then(image => {
+            setSrc(`data:${image.mime};base64,${image.data}`);
+            onChange({type:'image/jpg',uri:image.path,name: '123.jpg'});
+        });
+    }
+
+    const removeImage = () => {
+        onChange('');
+        setSrc('');
+    }
+
+    return (
+        <View style={styles.container} key={key || 0}>
+            <Image
+                source={src ? {uri: src} : placeholderImage}
+                style={styles.img}
+            />
+            <TouchableOpacity
+                style={styles.btn}
+                onPress={chooseImage}
+            >
+                <Icon style={styles.icon} name={'camera'} />
+            </TouchableOpacity>
+
+            {src ? (
+                <TouchableOpacity
+                    style={styles.btn_remove}
+                    onPress={removeImage}
+                >
+                    <Icon style={styles.icon} name={'close-outline'} />
+                </TouchableOpacity>
+            ) : null}
+
+            {isRequired && !isValid && (
+                <Text style={styles.feedback} pointerEvents='none'>{feedback}</Text>
+            )}
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        width: 90,
+        height: 90,
+        borderRadius: 2,
+        borderColor: Colors.white,
+        borderWidth: 3,
+        margin: 6,
+        marginBottom: 24,
+    },
+    img: {
+        width: '100%',
+        height: '100%',
+    },
+    btn: {
+        position: 'absolute',
+        bottom: 6,
+        right: 4,
+        borderRadius: 2,
+        paddingHorizontal: 3,
+        backgroundColor: Colors.muted,
+    },
+    btn_remove: {
+        position: 'absolute',
+        top: 6,
+        right: 4,
+        borderRadius: 2,
+        paddingHorizontal: 3,
+        backgroundColor: Colors.muted,
+    },
+    icon: {
+        fontSize: 20,
+        color: Colors.white,
+    },
+    feedback: {
+        position: 'absolute',
+        left: 0,
+        top: 85,
+        fontSize: 12,
+        color: Colors.danger,
+    },
+});
+
+export default ImageInput;

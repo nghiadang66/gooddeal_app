@@ -85,3 +85,27 @@ export const sellOrStoreProduct = async (userId, token, value, storeId, productI
         console.log('sellOrStoreProduct', error);
     }
 }
+
+export const createProduct = async (userId, token, product, storeId) => {
+    try {
+        const res = await axios({
+            method: 'post',
+            url: `${API_URL}/product/create/${storeId}/${userId}`,
+            data: product,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+            validateStatus: function (status) {
+                return status < 500;
+            },
+            transformRequest: [function (data, headers) {
+                return data;
+            }],
+        });
+        return res.data;
+    } catch (error) {
+        console.log('createProduct', error.response.data);
+    }
+}

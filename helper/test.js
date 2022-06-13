@@ -11,6 +11,7 @@ export const regexTest = (name, value) => {
         address: /^[^,]+$/,
         bio: /.+/,
         level: /^(?=.*[a-zA-Z])[A-Za-z\d\s_'-]*$/,
+        number: /^\d+$/,
     };
 
     return regexes[name].test(value);

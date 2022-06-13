@@ -274,7 +274,7 @@ const VendorHome = ({ navigation, route }) => {
                                     <Row 
                                         data={options.flag === 'order' ? ['Order', 'Date'] : ['Product', 'Sold']}
                                         style={styles.head}
-                                        textStyle={[styles.m6, styles.tw]}
+                                        textStyle={styles.textHead}
                                     />
                                     <Rows 
                                         data={
@@ -353,6 +353,10 @@ const styles = StyleSheet.create({
         color: Colors.white,
         backgroundColor: Colors.fun,
     },
+    textHead: {
+        margin: 6,
+        color: Colors.white,
+    },
     mt12: {
         marginTop: 12,
     },
@@ -364,9 +368,6 @@ const styles = StyleSheet.create({
     },
     m6: {
         margin: 6 
-    },
-    tw: {
-        color: Colors.white,
     },
 });
 

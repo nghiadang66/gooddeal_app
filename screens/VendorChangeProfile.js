@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View,ScrollView, Text, StyleSheet } from 'react-native';
+import { View, ScrollView, Text, StyleSheet } from 'react-native';
 import { VendorContext } from '../context/VendorContext';
 import { BackBtn, HeaderBtn } from '../components/Button/HeaderBtn';
 import Colors from '../themes/Colors';

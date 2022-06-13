@@ -133,23 +133,23 @@ const VendorProduct = ({ navigation, route }) => {
                 <View style={styles.container}>
                     {!isLoading && !error && (
                         <>
-                        <Text style={styles.result}>{pagination.size} results</Text>
-                        <ScrollView horizontal={true}>
-                            <View style={styles.tableContainer}>
+                            <Text style={styles.result}>{pagination.size} results</Text>
+                            <ScrollView horizontal={true}>
+                                <View style={styles.tableContainer}>
                                     <Table borderStyle={styles.table}>
                                         <Row 
                                             data={['#', 'Name', 'Images', 'Description', 'Price', 'Promotion', 'Quantity', 'Sold', 'Category', 'Styles', 'License', 'Created at', '']}
                                             style={styles.head}
                                             widthArr={[24, 120, 450, 450, 100, 100, 66, 66, 100, 150, 100, 120, 150]}
-                                            textStyle={[styles.m6, styles.tw]}
+                                            textStyle={styles.textHead}
                                         />
                                     </Table>
                                     <Table borderStyle={styles.table}>
                                         <Rows 
                                             data={products.map((product, index) => [
-                                                index,
+                                                index + (filter.limit * (filter.page - 1)),
                                                 product.name,
-                                                <View style={[styles.rowContainer, styles.contentStart]}>
+                                                <View key={product._id} style={[styles.rowContainer, styles.contentStart]}>
                                                     {product.listImages.map((img, index) => <Image key={index} image={img} type='product' />)}
                                                 </View>,
                                                 product.description,
@@ -167,19 +167,19 @@ const VendorProduct = ({ navigation, route }) => {
                                                 product.quantity,
                                                 product.sold,
                                                 product.categoryId && product.categoryId.name,  
-                                                <View style={[styles.container, styles.alignStart]}>
+                                                <View key={product._id} style={[styles.container, styles.alignStart]}>
                                                     {groupByStyle(product.styleValueIds).map((list, index) => 
-                                                        <View style={[styles.rowContainer, styles.flexWrap]}>
-                                                            <Text key={index}>{list[0].styleId.name}: </Text>
+                                                        <View key={index} style={[styles.rowContainer, styles.flexWrap]}>
+                                                            <Text>{list[0].styleId.name}: </Text>
                                                             {list.map((value, index) => <Text key={index}>{value.name}{index < list.length-1 && ', '}</Text>)}
                                                         </View>
                                                     )}
                                                 </View>,
-                                                <Text style={[styles.status, { color: product.isActive ? Colors.fun : Colors.danger }]}>
+                                                <Text key={product._id} style={[styles.status, { color: product.isActive ? Colors.fun : Colors.danger }]}>
                                                     {product.isActive ? 'licensed' : 'unlicensed'}
                                                 </Text>,
                                                 humanReadableDate(product.createdAt),
-                                                <View style={styles.container}>
+                                                <View key={product._id} style={styles.container}>
                                                     <View style={styles.m6}>
                                                         <Button type='primary' title='Edit' onPress={() => navigation.navigate('EditProduct', { productId: product._id })} />
                                                     </View>
@@ -214,8 +214,8 @@ const VendorProduct = ({ navigation, route }) => {
                                         />
                                     </Table>
                                 </View>
-                        </ScrollView>
-                        <View style={[styles.container, styles.m6]}>
+                            </ScrollView>
+                            <View style={[styles.container, styles.m6]}>
                                 <Pagination pagination={pagination} onChangePage={handleChangePage} />
                             </View>
                         </>
@@ -274,6 +274,10 @@ const styles = StyleSheet.create({
         color: Colors.white,
         backgroundColor: Colors.fun,
     },
+    textHead: {
+        margin: 6,
+        color: Colors.white,
+    },
     mt12: {
         marginTop: 12,
     },
@@ -282,9 +286,6 @@ const styles = StyleSheet.create({
     },
     m6: {
         margin: 6 
-    },
-    tw: {
-        color: Colors.white,
     },
 });
 
