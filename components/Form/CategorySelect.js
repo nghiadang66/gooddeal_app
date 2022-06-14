@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { listActiveCategories } from '../../services/category';
 import CategorySelectItem from './CategorySelectItem';
 import Colors from '../../themes/Colors';
 import Spinner from '../Other/Spinner';
 import Alert from '../Other/Alert';
+import Icon from 'react-native-vector-icons/Ionicons';
+import useToggle from '../../hooks/useToggle';
 
 const CategorySelect = ({ 
     defaultValue,
@@ -47,30 +49,8 @@ const CategorySelect = ({
         page: 1,
     });
 
-    const init = () => {
-        if (defaultValue) {
-            setIsLoading1(true);
-            setError1(false);
-            listActiveCategories(lv1Filter)
-                .then(data => {
-                    setLv1Categories(data.categories);
-                    setLv2Filter({
-                        ...lv2Filter,
-                        categoryId: defaultValue.categoryId.categoryId._id,
-                    });
-                    setLv3Filter({
-                        ...lv3Filter,
-                        categoryId: defaultValue.categoryId._id,
-                    });
-                    onSet(defaultValue._id);
-                })
-                .catch(error => setError1('Server Error'))
-                .finally(() => setIsLoading1(false));
-        }
-        else {
-            loadCategories(1);
-        }
-    }
+    const [select, setSelect] = useState('');
+    const [noChange, toggleNoChange] = useToggle(true);
 
     const loadCategories = (index) => {
         if (index === 1) {
@@ -107,7 +87,9 @@ const CategorySelect = ({
             listActiveCategories(lv3Filter)
                 .then(data => {
                     setLv3Categories(data.categories);
-                    onSet(data.categories[0]._id);
+                    setSelect(data.categories[0]);
+                    if (!defaultValue || !noChange)
+                        onSet(data.categories[0]._id);
                 })
                 .catch(error => setError3('Server Error'))
                 .finally(() => setIsLoading3(false));
@@ -115,7 +97,7 @@ const CategorySelect = ({
     };
 
     useEffect(() => {
-        init();
+        loadCategories(1);
     }, []);
 
     useEffect(() => {
@@ -140,14 +122,21 @@ const CategorySelect = ({
             });
         }
         else {
-            onSet(value);
+            setSelect(lv3Categories.find(category => category._id == value));
+            if (!defaultValue || !noChange)
+                onSet(value);
         }
-    }; 
+    };
+    
+    const handleNoChange = () => {
+       noChange ? onSet(select._id) : onSet(defaultValue._id);
+       toggleNoChange();
+    }
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Level 1</Text>
-            {!isLoading1 && !error1 && <CategorySelectItem
+            {!isLoading1 && <CategorySelectItem
                 values={lv1Categories}
                 selectedValue={lv2Categories.categoryId}
                 onChange={(value) => handleChange(1, value)}
@@ -176,10 +165,27 @@ const CategorySelect = ({
             {/* {error3 ? <Alert type='error' content={error3} /> : null} */}
 
             <Text style={styles.title}>Choosed category</Text>
-            <Text style={styles.content}>{lv3Categories.find(category => category._id == selectedValue) ?
-                `${lv3Categories.find(category => category._id == selectedValue).categoryId.categoryId.name} > ${lv3Categories.find(category => category._id == selectedValue).categoryId.name} > ${lv3Categories.find(category => category._id == selectedValue).name}`:
+            <Text style={styles.content}>{select ?
+                `${select.categoryId.categoryId.name} > ${select.categoryId.name} > ${select.name}`:
                 'No value choosed'}
             </Text>
+
+            {defaultValue && (
+                <>
+                    <Text style={styles.title}>Undo {'(No change category)'}</Text>
+                    <View style={styles.rowContainer}>
+                        <Text style={[styles.content, styles.container]}>{
+                            `${defaultValue.categoryId.categoryId.name} > ${defaultValue.categoryId.name} > ${defaultValue.name}`}
+                        </Text>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={handleNoChange}
+                        >
+                            <Icon style={[styles.icon, noChange && { color: Colors.primary }]} name={noChange ? 'checkmark-circle' : 'checkmark-circle-outline'} />
+                        </TouchableOpacity>
+                    </View>
+                </>
+            )}
         </View>
     );
 }
@@ -190,6 +196,11 @@ const styles = StyleSheet.create({
         margin: 6,
         marginBottom: 24,
     },
+    rowContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
     title: {
         margin: 6,
     },
@@ -197,7 +208,20 @@ const styles = StyleSheet.create({
         margin: 6,
         fontSize: 16,
         color: Colors.black,
-    }
+    },
+    btn: {
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+        backgroundColor: Colors.white,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 6,
+    },
+    icon: {
+        fontSize: 24,
+        color: Colors.black,
+    },
 });
 
 export default CategorySelect;

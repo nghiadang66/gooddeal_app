@@ -46,39 +46,30 @@ const VendorProfile = ({navigation, route}) => {
     ];
 
     const chooseAvatarImage= () => {
-        ImagePicker.openPicker({
-            width: 300,
-            height: 400,
-            cropping: true
-        }).then(image => {
-            const formData = new FormData();
-            formData.append('photo',{type:'image/jpg',uri:image.path,name:'123.jpg'});
-            updateAvatar(formData);
-        });
+        ImagePicker.openPicker()
+            .then(image => {
+                const formData = new FormData();
+                formData.append('photo',{type:'image/jpg',uri:image.path,name:'123.jpg'});
+                updateAvatar(formData);
+            });
     }
     
     const chooseCoverImage = () => {
-        ImagePicker.openPicker({
-            width: 500,
-            height: 300,
-            cropping: true
-        }).then(image => {
-            const formData = new FormData();
-            formData.append('photo',{type:'image/jpg',uri:image.path,name:'123.jpg'})
-            updateCover(formData)
-        });
+        ImagePicker.openPicker()
+            .then(image => {
+                const formData = new FormData();
+                formData.append('photo',{type:'image/jpg',uri:image.path,name:'123.jpg'});
+                updateCover(formData);
+            });
     }
 
     const chooseFeaturedImage = (index) => {
-        ImagePicker.openPicker({
-            width: 500,
-            height: 300,
-            cropping: true
-        }).then(image => {
-            const formData = new FormData();
-            formData.append('photo',{type:'image/jpg',uri:image.path,name:'123.jpg'})
-            index === -1 ? addFeaturedImage(formData) : updateFeaturedImage(formData, index);
-        });
+        ImagePicker.openPicker()
+            .then(image => {
+                const formData = new FormData();
+                formData.append('photo',{type:'image/jpg',uri:image.path,name:'123.jpg'});
+                index === -1 ? addFeaturedImage(formData) : updateFeaturedImage(formData, index);
+            });
     }
     
     const handleChange= (i) => {

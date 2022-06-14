@@ -141,12 +141,18 @@ const VendorProductAdd = ({ navigation, route }) => {
         setIsLoading(true);
         createProduct(jwt._id, jwt.accessToken, formData, storeProfile._id)
             .then(data => {
-                if (data.error) setError(data.error);
-                else setSuccess(data.success);
-                setTimeout(() => {
-                    setError('');
-                    setSuccess('');
-                }, 3000);
+                if (data.error) {
+                    setError(data.error);
+                    setTimeout(() => {
+                        setError('');
+                    }, 3000);
+                }
+                else {
+                    setSuccess(data.success);
+                    setTimeout(() => {
+                        setSuccess('');
+                    }, 3000);
+                }
             })
             .catch(error => {
                 setError('Sever error');
@@ -275,8 +281,6 @@ const VendorProductAdd = ({ navigation, route }) => {
                         handleValidate('isValidPromotionalPrice', flag)
                     }
                 />
-
-
 
                 <Text style={styles.title}>Category</Text>
                 <CategorySelect

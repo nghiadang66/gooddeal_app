@@ -26,14 +26,14 @@ const ImageInput = ({
         ImagePicker.openPicker({
             includeBase64: true,
         }).then(image => {
-            setSrc(`data:${image.mime};base64,${image.data}`);
+            if(!defaultSrc) setSrc(`data:${image.mime};base64,${image.data}`);
             onChange({type:'image/jpg',uri:image.path,name: '123.jpg'});
         });
     }
 
     const removeImage = () => {
         onChange('');
-        setSrc('');
+        if(!defaultSrc) setSrc('');
     }
 
     return (
@@ -49,7 +49,7 @@ const ImageInput = ({
                 <Icon style={styles.icon} name={'camera'} />
             </TouchableOpacity>
 
-            {src ? (
+            {src && (!defaultSrc || !isRequired) ? (
                 <TouchableOpacity
                     style={styles.btn_remove}
                     onPress={removeImage}

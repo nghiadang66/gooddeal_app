@@ -52,6 +52,22 @@ export const getProduct = async (productId) => {
     }
 }
 
+export const getProductByIdForManager = async (userId, token, productId, storeId) => {
+    try { 
+        const res = await axios.get(`${API_URL}/product/for/manager/${productId}/${storeId}/${userId}`,
+            {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                }, 
+            });
+        return res.data;
+    } catch (error) {
+        console.log('getProductByIdForManager', error);
+    }
+}
+
 export const listProductsForManager = async (userId, token, filter, storeId) => {
     try {
         const { search, sortBy, order, limit, page, isSelling } = filter;
@@ -106,6 +122,94 @@ export const createProduct = async (userId, token, product, storeId) => {
         });
         return res.data;
     } catch (error) {
-        console.log('createProduct', error.response.data);
+        console.log('createProduct', error);
+    }
+}
+
+export const updateProduct = async (userId, token, product, productId, storeId) => {
+    try {
+        const res = await axios({
+            method: 'put',
+            url: `${API_URL}/product/update/${productId}/${storeId}/${userId}`,
+            data: product,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+            validateStatus: function (status) {
+                return status < 500;
+            },
+            transformRequest: [function (data, headers) {
+                return data;
+            }],
+        });
+        return res.data;
+    } catch (error) {
+        console.log('updateProduct', error);
+    }
+}
+
+export const addListImages = async (userId, token, photo, productId, storeId) => {
+    try {
+        const res = await axios({
+            method: 'post',
+            url: `${API_URL}/product/images/${productId}/${storeId}/${userId}`,
+            data: photo,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+            transformRequest: [function (data, headers) {
+                return data;
+            }],
+        });
+        return res.data;
+    } catch (error) {
+        console.log('addListImages', error);
+    }
+}
+
+export const updateListImages = async (
+    userId,
+    token,
+    photo,
+    index,
+    productId,
+    storeId,
+) => {
+    try {
+        const res = await axios({
+            method: 'put',
+            url: `${API_URL}/product/images/${productId}/${storeId}/${userId}?index=${index}`,
+            data: photo,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+            transformRequest: [function (data, headers) {
+                return data;
+            }],
+        });
+        return res.data;
+    } catch (error) {
+        console.log('updateListImages', error);
+    }
+}
+
+export const removeListImages = async (userId, token, index, productId, storeId) => {
+    try {
+        const res = await axios.delete(`${API_URL}/product/images/${productId}/${storeId}/${userId}?index=${index}`,
+        {
+            headers: {
+                Accept: 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log('removeListImages', error);
     }
 }
