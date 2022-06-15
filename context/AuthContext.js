@@ -304,13 +304,12 @@ const changeProfile = (user) => {
                 logout,
                 loginSocial,
                 resetCountCart,
-
+                setUserProfile,
                 forgotPassword,
                 updateAvatar,
-               updateCover,
-               changePassword,
-               changeProfile
-
+                updateCover,
+                changePassword,
+                changeProfile
             }}
         >
             {children}

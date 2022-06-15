@@ -14,6 +14,9 @@ import Product from '../../screens/Product';
 import Description from '../../screens/Description';
 import ReviewsAndRating from '../../screens/ReviewsAndRating';
 import CreateStore from '../../screens/CreateStore';
+import Address from '../../screens/Address';
+import AddressAdd from '../../screens/AddressAdd';
+import AddressEdit from '../../screens/AddressEdit';
 import HomeNav from '../Navbar/HomeNav';
 import BottomTabNav from './BottomTabNav';
 import VendorDrawer from './DrawerNav';
@@ -204,6 +207,30 @@ const StackScreen = () => {
                             component={CreateStore}
                             options={{
                                 title: 'Create Your Store',
+                            }} 
+                        />
+
+                        <Stack.Screen 
+                            name="Address"
+                            component={Address}
+                            options={{
+                                title: 'Your Address',
+                            }} 
+                        />
+                        
+                        <Stack.Screen 
+                            name="AddAddress"
+                            component={AddressAdd}
+                            options={{
+                                title: 'Add Address',
+                            }} 
+                        />
+
+                        <Stack.Screen 
+                            name="EditAddress"
+                            component={AddressEdit}
+                            options={{
+                                title: 'Edit Address',
                             }} 
                         />
                     </>

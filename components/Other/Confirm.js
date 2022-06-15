@@ -3,9 +3,9 @@ import { Alert } from "react-native";
 
 export const createTwoButtonAlert = (
     title = 'Confirm Dialog', 
-    onConfirm = () => console.log("OK Pressed"),
+    onConfirm = () => {},
     message = 'Are you sure about that?',
-    onCancel = () => console.log("Cancel Pressed"), 
+    onCancel = () => {}, 
 ) => Alert.alert(
         title,
         message,

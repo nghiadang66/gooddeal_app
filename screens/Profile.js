@@ -12,16 +12,20 @@ const Profile = ({ navigation }) => {
   const list = [
     {
       title: 'User Profile',
-      icon: 'person-outline',
+      icon: 'person',
+    },
+    {
+      title: 'Your Address',
+      icon: 'home',
     },
     {
       title: 'Sign out',
-      icon:'log-out-outline',
+      icon:'log-out',
     },
   ];
 
   const handleChange = (i) => {
-    if (i==1) {
+    if (i==2) {
       userProfile.googleId && (
         GoogleSignin.revokeAccess()
       )
@@ -29,6 +33,7 @@ const Profile = ({ navigation }) => {
     }
 
     if (i==0) navigation.navigate('ChangeProfile');
+    if (i==1) navigation.navigate('Address');
   }
 
   return (
