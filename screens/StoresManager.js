@@ -6,6 +6,7 @@ import List from '../components/List/List';
 import Alert from '../components/Other/Alert';
 import Spinner from '../components/Other/Spinner';
 import Colors from '../themes/Colors';
+import FloatBtn from "../components/Button/FloatBtn";
 import { useIsFocused } from "@react-navigation/core";
 
 const StoresManager = ({ navigation }) => {
@@ -74,6 +75,9 @@ const StoresManager = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            <FloatBtn
+                onPress={() => navigation.navigate('CreateStore')}
+            />
             {!isLoading && !error && (
                 <>
                     <Text style={styles.result}>{pagination.size} results</Text>

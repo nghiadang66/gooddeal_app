@@ -265,7 +265,9 @@ const VendorProductEdit = ({ navigation, route }) => {
 
             {!isLoading && !error && (
                 <View style={styles.p12}>
-                    <Text style={[styles.heading, styles.mb12]}>Images</Text>
+                    <View style={[styles.line]}></View>
+
+                    <Text style={[styles.heading, styles.mb12, { textAlign: 'center' }]}>Images</Text>
 
                     {isLoading1 && <Spinner />}
                     {error1 ? <Alert type='error' content={error1} /> : null}
@@ -299,128 +301,128 @@ const VendorProductEdit = ({ navigation, route }) => {
                         )}
                     </View>
 
-                    <View style={styles.p12}>
-                        <Text style={[styles.heading, styles.mb12]}>Information</Text>
+                    <View style={[styles.line, {marginTop: 24}]}></View>
 
-                        <Text style={styles.title}>Name</Text>
-                        <Input
-                            type='text'
-                            title='Product name'
-                            defaultValue={newProduct.name}
-                            value={newProduct.name}
-                            isValid={newProduct.isValidName}
-                            validator={'anything'}
-                            feedback={'Please provide a valid product name.'}
-                            onChange={(value) =>
-                                handleChange('name', 'isValidName', value)
-                            }
-                            onValidate={(flag) =>
-                                handleValidate('isValidName', flag)
-                            }
-                        />
+                    <Text style={[styles.heading, styles.mb12, { textAlign: 'center' }]}>Information</Text>
 
-                        <Text style={styles.title}>Description</Text>
-                        <TextArea
-                            title='Description'
-                            defaultValue={newProduct.description}
-                            value={newProduct.description}
-                            isValid={newProduct.isValidDescription}
-                            validator={'bio'}
-                            feedback={'Please provide a valid product description.'}
-                            onChange={(value) =>
-                                handleChange(
-                                    'description',
-                                    'isValidDescription',
-                                    value,
-                                )
-                            }
-                            onValidate={(flag) =>
-                                handleValidate('isValidDescription', flag)
-                            }
-                        /> 
+                    <Text style={styles.title}>Name</Text>
+                    <Input
+                        type='text'
+                        title='Product name'
+                        defaultValue={newProduct.name}
+                        value={newProduct.name}
+                        isValid={newProduct.isValidName}
+                        validator={'anything'}
+                        feedback={'Please provide a valid product name.'}
+                        onChange={(value) =>
+                            handleChange('name', 'isValidName', value)
+                        }
+                        onValidate={(flag) =>
+                            handleValidate('isValidName', flag)
+                        }
+                    />
 
-                        <Text style={styles.title}>Quantity</Text>
-                        <Input
-                            type='number'
-                            title='Quantity'
-                            defaultValue={newProduct.quantity}
-                            value={newProduct.quantity}
-                            isValid={newProduct.isValidQuantity}
-                            feedback="Please provide a valid product quantity."
-                            validator="positive|zero"
-                            onChange={(value) =>
-                                handleChange('quantity', 'isValidQuantity', value)
-                            }
-                            onValidate={(flag) =>
-                                handleValidate('isValidQuantity', flag)
-                            }
-                        />
+                    <Text style={styles.title}>Description</Text>
+                    <TextArea
+                        title='Description'
+                        defaultValue={newProduct.description}
+                        value={newProduct.description}
+                        isValid={newProduct.isValidDescription}
+                        validator={'bio'}
+                        feedback={'Please provide a valid product description.'}
+                        onChange={(value) =>
+                            handleChange(
+                                'description',
+                                'isValidDescription',
+                                value,
+                            )
+                        }
+                        onValidate={(flag) =>
+                            handleValidate('isValidDescription', flag)
+                        }
+                    /> 
 
-                        <Text style={styles.title}>{'Price (VND)'}</Text>
-                        <Input
-                            type='number'
-                            title='Price (VND)'
-                            defaultValue={newProduct.price}
-                            value={newProduct.price}
-                            isValid={newProduct.isValidPrice}
-                            feedback="Please provide a valid product price."
-                            validator="positive|zero"
-                            onChange={(value) =>
-                                handleChange('price', 'isValidPrice', value)
-                            }
-                            onValidate={(flag) =>
-                                handleValidate('isValidPrice', flag)
-                            }
-                        />
+                    <Text style={styles.title}>Quantity</Text>
+                    <Input
+                        type='number'
+                        title='Quantity'
+                        defaultValue={newProduct.quantity}
+                        value={newProduct.quantity}
+                        isValid={newProduct.isValidQuantity}
+                        feedback="Please provide a valid product quantity."
+                        validator="positive|zero"
+                        onChange={(value) =>
+                            handleChange('quantity', 'isValidQuantity', value)
+                        }
+                        onValidate={(flag) =>
+                            handleValidate('isValidQuantity', flag)
+                        }
+                    />
 
-                        <Text style={styles.title}>{'Promotional Price (VND)'}</Text>
-                        <Input
-                            type='number'
-                            title='Promotional Price (VND)'
-                            defaultValue={newProduct.promotionalPrice}
-                            value={newProduct.promotionalPrice}
-                            isValid={newProduct.isValidPromotionalPrice}
-                            feedback="Please provide a valid product promotional price."
-                            validator="positive|zero"
-                            onChange={(value) =>
-                                handleChange('promotionalPrice', 'isValidPromotionalPrice', value)
-                            }
-                            onValidate={(flag) =>
-                                handleValidate('isValidPromotionalPrice', flag)
-                            }
-                        />
+                    <Text style={styles.title}>{'Price (VND)'}</Text>
+                    <Input
+                        type='number'
+                        title='Price (VND)'
+                        defaultValue={newProduct.price}
+                        value={newProduct.price}
+                        isValid={newProduct.isValidPrice}
+                        feedback="Please provide a valid product price."
+                        validator="positive|zero"
+                        onChange={(value) =>
+                            handleChange('price', 'isValidPrice', value)
+                        }
+                        onValidate={(flag) =>
+                            handleValidate('isValidPrice', flag)
+                        }
+                    />
 
-                        <Text style={styles.title}>Category</Text>
-                        <CategorySelect
-                            defaultValue={newProduct.defaultCategory}
-                            selectedValue={newProduct.categoryId}
-                            onSet={(value) => setNewProduct({
-                                    ...newProduct,
-                                    categoryId: value,
-                            })}
-                        />
+                    <Text style={styles.title}>{'Promotional Price (VND)'}</Text>
+                    <Input
+                        type='number'
+                        title='Promotional Price (VND)'
+                        defaultValue={newProduct.promotionalPrice}
+                        value={newProduct.promotionalPrice}
+                        isValid={newProduct.isValidPromotionalPrice}
+                        feedback="Please provide a valid product promotional price."
+                        validator="positive|zero"
+                        onChange={(value) =>
+                            handleChange('promotionalPrice', 'isValidPromotionalPrice', value)
+                        }
+                        onValidate={(flag) =>
+                            handleValidate('isValidPromotionalPrice', flag)
+                        }
+                    />
 
-                        <Text style={styles.title}>Styles</Text>
-                        <StyleSelect
-                            defaultValue={newProduct.defaultStyleValues}
-                            selectedValues={newProduct.styleValueIds}
-                            categoryId={newProduct.categoryId}
-                            onSet={(values) => 
-                                setNewProduct({
+                    <Text style={styles.title}>Category</Text>
+                    <CategorySelect
+                        defaultValue={newProduct.defaultCategory}
+                        selectedValue={newProduct.categoryId}
+                        onSet={(value) => setNewProduct({
                                 ...newProduct,
-                                styleValueIds: values,
-                            })}
-                        />
+                                categoryId: value,
+                        })}
+                    />
 
-                        {isLoading2 && <Spinner />}
-                        {error2 ? <Alert type='error' content={error2} /> : null}
-                        {success2 ? <Alert type='success' content={success2} /> : null} 
+                    <Text style={styles.title}>Styles</Text>
+                    <StyleSelect
+                        defaultValue={newProduct.defaultStyleValues}
+                        selectedValues={newProduct.styleValueIds}
+                        categoryId={newProduct.categoryId}
+                        onSet={(values) => 
+                            setNewProduct({
+                            ...newProduct,
+                            styleValueIds: values,
+                        })}
+                    />
 
-                        <Button
-                            title='Edit'
-                            onPress={handleSubmit}
-                        /> 
-                    </View>
+                    {isLoading2 && <Spinner />}
+                    {error2 ? <Alert type='error' content={error2} /> : null}
+                    {success2 ? <Alert type='success' content={success2} /> : null} 
+
+                    <Button
+                        title='Edit'
+                        onPress={handleSubmit}
+                    /> 
                 </View>)}
             
             {isLoading && <Spinner />}
@@ -459,7 +461,12 @@ const styles = StyleSheet.create({
     },
     mb12: {
         marginBottom: 12,
-    }
+    },
+    line: { 
+        padding: 0, 
+        borderBottomColor: Colors.primary, 
+        borderBottomWidth: 2, 
+    },
 });
 
 export default VendorProductEdit;

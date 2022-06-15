@@ -36,11 +36,7 @@ const ChangeProfile = ({ navigation }) => {
   )}
   
   const chooseAvatarImage= () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true
-    }).then(image => {
+    ImagePicker.openPicker({}).then(image => {
       const formData = new FormData();
       formData.append('photo',{type:'image/jpg',uri:image.path,name:'123.jpg'})
       updateAvatar(formData)
@@ -48,11 +44,7 @@ const ChangeProfile = ({ navigation }) => {
   }
 
   const chooseCoverImage = () => {
-    ImagePicker.openPicker({
-      width: 500,
-      height: 300,
-      cropping: true
-    }).then(image => {
+    ImagePicker.openPicker({}).then(image => {
       const formData = new FormData();
       formData.append('photo',{type:'image/jpg',uri:image.path,name:'123.jpg'})
       updateCover(formData)

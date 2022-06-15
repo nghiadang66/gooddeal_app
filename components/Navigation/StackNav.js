@@ -13,6 +13,7 @@ import Search from '../../screens/Search';
 import Product from '../../screens/Product';
 import Description from '../../screens/Description';
 import ReviewsAndRating from '../../screens/ReviewsAndRating';
+import CreateStore from '../../screens/CreateStore';
 import HomeNav from '../Navbar/HomeNav';
 import BottomTabNav from './BottomTabNav';
 import VendorDrawer from './DrawerNav';
@@ -190,13 +191,21 @@ const StackScreen = () => {
                             {({ route }) => <StoreTabScreen parRoute={route} />}
                         </Stack.Screen>
 
-                        {jwt.accessToken && <Stack.Screen 
+                        <Stack.Screen 
                             name="VendorDashboard"
                             component={VendorDrawer}
                             options={{
                                 headerShown: false,
                             }} 
-                        />}
+                        />
+                        
+                        <Stack.Screen 
+                            name="CreateStore"
+                            component={CreateStore}
+                            options={{
+                                title: 'Create Your Store',
+                            }} 
+                        />
                     </>
                 )}
             </Stack.Navigator>

@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     },
     cover: {
         width: dimensions.width * 0.9,
-        height: 200,
+        height: dimensions.width * 0.6,
     },
     avatar: {
         borderRadius: 42,

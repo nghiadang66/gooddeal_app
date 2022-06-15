@@ -46,7 +46,7 @@ const VendorProfile = ({navigation, route}) => {
     ];
 
     const chooseAvatarImage= () => {
-        ImagePicker.openPicker()
+        ImagePicker.openPicker({})
             .then(image => {
                 const formData = new FormData();
                 formData.append('photo',{type:'image/jpg',uri:image.path,name:'123.jpg'});
@@ -55,7 +55,7 @@ const VendorProfile = ({navigation, route}) => {
     }
     
     const chooseCoverImage = () => {
-        ImagePicker.openPicker()
+        ImagePicker.openPicker({})
             .then(image => {
                 const formData = new FormData();
                 formData.append('photo',{type:'image/jpg',uri:image.path,name:'123.jpg'});
@@ -64,7 +64,7 @@ const VendorProfile = ({navigation, route}) => {
     }
 
     const chooseFeaturedImage = (index) => {
-        ImagePicker.openPicker()
+        ImagePicker.openPicker({})
             .then(image => {
                 const formData = new FormData();
                 formData.append('photo',{type:'image/jpg',uri:image.path,name:'123.jpg'});

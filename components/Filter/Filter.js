@@ -106,7 +106,7 @@ const filterRadio = {
             label: '1,000,000 - 3,000,000',
             value: {
                 min: 1000000,
-                max: 300000,
+                max: 3000000,
             },
         },
         {

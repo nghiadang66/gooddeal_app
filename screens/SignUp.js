@@ -127,6 +127,14 @@ const SignUp = ({ navigation }) => {
                     onValidate={value => handleValidate('isValidPassword', value)}
                 />
 
+                <View style={styles.policy}>
+                    <Text styles={styles.policyText}>By Signing up, you agree to GoodDeal's </Text>
+                    <Link fontSize={14} title={"Terms of Use"} />
+                    <Text styles={styles.policyText}> and </Text>
+                    <Link fontSize={14} title={"Privacy Policy"} />
+                    <Text styles={styles.policyText}>.</Text>
+                </View>
+
                 {error ? <Alert type='error' content={error} /> : null}
                 {success ? <Alert type='success' content={success} /> : null}
 
@@ -165,6 +173,17 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 16,
         color: Colors.muted,
+    },
+    policy: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 6,
+        marginBottom: 24,
+    },
+    policyText: {
+        fontSize: 16,
     },
 });
 

@@ -228,3 +228,27 @@ export const updateProfile = async (userId, token, store, storeId) => {
         console.log('updateProfile', error);
     }
 };
+
+export const createStore = async (userId, token, store) => {
+    try {
+        const res = await axios({
+            method: 'post',
+            url: `${API_URL}/store/create/${userId}`,
+            data: store,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+            validateStatus: function (status) {
+                return status < 500;
+            },
+            transformRequest: [function (data, headers) {
+                return data;
+            }],
+        });
+        return res.data;
+    } catch (error) {
+        console.log('createStore', error);
+    }
+}

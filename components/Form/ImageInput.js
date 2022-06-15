@@ -3,8 +3,10 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../../themes/Colors';
+import { Dimensions } from 'react-native';
 import { STATIC_URL } from '../../config';
 
+const dimensions = Dimensions.get('screen');
 const placeholderImage = require('../../assets/images/placeholder.png');
 
 const ImageInput = ({
@@ -13,6 +15,7 @@ const ImageInput = ({
     defaultSrc = '',
     isRequired = false,
     isValid= false,
+    size='avatar',
     key,
 }) => {
     const [src, setSrc] = useState('');
@@ -37,7 +40,7 @@ const ImageInput = ({
     }
 
     return (
-        <View style={styles.container} key={key || 0}>
+        <View style={[styles.container, styles.size[size]]} key={key || 0}>
             <Image
                 source={src ? {uri: src} : placeholderImage}
                 style={styles.img}
@@ -67,13 +70,21 @@ const ImageInput = ({
 
 const styles = StyleSheet.create({
     container: {
-        width: 90,
-        height: 90,
         borderRadius: 2,
         borderColor: Colors.white,
         borderWidth: 3,
         margin: 6,
         marginBottom: 24,
+    },
+    size: {
+        avatar: {
+            width: 90,
+            height: 90,
+        },
+        cover: {
+            width: dimensions.width * 0.9,
+            height: dimensions.width * 0.6,
+        }
     },
     img: {
         width: '100%',
@@ -102,7 +113,7 @@ const styles = StyleSheet.create({
     feedback: {
         position: 'absolute',
         left: 0,
-        top: 85,
+        bottom: -17,
         fontSize: 12,
         color: Colors.danger,
     },

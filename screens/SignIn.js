@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, ScrollView, Text, StyleSheet } from 'react-native';
 import Logo from '../components/Other/Logo';
 import Button from '../components/Button/Button';
@@ -197,8 +197,15 @@ const SignIn = ({ navigation }) => {
                     onPress={() => loginWithGoogle()}
                 />
                
-             
-               
+                <View style={styles.policy}>
+                    <Text styles={styles.policyText}>By Signing in or Continue with Google or Facebook, </Text>
+                    <Text styles={styles.policyText}>you agree to GoodDeal's </Text>
+                    <Link fontSize={14} title={"Terms of Use"} />
+                    <Text styles={styles.policyText}> and </Text>
+                    <Link fontSize={14} title={"Privacy Policy"} />
+                    <Text styles={styles.policyText}>.</Text>
+                </View>
+        
             </View>
         </ScrollView>
     );
@@ -238,6 +245,16 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 16,
         color: Colors.muted,
+    },
+    policy: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 6,
+    },
+    policyText: {
+        fontSize: 16,
     },
 });
 
