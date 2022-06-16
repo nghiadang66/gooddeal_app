@@ -24,6 +24,7 @@ export const numberTest = (name, value) => {
         zero: value !== '' && value == 0,
         zeroTo100: value !== '' && value >= 0 && value <= 100,
         oneTo5: value !== '' && value >= 1 && value <= 5,
+        greaterThan50000: value !== '' && value >= 50000,
     };
 
     return numberValidator[name];

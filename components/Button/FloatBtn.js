@@ -28,7 +28,10 @@ const styles= StyleSheet.create({
         },
         danger: {
             backgroundColor: Colors.danger,
-        }
+        },
+        gold: {
+            backgroundColor: Colors.gold,
+        },
     },
     position: {
         top: {

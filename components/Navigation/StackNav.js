@@ -17,6 +17,8 @@ import CreateStore from '../../screens/vendor/CreateStore';
 import Address from '../../screens/account/Address';
 import AddressAdd from '../../screens/account/AddressAdd';
 import AddressEdit from '../../screens/account/AddressEdit';
+import UserCoin from '../../screens/account/UserCoin';
+import UserWithdraw from '../../screens/account/UserWithdraw';
 import HomeNav from '../Navbar/HomeNav';
 import BottomTabNav from './BottomTabNav';
 import VendorDrawer from './DrawerNav';
@@ -243,6 +245,22 @@ const StackScreen = () => {
                             component={AddressEdit}
                             options={{
                                 title: 'Edit Address',
+                            }} 
+                        />
+
+                        <Stack.Screen 
+                            name="UserCoin"
+                            component={UserCoin}
+                            options={{
+                                title: 'Your E-Waller',
+                            }} 
+                        />
+
+                        <Stack.Screen 
+                            name="UserWithdraw"
+                            component={UserWithdraw}
+                            options={{
+                                title: 'Create Transaction',
                             }} 
                         />
                     </>

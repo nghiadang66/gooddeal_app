@@ -19,13 +19,17 @@ const Profile = ({ navigation }) => {
       icon: 'home',
     },
     {
+      title: 'Your E-Wallet',
+      icon: 'wallet',
+    },
+    {
       title: 'Sign out',
       icon:'log-out',
     },
   ];
 
   const handleChange = (i) => {
-    if (i==2) {
+    if (i==3) {
       userProfile.googleId && (
         GoogleSignin.revokeAccess()
       )
@@ -34,6 +38,7 @@ const Profile = ({ navigation }) => {
 
     if (i==0) navigation.navigate('ChangeProfile');
     if (i==1) navigation.navigate('Address');
+    if (i==2) navigation.navigate('UserCoin');
   }
 
   return (
