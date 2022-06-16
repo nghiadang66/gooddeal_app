@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Colors from '../../themes/Colors';
-import VendorProduct from '../../screens/VendorProduct';
-import VendorProductAdd from '../../screens/VendorProductAdd';
-import VendorProductEdit from '../../screens/VendorProductEdit';
+import VendorProduct from '../../screens/vendor/VendorProduct';
+import VendorProductAdd from '../../screens/vendor/VendorProductAdd';
+import VendorProductEdit from '../../screens/vendor/VendorProductEdit';
 
 const VendorProductStack = createNativeStackNavigator();
 

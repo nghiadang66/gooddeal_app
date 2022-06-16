@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../../screens/Home';
-import Profile from '../../screens/Profile';
-import StoresManager from '../../screens/StoresManager';
+import Home from '../../screens/core/Home';
+import Profile from '../../screens/account/Profile';
+import StoresManager from '../../screens/vendor/StoresManager';
 import { FollowTabScreen } from './TopTabNav';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../../themes/Colors';

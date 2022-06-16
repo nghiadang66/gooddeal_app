@@ -1,6 +1,21 @@
 import axios from "axios";
 import { API_URL } from "../config";
 
+export const getUser = async (userId) => {
+    try {
+        const res = await axios.get(`${API_URL}/user/${userId}`,
+        {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log('getUser', error);
+    }
+}
+
 export const getUserProfile = async (userId, token) => {
     try {
         const res = await axios.get(`${API_URL}/user/profile/${userId}`,

@@ -4,31 +4,31 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HeaderBackButton } from '@react-navigation/elements';
 import Colors from '../../themes/Colors';
-import Splash from '../../screens/Splash';
-import Home from '../../screens/Home';
-import SignIn from '../../screens/SignIn';
-import SignUp from '../../screens/SignUp';
-import Category from '../../screens/Category';
-import Search from '../../screens/Search';
-import Product from '../../screens/Product';
-import Description from '../../screens/Description';
-import ReviewsAndRating from '../../screens/ReviewsAndRating';
-import CreateStore from '../../screens/CreateStore';
-import Address from '../../screens/Address';
-import AddressAdd from '../../screens/AddressAdd';
-import AddressEdit from '../../screens/AddressEdit';
+import Splash from '../../screens/core/Splash';
+import Home from '../../screens/core/Home';
+import SignIn from '../../screens/core/SignIn';
+import SignUp from '../../screens/core/SignUp';
+import Category from '../../screens/core/Category';
+import Search from '../../screens/core/Search';
+import Product from '../../screens/product/Product';
+import Description from '../../screens/product/Description';
+import ReviewsAndRating from '../../screens/product/ReviewsAndRating';
+import CreateStore from '../../screens/vendor/CreateStore';
+import Address from '../../screens/account/Address';
+import AddressAdd from '../../screens/account/AddressAdd';
+import AddressEdit from '../../screens/account/AddressEdit';
 import HomeNav from '../Navbar/HomeNav';
 import BottomTabNav from './BottomTabNav';
 import VendorDrawer from './DrawerNav';
 
-import { StoreTabScreen } from './TopTabNav';
+import { StoreTabScreen, UserTabScreen } from './TopTabNav';
 import PerNav from '../Navbar/PerNav';
 import { AuthContext } from '../../context/AuthContext';
 
-import ForgotPassword from '../../screens/ForgotPassword';
-import ChangeProfile from '../../screens/ChangeProfile';
-import ChangePassword from '../../screens/ChangePassword';
-import EditProfile from '../../screens/EditProfile';
+import ForgotPassword from '../../screens/core/ForgotPassword';
+import ChangeProfile from '../../screens/account/ChangeProfile';
+import ChangePassword from '../../screens/account/ChangePassword';
+import EditProfile from '../../screens/account/EditProfile';
 
 
 const Stack = createNativeStackNavigator();
@@ -192,6 +192,18 @@ const StackScreen = () => {
                             }}
                         >
                             {({ route }) => <StoreTabScreen parRoute={route} />}
+                        </Stack.Screen>
+
+                        <Stack.Screen
+                            name="User"
+                            options={{
+                                headerTransparent: true,
+                                header: ({ navigation, route }) => (
+                                    <PerNav navigation={navigation} route={route} type='user' />
+                                ),
+                            }}
+                        >
+                            {({ route }) => <UserTabScreen parRoute={route} />}
                         </Stack.Screen>
 
                         <Stack.Screen 

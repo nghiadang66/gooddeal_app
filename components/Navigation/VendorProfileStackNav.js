@@ -2,11 +2,11 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Colors from '../../themes/Colors';
-import VendorProfile from '../../screens/VendorProfile';
-import VendorChangeProfile from '../../screens/VendorChangeProfile';
-import VendorEditProfile from '../../screens/VendorEditProfile';
-import VendorJoined from '../../screens/VendorJoined';
-import VendorLevel from '../../screens/VendorLevel';
+import VendorProfile from '../../screens/vendor/VendorProfile';
+import VendorChangeProfile from '../../screens/vendor/VendorChangeProfile';
+import VendorEditProfile from '../../screens/vendor/VendorEditProfile';
+import VendorJoined from '../../screens/vendor/VendorJoined';
+import VendorLevel from '../../screens/vendor/VendorLevel';
 
 const VendorProfileStack = createNativeStackNavigator();
 

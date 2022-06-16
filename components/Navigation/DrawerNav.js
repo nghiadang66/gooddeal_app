@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomDrawer from './CustomDrawer ';
 import Icon from 'react-native-vector-icons/Ionicons';
-import VendorHome from '../../screens/VendorHome';
+import VendorHome from '../../screens/vendor/VendorHome';
 import VendorProfileStackScreen from './VendorProfileStackNav';
 import VendorProductStackScreen from './VendorProductStackNav';
 import VendorStaffStackScreen from './VendorStaffStackNav';
