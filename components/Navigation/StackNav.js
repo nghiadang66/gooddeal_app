@@ -14,6 +14,8 @@ import Product from '../../screens/product/Product';
 import Description from '../../screens/product/Description';
 import ReviewsAndRating from '../../screens/product/ReviewsAndRating';
 import CreateStore from '../../screens/vendor/CreateStore';
+import Purchase from '../../screens/account/Purchase';
+import Order from '../../screens/account/Order';
 import Address from '../../screens/account/Address';
 import AddressAdd from '../../screens/account/AddressAdd';
 import AddressEdit from '../../screens/account/AddressEdit';
@@ -245,6 +247,22 @@ const StackScreen = () => {
                             component={AddressEdit}
                             options={{
                                 title: 'Edit Address',
+                            }} 
+                        />
+
+                        <Stack.Screen 
+                            name="Purchase"
+                            component={Purchase}
+                            options={{
+                                title: 'Purchase History',
+                            }} 
+                        />
+                        
+                        <Stack.Screen 
+                            name="Order"
+                            component={Order}
+                            options={{
+                                title: 'Order Detail',
                             }} 
                         />
 

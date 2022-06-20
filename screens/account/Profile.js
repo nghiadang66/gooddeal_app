@@ -19,6 +19,10 @@ const Profile = ({ navigation }) => {
       icon: 'home',
     },
     {
+      title: 'Purchases',
+      icon: 'basket',
+    },
+    {
       title: 'Your E-Wallet',
       icon: 'wallet',
     },
@@ -38,7 +42,8 @@ const Profile = ({ navigation }) => {
 
     if (i==0) navigation.navigate('ChangeProfile');
     if (i==1) navigation.navigate('Address');
-    if (i==2) navigation.navigate('UserCoin');
+    if (i==2) navigation.navigate('Purchase');
+    if (i==3) navigation.navigate('UserCoin');
   }
 
   return (

@@ -140,7 +140,7 @@ const VendorProduct = ({ navigation, route }) => {
                                         <Row 
                                             data={['#', 'Name', 'Images', 'Description', 'Price', 'Promotion', 'Quantity', 'Sold', 'Category', 'Styles', 'License', 'Created at', '']}
                                             style={styles.head}
-                                            widthArr={[24, 120, 450, 450, 100, 100, 66, 66, 100, 150, 100, 120, 150]}
+                                            widthArr={[30, 120, 450, 450, 100, 100, 66, 66, 100, 150, 100, 120, 150]}
                                             textStyle={styles.textHead}
                                         />
                                     </Table>
@@ -209,7 +209,7 @@ const VendorProduct = ({ navigation, route }) => {
                                                     </View>
                                                 </View>,
                                             ])}
-                                            widthArr={[24, 120, 450, 450, 100, 100, 66, 66, 100, 150, 100, 120, 150]}
+                                            widthArr={[30, 120, 450, 450, 100, 100, 66, 66, 100, 150, 100, 120, 150]}
                                             textStyle={styles.m6}
                                         />
                                     </Table>

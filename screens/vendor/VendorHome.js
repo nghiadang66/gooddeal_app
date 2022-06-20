@@ -274,6 +274,11 @@ const VendorHome = ({ navigation, route }) => {
                                     <Row 
                                         data={options.flag === 'order' ? ['Order', 'Date'] : ['Product', 'Sold']}
                                         style={styles.head}
+                                        widthArr={
+                                            options.flag === 'order' ?
+                                            [screenWidth * 0.5, screenWidth * 0.5 - 14] :
+                                            [screenWidth * 0.7, screenWidth * 0.3 - 14]
+                                        }
                                         textStyle={styles.textHead}
                                     />
                                     <Rows 
