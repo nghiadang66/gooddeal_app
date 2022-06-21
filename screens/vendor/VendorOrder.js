@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
-import { listOrdersByUser } from '../../services/order';
+import { VendorContext } from '../../context/VendorContext';
+import { listOrdersByStore } from '../../services/order';
 import { Table, Row, Rows } from 'react-native-table-component';
 import Button from '../../components/Button/Button';
 import Spinner from '../../components/Other/Spinner';
@@ -13,8 +14,9 @@ import SmallCard from '../../components/Card/SmallCard';
 import Pagination from '../../components/Other/Pagination';
 import OrderSelect from '../../components/Form/OrderSelect';
 
-const Purchase = ({ navigation, route }) => {
+const VendorOrder = ({ navigation, route }) => {
     const { jwt } = useContext(AuthContext);
+    const { storeProfile } = useContext(VendorContext);
 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -35,7 +37,7 @@ const Purchase = ({ navigation, route }) => {
     const getOrders = () => {
         setError('');
         setIsLoading(true);
-        listOrdersByUser(jwt._id, jwt.accessToken, filter)
+        listOrdersByStore(jwt._id, jwt.accessToken, filter, storeProfile._id)
             .then(data => {
                 setOrders(data.orders);
                 setPagination({
@@ -50,7 +52,7 @@ const Purchase = ({ navigation, route }) => {
 
     useEffect(() => {
         getOrders();
-    }, [jwt, filter]);
+    }, [jwt, filter, storeProfile]);
 
     const handleChangePage = (newPage) => {
         setFilter({
@@ -78,9 +80,9 @@ const Purchase = ({ navigation, route }) => {
                             <View style={styles.tableContainer}>
                                 <Table borderStyle={styles.table}>
                                     <Row 
-                                        data={['#', 'Order', 'Created at', 'Total', 'Seller', 'Delivery', 'Payment', 'Status', '']}
+                                        data={['#', 'Order', 'Created at', 'Total', 'Buyer', 'Commission', 'Delivery', 'Payment', 'Status', '']}
                                         style={styles.head}
-                                        widthArr={[30, 150, 150, 120, 240, 180, 100, 100, 150]}
+                                        widthArr={[30, 150, 150, 120, 240, 240, 180, 100, 100, 150]}
                                         textStyle={styles.textHead}
                                     />
                                 </Table>
@@ -95,7 +97,15 @@ const Purchase = ({ navigation, route }) => {
                                                 formatPrice(order.amountFromUser.$numberDecimal) :
                                                 0,
                                             <View style={styles.m6}>
-                                                <SmallCard navigation={navigation} type='store' item={order.storeId} />
+                                                <SmallCard navigation={navigation} type='user' item={order.userId} />
+                                            </View>,
+                                            <View style={styles.m6}>
+                                                <Text>
+                                                    For Store: {order.amountToStore ? formatPrice(order.amountToStore.$numberDecimal) : 0}
+                                                </Text>
+                                                <Text>
+                                                    For GoodDeal: {order.amountToGD ? formatPrice(order.amountToGD.$numberDecimal) : 0}
+                                                </Text>
                                             </View>,
                                             <View style={styles.m6}>
                                                 <Text>
@@ -115,10 +125,10 @@ const Purchase = ({ navigation, route }) => {
                                                 </Text>
                                             </View>,
                                             <View style={styles.m6}>
-                                                <Button title='Detail' onPress={() => navigation.navigate('Order', { orderId: order._id })} />
+                                                <Button title='Detail' onPress={() => navigation.navigate('VendorOrderDetail', { orderId: order._id })} />
                                             </View>
                                         ])}
-                                        widthArr={[30, 150, 150, 120, 240, 180, 100, 100, 150]}
+                                        widthArr={[30, 150, 150, 120, 240, 240, 180, 100, 100, 150]}
                                         textStyle={styles.m6}
                                     />
                                 </Table>
@@ -177,4 +187,4 @@ const sttColor = {
     Cancelled: 'danger',
 }
 
-export default Purchase;
+export default VendorOrder;

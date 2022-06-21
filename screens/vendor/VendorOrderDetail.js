@@ -1,21 +1,23 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
-import { getOrderByUser, userCancelOrder, listItemsByOrder } from '../../services/order';
-import Button from '../../components/Button/Button';
+import { VendorContext } from '../../context/VendorContext';
+import { getOrderByStore, vendorUpdateStatusOrder, listItemsByOrderByStore } from '../../services/order';
 import Spinner from '../../components/Other/Spinner';
 import Alert from '../../components/Other/Alert';
 import Colors from '../../themes/Colors';
 import { humanReadableDate } from '../../helper/humanReadable';
 import { formatPrice } from '../../helper/formatPrice';
 import SmallCard from '../../components/Card/SmallCard';
-import { calcTime } from '../../helper/time';
 import { createTwoButtonAlert } from '../../components/Other/Confirm';
 import Image from '../../components/Other/Image';
 import Link from '../../components/Other/Link';
+import { BackBtn } from '../../components/Button/HeaderBtn';
+import OrderStatusSelect from '../../components/Form/OrderStatusSelect';
 
-const Order = ({ navigation, route }) => {
+const VendorOrderDetail = ({ navigation, route }) => {
     const { jwt } = useContext(AuthContext);
+    const { storeProfile } = useContext(VendorContext);
 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -31,14 +33,14 @@ const Order = ({ navigation, route }) => {
     const getOrder = () => {
         setError('');
         setIsLoading(true);
-        getOrderByUser(jwt._id, jwt.accessToken, route.params.orderId)
+        getOrderByStore(jwt._id, jwt.accessToken, route.params.orderId, storeProfile._id)
             .then(data => setOrder(data.order))
             .catch(error => setError('Server Error'))
             .finally(() => setIsLoading(false));
 
         setError2('');
         setIsLoading2(true);
-        listItemsByOrder(jwt._id, jwt.accessToken, route.params.orderId)
+        listItemsByOrderByStore(jwt._id, jwt.accessToken, route.params.orderId, storeProfile._id)
             .then(data => setItems(data.items))
             .catch(error => setError2('Server Error'))
             .finally(() => setIsLoading2(false));
@@ -46,14 +48,18 @@ const Order = ({ navigation, route }) => {
 
     useEffect(() => {
         getOrder();
-    }, [jwt, route.params.orderId]);
+    }, [jwt, storeProfile, route.params.orderId]);
 
-    const handleCancelOrder = () => {
+    const handleUpdateStatus = (value) => {
+        createTwoButtonAlert('Update Order Status', () => onSubmit(value), value);
+    }
+
+    const onSubmit = (stt) => {
+        const value = { status: stt };
         setError1('');
         setSuccess1('')
         setIsLoading1(true);
-        const value = { status: 'Cancelled' };
-        userCancelOrder(jwt._id, jwt.accessToken, value, route.params.orderId)
+        vendorUpdateStatusOrder(jwt._id, jwt.accessToken, value, route.params.orderId, storeProfile._id)
             .then(data => {
                 if (data.error) {
                     setError(data.error);
@@ -64,7 +70,7 @@ const Order = ({ navigation, route }) => {
                 else {
                     setOrder({
                         ...order,
-                        status: 'Cancelled',
+                        status: stt,
                     });
                     setSuccess1(data.success);
                     setTimeout(() => {
@@ -87,14 +93,17 @@ const Order = ({ navigation, route }) => {
                 {!isLoading && !error && (
                    <View style={styles.container}>
                         <View style={[styles.container, styles.m6]}>
-                            <Text style={styles.heading}>
-                                Order #{route.params.orderId}
-                            </Text>
+                            <View style={styles.rowContainer}>
+                                <BackBtn navigation={navigation} color='primary' />
+                                <Text style={[styles.heading, styles.container]}>
+                                    Order #{route.params.orderId}
+                                </Text>
+                            </View>
 
 
-                            <View style={[styles.rowContainer, styles.m6]}>
+                            <View style={styles.rowContainer}>
                                 {!isLoading1 && !error1 && !success1 && (
-                                    <Text style={[styles.content, { color: Colors[sttColor[order.status]] }]}>
+                                    <Text style={[styles.content, styles.m6, { color: Colors[sttColor[order.status]] }]}>
                                         {order.status}
                                     </Text>
                                 )}
@@ -103,12 +112,14 @@ const Order = ({ navigation, route }) => {
                                 {error1 ? <Alert type='error' content={error1} /> : null}
                                 {success1 ? <Alert type='success' content={success1} /> : null}
                                 
-                                <Button
-                                    type='danger'
-                                    title='Cancel'
-                                    onPress={() => createTwoButtonAlert('Cancel Order', handleCancelOrder, `Order #${route.params.orderId}`)}
-                                    disabled={order.status !== 'Not processed' || calcTime(order.createdAt) >= 1}
-                                />
+                                {(order.status === 'Not processed' || order.status === 'Processing') && (
+                                    <View style={[{flex: 0.7}, styles.m6]}>
+                                        <OrderStatusSelect
+                                            selectedValue={order.status} 
+                                            onChange={(value) => handleUpdateStatus(value)}
+                                        />
+                                    </View>
+                                )}
                             </View>
                         </View>
 
@@ -291,4 +302,4 @@ const sttColor = {
     Cancelled: 'danger',
 }
 
-export default Order;
+export default VendorOrderDetail;

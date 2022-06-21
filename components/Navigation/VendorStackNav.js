@@ -7,6 +7,8 @@ import VendorChangeProfile from '../../screens/vendor/VendorChangeProfile';
 import VendorEditProfile from '../../screens/vendor/VendorEditProfile';
 import VendorJoined from '../../screens/vendor/VendorJoined';
 import VendorLevel from '../../screens/vendor/VendorLevel';
+import VendorOrder from '../../screens/vendor/VendorOrder';
+import VendorOrderDetail from '../../screens/vendor/VendorOrderDetail';
 import VendorProduct from '../../screens/vendor/VendorProduct';
 import VendorProductAdd from '../../screens/vendor/VendorProductAdd';
 import VendorProductEdit from '../../screens/vendor/VendorProductEdit';
@@ -16,6 +18,7 @@ import VendorCoin from '../../screens/vendor/VendorCoin';
 import VendorWithdraw from '../../screens/vendor/VendorWithdraw';
 
 const VendorProfileStack = createNativeStackNavigator();
+const VendorOrderStack = createNativeStackNavigator();
 const VendorProductStack = createNativeStackNavigator();
 const VendorStaffStack = createNativeStackNavigator();
 const VendorCoinStack = createNativeStackNavigator();
@@ -52,6 +55,26 @@ const VendorProfileStackScreen = () => {
                 options={{ headerShown: false }}
             />
         </VendorProfileStack.Navigator>
+    );
+}
+
+const VendorOrderStackScreen = () => {
+    return (
+        <VendorOrderStack.Navigator
+            headerMode="screen"
+            screenOptions={styles.screen}
+        >
+            <VendorOrderStack.Screen
+                name="VendorOrder"
+                component={VendorOrder}
+                options={{ headerShown: false }}
+            />
+            <VendorOrderStack.Screen
+                name="VendorOrderDetail"
+                component={VendorOrderDetail}
+                options={{ headerShown: false }}
+            />
+        </VendorOrderStack.Navigator>
     );
 }
 
@@ -133,4 +156,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export { VendorProfileStackScreen, VendorProductStackScreen, VendorStaffStackScreen, VendorCoinStackScreen };
+export { VendorProfileStackScreen, VendorOrderStackScreen, VendorProductStackScreen, VendorStaffStackScreen, VendorCoinStackScreen };

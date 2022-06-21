@@ -62,6 +62,23 @@ export const vendorUpdateStatusOrder = async (
     }
 }
 
+export const listItemsByOrderByStore = async (userId, token, orderId, storeId) => {
+    try {
+        const res = await axios.get(`${API_URL}/order/items/by/store/${orderId}/${storeId}/${userId}`,
+        {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log('listItemsByOrderByStore', error);
+    }
+}
+
+//user
 export const listOrdersByUser = async (userId, token, filter) => {
     try {
         const { search, sortBy, order, limit, page, status } = filter;

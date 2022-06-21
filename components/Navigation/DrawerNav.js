@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import VendorHome from '../../screens/vendor/VendorHome';
 import {
   VendorProfileStackScreen,
+  VendorOrderStackScreen,
   VendorProductStackScreen, 
   VendorStaffStackScreen,
   VendorCoinStackScreen,
@@ -39,6 +40,16 @@ const VendorDrawer = () => {
             <Icon name="person" size={22} color={color} />
           ),
           title: "Profile",
+        }}
+      />
+      <Drawer.Screen
+        name="VendorOrderStackScreen"
+        component={VendorOrderStackScreen}
+        options={{
+          drawerIcon: ({color}) => (
+            <Icon name="clipboard" size={22} color={color} />
+          ),
+          title: "Order",
         }}
       />
       <Drawer.Screen
