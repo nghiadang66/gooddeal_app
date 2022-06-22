@@ -13,6 +13,7 @@ import { calcTime } from '../../helper/time';
 import { createTwoButtonAlert } from '../../components/Other/Confirm';
 import Image from '../../components/Other/Image';
 import Link from '../../components/Other/Link';
+import ReviewAndRatingBtn from '../../components/Button/ReviewAndRatingBtn';
 
 const Order = ({ navigation, route }) => {
     const { jwt } = useContext(AuthContext);
@@ -103,12 +104,14 @@ const Order = ({ navigation, route }) => {
                                 {error1 ? <Alert type='error' content={error1} /> : null}
                                 {success1 ? <Alert type='success' content={success1} /> : null}
                                 
-                                <Button
-                                    type='danger'
-                                    title='Cancel'
-                                    onPress={() => createTwoButtonAlert('Cancel Order', handleCancelOrder, `Order #${route.params.orderId}`)}
-                                    disabled={order.status !== 'Not processed' || calcTime(order.createdAt) >= 1}
-                                />
+                                {order.status === 'Not processed' ? (
+                                    <Button
+                                        type='danger'
+                                        title='Cancel'
+                                        onPress={() => createTwoButtonAlert('Cancel Order', handleCancelOrder, `Order #${route.params.orderId}`)}
+                                        disabled={order.status !== 'Not processed' || calcTime(order.createdAt) >= 1}
+                                    />
+                                ) : null}
                             </View>
                         </View>
 
@@ -171,7 +174,7 @@ const Order = ({ navigation, route }) => {
                                                     type='product'
                                                 />
 
-                                                <View style={[styles.container, { marginLeft: 6}]}>
+                                                <View style={[styles.container, styles.ml6]}>
                                                     <Link
                                                         title={item.productId && item.productId.name}
                                                         fontSize={20}
@@ -180,7 +183,7 @@ const Order = ({ navigation, route }) => {
                                                         })}
                                                     />
 
-                                                    <View style={[styles.container, {marginRight: 6}]}>
+                                                    <View style={[styles.container, styles.mr6]}>
                                                         {item.styleValueIds.map((value, index) => (
                                                             <Text key={index} style={styles.content}>
                                                                 {value.styleId && value.styleId.name}
@@ -202,6 +205,16 @@ const Order = ({ navigation, route }) => {
                                                             {item.count}
                                                         </Text>
                                                     </View>
+
+                                                    {order.status === 'Delivered' ? (
+                                                        <ReviewAndRatingBtn
+                                                            navigation={navigation}
+                                                            orderId={route.params.orderId}
+                                                            storeId={order.storeId && order.storeId._id}
+                                                            productId={item.productId && item.productId._id}
+                                                            item={item.productId}
+                                                        />
+                                                    ) : null}
 
                                                     {item.productId && item.productId.isActive && !item.productId.isSelling ?
                                                         <Alert type='error' content="The product is out of business, please remove it from your cart, you can continue with others!" /> :
@@ -280,6 +293,12 @@ const styles = StyleSheet.create({
     },
     m6: {
         margin: 6,
+    },
+    ml6: {
+        marginLeft: 6,
+    },
+    mr6: {
+        marginRight: 6,
     }
 });
 

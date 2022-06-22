@@ -33,7 +33,7 @@ const Profile = ({ navigation }) => {
   ];
 
   const handleChange = (i) => {
-    if (i==3) {
+    if (i==4) {
       userProfile.googleId && (
         GoogleSignin.revokeAccess()
       )

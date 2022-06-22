@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, Animated, ScrollView, StyleSheet } from 'react-native';
+import { AuthContext } from '../../context/AuthContext';
 import RadioForm from 'react-native-simple-radio-button';
 import StarRating from '../Other/StarRating';
 import Colors from '../../themes/Colors';
@@ -51,12 +52,29 @@ const filterRadio = {
             },
         },
     ],
+    reviewer: [
+        {
+            label: 'all',
+            value: {
+                filterName: 'userId',
+                filterValue: '',
+            },
+        },
+        {
+            label: 'yours',
+            value: {
+                filterName: 'userId',
+                filterValue: '',
+            },
+        },
+    ],
 }
 
 const RatingFilter = ({ filter = {}, setFilter = () => {} }) => {
     const [isOpening, setIsOpening] = useState(false);
     const firstRenderRef = useRef(true);
     const fadeAnim = useRef(new Animated.Value(0)).current;
+    const { jwt } = useContext(AuthContext);
 
     const handleFilter = ({ name, value }) => {
         setFilter({
@@ -71,6 +89,10 @@ const RatingFilter = ({ filter = {}, setFilter = () => {} }) => {
         duration: 300,
         useNativeDriver: true,
     }).start();
+
+    useEffect(() => {
+        filterRadio.reviewer[1].value.filterValue = jwt._id;
+    }, [jwt]);
 
     useEffect(() => {
         if (firstRenderRef.current) {
@@ -115,6 +137,22 @@ const RatingFilter = ({ filter = {}, setFilter = () => {} }) => {
                             <RadioForm
                                 radio_props={filterRadio.rating}
                                 initial={0}
+                                formHorizontal={false}
+                                labelHorizontal={true}
+                                buttonColor={Colors.primary}
+                                animation={true}
+                                onPress={(value) => handleFilter({
+                                    name: value.filterName,
+                                    value: value.filterValue,
+                                })}
+                            />
+                        </View>
+
+                        <View style={styles.filterWrapper}>
+                            <Text style={styles.filterName}>Reviewer</Text>
+                            <RadioForm
+                                radio_props={filterRadio.reviewer}
+                                initial={filter.userId ? 1 : 0}
                                 formHorizontal={false}
                                 labelHorizontal={true}
                                 buttonColor={Colors.primary}

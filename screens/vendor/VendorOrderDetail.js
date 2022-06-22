@@ -13,7 +13,26 @@ import { createTwoButtonAlert } from '../../components/Other/Confirm';
 import Image from '../../components/Other/Image';
 import Link from '../../components/Other/Link';
 import { BackBtn } from '../../components/Button/HeaderBtn';
-import OrderStatusSelect from '../../components/Form/OrderStatusSelect';
+import Picker from '../../components/Form/Picker';
+
+const sttItems = [
+    {
+        label: 'Not processed',
+        value: 'Not processed',
+    },
+    {
+        label: 'Processing',
+        value: 'Processing',
+    },
+    {
+        label: 'Shipped',
+        value: 'Shipped',
+    },
+    {
+        label: 'Cancelled',
+        value: 'Cancelled',
+    },
+];
 
 const VendorOrderDetail = ({ navigation, route }) => {
     const { jwt } = useContext(AuthContext);
@@ -103,7 +122,7 @@ const VendorOrderDetail = ({ navigation, route }) => {
 
                             <View style={styles.rowContainer}>
                                 {!isLoading1 && !error1 && !success1 && (
-                                    <Text style={[styles.content, styles.m6, { color: Colors[sttColor[order.status]] }]}>
+                                    <Text style={[{flex: 0.4}, styles.m6, { color: Colors[sttColor[order.status]] }]}>
                                         {order.status}
                                     </Text>
                                 )}
@@ -112,14 +131,16 @@ const VendorOrderDetail = ({ navigation, route }) => {
                                 {error1 ? <Alert type='error' content={error1} /> : null}
                                 {success1 ? <Alert type='success' content={success1} /> : null}
                                 
-                                {(order.status === 'Not processed' || order.status === 'Processing') && (
-                                    <View style={[{flex: 0.7}, styles.m6]}>
-                                        <OrderStatusSelect
+                                {(order.status === 'Not processed' || order.status === 'Processing') ? (
+                                    <View style={[{flex: 0.6}, styles.m6]}>
+                                        <Picker
+                                            prompt='Update Order Status'
+                                            items={sttItems}
                                             selectedValue={order.status} 
                                             onChange={(value) => handleUpdateStatus(value)}
                                         />
                                     </View>
-                                )}
+                                ) : null}
                             </View>
                         </View>
 

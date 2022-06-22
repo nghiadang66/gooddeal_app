@@ -12,7 +12,34 @@ import { humanReadableDate } from '../../helper/humanReadable';
 import { formatPrice } from '../../helper/formatPrice';
 import SmallCard from '../../components/Card/SmallCard';
 import Pagination from '../../components/Other/Pagination';
-import OrderSelect from '../../components/Form/OrderSelect';
+import Picker from '../../components/Form/Picker';
+
+const sttItems = [
+    {
+        label: 'All',
+        value: '',
+    },
+    {
+        label: 'Not processed',
+        value: 'Not processed',
+    },
+    {
+        label: 'Processing',
+        value: 'Processing',
+    },
+    {
+        label: 'Shipped',
+        value: 'Shipped',
+    },
+    {
+        label: 'Delivered',
+        value: 'Delivered',
+    },
+    {
+        label: 'Cancelled',
+        value: 'Cancelled',
+    },
+];
 
 const VendorOrder = ({ navigation, route }) => {
     const { jwt } = useContext(AuthContext);
@@ -64,8 +91,10 @@ const VendorOrder = ({ navigation, route }) => {
     return (
         <ScrollView>
             <View style={[styles.container, styles.m6]}>
-                <OrderSelect
-                    selectedValue={filter.status} 
+                <Picker
+                    prompt='Select Order Status'
+                    items={sttItems}
+                    selectedValue={filter.status}
                     onChange={(value) => setFilter({
                         ...filter,
                         status: value,
