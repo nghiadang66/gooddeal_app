@@ -206,16 +206,6 @@ const Order = ({ navigation, route }) => {
                                                         </Text>
                                                     </View>
 
-                                                    {order.status === 'Delivered' ? (
-                                                        <ReviewAndRatingBtn
-                                                            navigation={navigation}
-                                                            orderId={route.params.orderId}
-                                                            storeId={order.storeId && order.storeId._id}
-                                                            productId={item.productId && item.productId._id}
-                                                            item={item.productId}
-                                                        />
-                                                    ) : null}
-
                                                     {item.productId && item.productId.isActive && !item.productId.isSelling ?
                                                         <Alert type='error' content="The product is out of business, please remove it from your cart, you can continue with others!" /> :
                                                         null}
@@ -228,6 +218,16 @@ const Order = ({ navigation, route }) => {
                                                         <Alert type='error' content={`Only ${item.productId.quantity} products left, please update the count!`} /> :
                                                         null}
                                                 </View>
+
+                                                {order.status === 'Delivered' ? (
+                                                        <ReviewAndRatingBtn
+                                                            navigation={navigation}
+                                                            orderId={route.params.orderId}
+                                                            storeId={order.storeId && order.storeId._id}
+                                                            productId={item.productId && item.productId._id}
+                                                            item={item.productId}
+                                                        />
+                                                    ) : null}
                                             </View>
                                         ))}
                                     </>

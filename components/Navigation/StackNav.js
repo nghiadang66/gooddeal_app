@@ -21,6 +21,7 @@ import AddressAdd from '../../screens/account/AddressAdd';
 import AddressEdit from '../../screens/account/AddressEdit';
 import UserCoin from '../../screens/account/UserCoin';
 import UserReview from '../../screens/account/UserReview';
+import UserReviewEdit from '../../screens/account/UserReviewEdit';
 import UserWithdraw from '../../screens/account/UserWithdraw';
 import HomeNav from '../Navbar/HomeNav';
 import BottomTabNav from './BottomTabNav';
@@ -266,11 +267,20 @@ const StackScreen = () => {
                                 title: 'Order Detail',
                             }} 
                         />
+
                         <Stack.Screen 
                             name="UserReview"
                             component={UserReview}
                             options={{
                                 title: 'Review & Rate',
+                            }} 
+                        />
+                        
+                        <Stack.Screen 
+                            name="UserReviewEdit"
+                            component={UserReviewEdit}
+                            options={{
+                                title: 'Edit Your Review',
                             }} 
                         />
 

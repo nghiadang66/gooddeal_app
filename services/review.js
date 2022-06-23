@@ -52,3 +52,24 @@ export const reviewProduct = async (userId, token, review) => {
         console.log('reviewProduct', error);
     }
 }
+
+export const editReview = async (userId, token, review, reviewId) => {
+    try {
+        const res = await axios({
+            method: 'put',
+            url: `${API_URL}/review/${reviewId}/${userId}`,
+            data: review,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            validateStatus: function (status) {
+                return status < 500;
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log('editReview', error);
+    }
+}

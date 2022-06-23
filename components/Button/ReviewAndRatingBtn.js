@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { checkReview } from "../../services/review";
-import Button from "./Button";
+import DialogBtn from "./DialogBtn"; 
 import Spinner from "../Other/Spinner";
 
 const ReviewAndRatingBtn = ({ orderId = '', storeId = '', productId = '', item = {}, navigation }) => {
@@ -28,16 +28,19 @@ const ReviewAndRatingBtn = ({ orderId = '', storeId = '', productId = '', item =
     return (
         <>
             {!isLoading && (
-                <Button
-                    type="primary"
-                    title={"Review & Rate"}
-                    onPress={() => navigation.navigate('UserReview', {
-                        orderId,
-                        productId,
-                        storeId,
-                        item,
-                    })}
-                    disabled={isReviewed}
+                <DialogBtn 
+                    message={isReviewed ? 'You have already reviewed and rate.' : ''}
+                    items={isReviewed ? [] : [
+                        {
+                            title: 'Review & Rate',
+                            onPress: () => navigation.navigate('UserReview', {
+                                orderId,
+                                productId,
+                                storeId,
+                                item,
+                            }),
+                        }
+                    ]}
                 />
             )}
             {isLoading && <Spinner />}
