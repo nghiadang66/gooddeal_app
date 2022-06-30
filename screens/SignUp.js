@@ -134,6 +134,25 @@ const SignUp = ({ navigation }) => {
                     title='Sign up'
                     onPress={handleSubmit}
                 />
+                 <Text style={{textAlign:'center',fontSize:15}}>
+                By Signing up or Continue with Google or Facebook, you agree to GoodDeal's 
+              
+                <Link
+                        title='Terms of Use '
+                        onPress={() => {}}
+                        fontSize={15}
+                
+                    />
+                  and
+              
+                    <Link
+                        title='Privacy Policy'
+                        onPress={() => {}}
+                        fontSize={15}
+                    />
+        
+
+            </Text>
             </View>
         </ScrollView>
     );

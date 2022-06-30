@@ -86,3 +86,42 @@ export const updateProfile = async (userId, token, user) => {
         .catch((error) => console.log(error));
 
 };
+export const addaddress = (userId, token, address) => {
+    return fetch(`${API_URL}/user/address/${userId}`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(address),
+    })
+        .then((res) => res.json())
+        .catch((error) => console.log(error));
+};
+export const deleteaddresses = (userId, token, index) => {
+    return fetch(`${API_URL}/user/address/${userId}?index=${index}`, {
+        method: 'DELETE',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+    })
+        .then((res) => res.json())
+        .catch((error) => console.log(error));
+};
+
+export const updateaddress = (userId, token, index, address) => {
+    return fetch(`${API_URL}/user/address/${userId}?index=${index}`, {
+        method: 'PUT',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(address),
+    })
+        .then((res) => res.json())
+        .catch((error) => console.log(error));
+};

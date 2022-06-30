@@ -24,7 +24,11 @@ import ForgotPassword from '../../screens/ForgotPassword';
 import ChangeProfile from '../../screens/ChangeProfile';
 import ChangePassword from '../../screens/ChangePassword';
 import EditProfile from '../../screens/EditProfile';
-
+import UserAddress from '../../screens/UserAddress';
+import AddUserAddress from '../../screens/AddUserAddress';
+import EditUserAddress from '../../screens/EditUserAddress';
+import Cart from '../../screens/Cart';
+import Checkout from '../../screens/Checkout';
 
 const Stack = createNativeStackNavigator();
 const MyTheme = {
@@ -114,6 +118,41 @@ const StackScreen = () => {
                             component={EditProfile}
                             options={({ route, navigation })=>({
                                 title:route.params.title
+                            })}
+                            />
+                              <Stack.Screen
+                            name="UserAddress"
+                            component={UserAddress}
+                            options={({ navigation })=>({
+                                title:'Address'
+                            })}
+                            />
+                            <Stack.Screen
+                            name="AddUserAddress"
+                            component={AddUserAddress}
+                            options={({ navigation })=>({
+                                title:'Add Address'
+                            })}
+                            />
+                            <Stack.Screen
+                            name="EditUserAddress"
+                            component={EditUserAddress}
+                            options={({ route, navigation })=>({
+                                title:'Edit Address'
+                            })}
+                            />
+                             <Stack.Screen
+                            name="Cart"
+                            component={Cart}
+                            options={({ navigation })=>({
+                                title:'Cart'
+                            })}
+                            />
+                             <Stack.Screen
+                            name="Checkout"
+                            component={Checkout}
+                            options={({ navigation,route })=>({
+                                title:'Checkout'
                             })}
                             />
                         <Stack.Screen

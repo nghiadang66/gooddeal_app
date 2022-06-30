@@ -4,8 +4,8 @@ import React, { useState, useEffect, createContext } from 'react';
 import { getCartCount } from '../services/cart';
 
 import { signup, signin, signout, refresh, authsocial,forgotpassword } from '../services/auth';
-import { getUserProfile,updateavatar,updatecover,updatePassword,updateProfile } from '../services/user';
-
+import { getUserProfile,updateavatar,updatecover,updatePassword,updateProfile,addaddress,deleteaddresses,updateaddress } from '../services/user';
+import { getUserLevel } from '../services/level';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const AuthContext = createContext();
@@ -14,7 +14,7 @@ export const AuthProvider =  ({ children }) => {
     const [jwt, setJwt] = useState({});
     const [userProfile, setUserProfile] = useState({});
     const [countCart, setCountCart] = useState(0);
-    
+    const [level, setLevel] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
@@ -281,6 +281,85 @@ const changeProfile = (user) => {
             }, 3000);
         });
 }
+const addAddress = (address) => {
+    setIsLoading(true);
+    setError('');
+    setSuccess('');
+    addaddress(jwt._id, jwt.accessToken,address)
+        .then(data => {
+            if (data.error) setError(data.error);
+            else{
+                setSuccess(data.success);
+                setUserProfile(data.user); 
+            }
+             
+        })
+        .catch(err => {
+            setError('Server Error!');
+        })
+        .finally(() => {
+            setIsLoading(false);
+            setTimeout(() => {
+                setError('');
+                setSuccess('');
+            }, 3000);
+        });
+}
+const updateAddress = (index,address) => {
+    setIsLoading(true);
+    setError('');
+    setSuccess('');
+    updateaddress(jwt._id, jwt.accessToken,index,address)
+        .then(data => {
+            if (data.error) setError(data.error);
+            else{
+                setSuccess(data.success);
+                setUserProfile(data.user); 
+            }
+             
+        })
+        .catch(err => {
+            setError('Server Error!');
+        })
+        .finally(() => {
+            setIsLoading(false);
+            setTimeout(() => {
+                setError('');
+                setSuccess('');
+            }, 3000);
+        });
+}
+const deleteAddress = (address) => {
+    setIsLoading(true);
+    setError('');
+    setSuccess('');
+    deleteaddresses(jwt._id, jwt.accessToken,address)
+        .then(data => {
+            if (data.error) setError(data.error);
+            else{
+                setSuccess(data.success);
+                setUserProfile(data.user); 
+            }
+             
+        })
+        .catch(err => {
+            setError('Server Error!');
+        })
+        .finally(() => {
+            setIsLoading(false);
+            setTimeout(() => {
+                setError('');
+                setSuccess('');
+            }, 3000);
+        });
+}
+const getLevel = async() => {
+    try {
+        data =await getUserLevel(jwt._id);
+    
+        setLevel(data.level);
+    } catch (error) { }
+}
     useEffect(() => {
         isLoggedIn();
     }, []);
@@ -288,7 +367,11 @@ const changeProfile = (user) => {
     useEffect(() => {
         getProfile();
     }, [jwt]);
-
+    useEffect(() => {
+        getLevel();
+       
+    }, [jwt._id]);
+        
     return (
         <AuthContext.Provider
             value={{
@@ -299,18 +382,20 @@ const changeProfile = (user) => {
                 splashLoading,
                 error,
                 success,
+                level,
                 register,
                 login,
                 logout,
                 loginSocial,
                 resetCountCart,
-
                 forgotPassword,
                 updateAvatar,
                updateCover,
                changePassword,
-               changeProfile
-
+               changeProfile,
+               addAddress,
+               deleteAddress,
+               updateAddress
             }}
         >
             {children}

@@ -45,31 +45,38 @@ const EditProfile = ({ navigation,route }) => {
  
         if(route.params.type=='firstname')
         {
-            let user = {lastname: userProfile.lastname,phone: userProfile.phone };
+            let user = {lastname: userProfile.lastname,phone: userProfile.phone,id_card:userProfile.id_card };
             if (account.username) user.firstname = account.username;
             if (!userProfile.googleId && !userProfile.facebookId) user.email = userProfile.email;
             changeProfile(user);
         }
         if(route.params.type=='lastname')
         {
-            let user = {firstname: userProfile.firstname,phone: userProfile.phone };
+            let user = {firstname: userProfile.firstname,phone: userProfile.phone,id_card:userProfile.id_card };
             if (account.username) user.lastname = account.username;
             if (!userProfile.googleId && !userProfile.facebookId) user.email = userProfile.email;
             changeProfile(user);
         }
         if(route.params.type=='phone')
         {
-            let user = {firstname: userProfile.firstname,lastname: userProfile.lastname };
+            let user = {firstname: userProfile.firstname,lastname: userProfile.lastname,id_card:userProfile.id_card };
             if (account.username) user.phone = account.username;
             if (!userProfile.googleId && !userProfile.facebookId) user.email = userProfile.email;
             changeProfile(user);
         }
         if(route.params.type=='email')
         {
-            let user = {firstname: userProfile.firstname,phone: userProfile.phone,lastname: userProfile.lastname };
+            let user = {firstname: userProfile.firstname,phone: userProfile.phone,lastname: userProfile.lastname,id_card:userProfile.id_card };
             if (!userProfile.googleId && !userProfile.facebookId && account.username) user.email = account.username;
            
           
+            changeProfile(user);
+        }
+        if(route.params.type=='id_card')
+        {
+            let user = {firstname: userProfile.firstname,lastname:userProfile.lastname,phone: userProfile.phone };
+            if (account.username) user.id_card = account.username;
+            if (!userProfile.googleId && !userProfile.facebookId) user.email = userProfile.email;
             changeProfile(user);
         }
        

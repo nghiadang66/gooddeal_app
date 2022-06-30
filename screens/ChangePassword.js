@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { View, ScrollView, StyleSheet,Alert } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
 import Button from '../components/Button/Button';
 import Input from '../components/Form/Input';
 import Alerts from '../components/Other/Alert';
 import { AuthContext } from '../context/AuthContext';
 import { regexTest } from '../helper/test';
+import Spinner from '../components/Other/Spinner';
 
 const ChangePassword = ({ navigation }) => {
     const [account, setAccount] = useState({
@@ -60,12 +60,12 @@ const ChangePassword = ({ navigation }) => {
             newPassword: newPassword,
         };
 
-       
+        setIsConfirming(false)
         changePassword(user)
-       setIsConfirming(false)
+       
     };
     return <ScrollView style={styles.container}>
-        <Spinner visible={isLoading} />
+       {isLoading && <Spinner />}
         {isConfirming && (
                Alert.alert(
                 "Comfirm",
@@ -74,10 +74,11 @@ const ChangePassword = ({ navigation }) => {
                    
                    {
                      text: "No",
+                     onPress:()=> setIsConfirming(false)
                    },
                    {
                        text: "Yes",
-                       onPress: onSubmit()
+                       onPress:()=> onSubmit()
                           
                        }
                          

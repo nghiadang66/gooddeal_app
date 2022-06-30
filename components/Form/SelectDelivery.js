@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import Colors from '../../themes/Colors';
 
-const Select = ({ values, selectedValue, onChange }) => {
+const SelectDelivery = ({ values, selectedValue, onChange }) => {
     const [value, setValue] = useState({
         old: '',
         new: selectedValue,
@@ -34,7 +34,9 @@ const Select = ({ values, selectedValue, onChange }) => {
                     onValueChange={(itemValue, itemIndex) => handleChange(itemValue)}
                 >
                     {values.map(v => (
-                        <Picker.Item key={v._id} label={'    ' + v.name } value={v._id} />
+                        <Picker.Item key={v._id} label={'    ' + v.name+ ' (' +
+                        v.price.$numberDecimal +
+                        ' VND)' } value={v._id} />
                     ))}
                 </Picker>
             </View>
@@ -59,4 +61,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Select;
+export default SelectDelivery;

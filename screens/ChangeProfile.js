@@ -30,7 +30,11 @@ const ChangeProfile = ({ navigation }) => {
         value:userProfile.phone
         
       },
-    
+      {
+        title: 'Id card',
+        value:userProfile.id_card
+        
+      },
      
     
     
@@ -91,6 +95,10 @@ const ChangeProfile = ({ navigation }) => {
       }
       if(i==4)
       {
+        navigation.navigate('EditProfile',{title:'Edit ID card',value:userProfile.id_card,valid:'isValidIdCard',validator:'id_card',type:'id_card'});
+      }
+      if(i==5)
+      {
         navigation.navigate('ChangePassword');
         
       }
@@ -130,7 +138,7 @@ const ChangeProfile = ({ navigation }) => {
         
         <ListItem.Content>
           <ListItem.Title>{item.title}</ListItem.Title>
-       
+         
         </ListItem.Content>
         <Text>{item.value}</Text>
         <ListItem.Chevron  />
@@ -150,6 +158,7 @@ const styles = StyleSheet.create({
         height:'100%',
         backgroundColor: Colors.muted,
     },
+    
     wrapper: {
         flex: 1,
        flexDirection: 'row',
@@ -205,7 +214,7 @@ const styles = StyleSheet.create({
         bottom: 6,
         right: 4,
         fontSize: 20,
-     
+        color:Colors.white
     }
 });
 
