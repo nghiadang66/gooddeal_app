@@ -4,4 +4,10 @@ module.exports = {
   singleQuote: true,
   trailingComma: 'all',
   arrowParens: 'avoid',
+  "endOfLine": "auto",
+  "tabWidth": 2,
+  "quoteProps": "as-needed",
+  "printWidth": 120,
+  "semi": true,
+  "useTabs": false,
 };

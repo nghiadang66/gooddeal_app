@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { regexTest, numberTest } from '../../helper/test';
 import useToggle from '../../hooks/useToggle';
@@ -9,20 +9,30 @@ const Input = ({
     type='text',
     icon='pencil',
     title='Enter something', 
-    value='', 
+    value='',
+    defaultValue = '',
     isValid=true,
     validator='anything',
     feedback = 'Please provide a valid value.',
     editable=true,
-    min=0,
     onChange=()=>{}, 
     onValidate=()=>{},
 }) => {
     const [showPasswordFlag, togglePasswordFlag] = useToggle(false);
     const [hasValueFlag, toggleHasValueFlag] = useToggle(false);
+    const [input, setInput] = useState(value)
 
     const onHandleChange = (value) => {
-        onChange(value);
+        if (type === 'number') {
+            if (regexTest('number', value)) {
+                onChange(value);
+                setInput(value);
+            }
+        }
+        else {
+            onChange(value);
+            setInput(value);
+        }
     }
 
     const onHandleEndEditing = (value) => {
@@ -54,9 +64,11 @@ const Input = ({
 
                 <TextInput
                     style={styles.input}
-                    value={value}
+                    defaultValue={defaultValue.toString()}
+                    value={input}
                     placeholder={title}
                     secureTextEntry={type==='password' && !showPasswordFlag}
+                    keyboardType={type==='number' ? 'numeric' : 'default'}
                     editable={editable}
                     selectTextOnFocus={editable}
                     onChangeText={value => onHandleChange(value)}

@@ -13,13 +13,10 @@ const UserCard = ({
     horizontalCard = false,
     borderCard = false,
 }) => {
-    // const handlePress = () => navigation.navigate('user', {
-    //     userId: item._id,
-    // });
-
-    const handlePress = () => {
-        console.log(item.firstname + ' ' + item.lastname);
-    }
+    const handlePress = () => navigation.navigate('User', {
+        userId: item._id,
+        itemId: item._id,
+    });
 
     return (
         <TouchableOpacity

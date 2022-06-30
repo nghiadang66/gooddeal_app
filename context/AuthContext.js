@@ -395,7 +395,9 @@ const getLevel = async() => {
                changeProfile,
                addAddress,
                deleteAddress,
-               updateAddress
+               updateAddress,
+                setUserProfile,
+                
             }}
         >
             {children}

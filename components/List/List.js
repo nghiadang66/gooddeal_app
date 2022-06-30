@@ -28,12 +28,11 @@ const List = ({
                         <ProductCard
                             navigation={navigation}
                             item={item}
-                            type={type}
                             horizontalCard={horizontal}
                             borderCard={border}
                         />}
 
-                    {type === 'store' &&
+                    {(type === 'store' || type === 'vendor') &&
                         <StoreCard
                             navigation={navigation}
                             item={item}
@@ -46,10 +45,10 @@ const List = ({
                         <UserCard
                             navigation={navigation}
                             item={item}
-                            type={type}
                             horizontalCard={horizontal}
                             borderCard={border}
                         />}
+
                 </View>
             )}
             keyExtractor={item => item._id}

@@ -10,16 +10,14 @@ const WishCard = ({
     type = 'product',
     item = {},
 }) => {
-    // const onPress = () => navigation.navigate(type === 'product' ? 'Product' : 'Store', 
-    //     type === 'product' ? {
-    //         productId: item._id,
-    //     } : {
-    //         storeId: item._id,
-    //     });
-
-    const onPress = () => {
-        console.log(item.name);
-    }
+    const onPress = type === 'product' ? 
+        () => navigation.navigate('Product', {
+            productId: item._id,
+        }) :
+        () => navigation.navigate('Store', {
+            storeId: item._id,
+            itemId: item._id,
+        });
 
     return (
         <TouchableOpacity

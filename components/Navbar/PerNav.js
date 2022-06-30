@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
 import { STATIC_URL } from '../../config';
 import { getStore } from '../../services/store';
+import { getUser } from '../../services/user';
 import { BackBtn, CartBtn } from '../Button/HeaderBtn';
 import FollowBtn from '../Button/FollowBtn';
 import Followers from '../Label/Followers';
@@ -11,7 +12,7 @@ import Colors from '../../themes/Colors';
 import Level from '../Label/Level';
 
 const fetchFuncs = {
-    // 'user': getUser,
+    'user': getUser,
     'store': getStore,
 }
 
@@ -30,7 +31,7 @@ const PerNav = ({ navigation, route, type = 'account' }) => {
     useEffect(() => {
         if (type === 'account') setItem(userProfile);
         else getItem();
-    }, [route.params, type]);
+    }, [route.params, type, userProfile]);
 
     return (
         <View style={styles.container}>

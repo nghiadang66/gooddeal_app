@@ -12,3 +12,11 @@ export const getCommissionByStore = (storeId) => {
         .then((res) => res.json())
         .catch((error) => console.log(error));
 };
+export const listActiveCommissions = async () => {
+    try {
+        const res = await axios.get(`${API_URL}/active/commissions`);
+        return res.data;
+    } catch (error) {
+        console.error('listActiveCommissions', error);
+    }
+}

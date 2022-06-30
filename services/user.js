@@ -1,6 +1,21 @@
 import axios from "axios";
 import { API_URL } from "../config";
 
+export const getUser = async (userId) => {
+    try {
+        const res = await axios.get(`${API_URL}/user/${userId}`,
+        {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log('getUser', error);
+    }
+}
+
 export const getUserProfile = async (userId, token) => {
     try {
         const res = await axios.get(`${API_URL}/user/profile/${userId}`,
@@ -84,44 +99,63 @@ export const updateProfile = async (userId, token, user) => {
     })
         .then((res) => res.json())
         .catch((error) => console.log(error));
-
-};
-export const addaddress = (userId, token, address) => {
-    return fetch(`${API_URL}/user/address/${userId}`, {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(address),
-    })
-        .then((res) => res.json())
-        .catch((error) => console.log(error));
-};
-export const deleteaddresses = (userId, token, index) => {
-    return fetch(`${API_URL}/user/address/${userId}?index=${index}`, {
-        method: 'DELETE',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-        },
-    })
-        .then((res) => res.json())
-        .catch((error) => console.log(error));
 };
 
-export const updateaddress = (userId, token, index, address) => {
-    return fetch(`${API_URL}/user/address/${userId}?index=${index}`, {
-        method: 'PUT',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(address),
-    })
-        .then((res) => res.json())
-        .catch((error) => console.log(error));
-};
+export const addAddress = async (userId, token, address) => {
+    try {
+        const res = await axios({
+            method: 'post',
+            url: `${API_URL}/user/address/${userId}`,
+            data: address,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            validateStatus: function (status) {
+                return status < 500;
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log('addAddress', error);
+    }
+}
+
+export const updateAddress = async (userId, token, index, address) => {
+    try {
+        const res = await axios({
+            method: 'put',
+            url: `${API_URL}/user/address/${userId}?index=${index}`,
+            data: address,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            validateStatus: function (status) {
+                return status < 500;
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log('updateAddress', error);
+    }
+}
+
+export const deleteAddresses = async (userId, token, index) => {
+    try {
+        const res = await axios.delete(`${API_URL}/user/address/${userId}?index=${index}`, 
+            {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return res.data;
+    } catch (error) {
+        console.error('deleteAddresses', error);
+    }
+}

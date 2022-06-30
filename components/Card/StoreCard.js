@@ -6,6 +6,7 @@ import Level from '../Label/Level';
 import StarRating from '../Other/StarRating';
 import Colors from '../../themes/Colors';
 import { AuthContext } from '../../context/AuthContext';
+import { VendorContext } from '../../context/VendorContext';
 import FollowBtn from '../Button/FollowBtn';
 
 const placeholderImage = require('../../assets/images/placeholder.png');
@@ -14,14 +15,25 @@ const dimensions = Dimensions.get('screen');
 const StoreCard = ({
     navigation,
     item = {},
+    type = 'store',
     horizontalCard = false,
     borderCard = false,
 }) => {
     const { jwt } = useContext(AuthContext);
-    const handlePress = () => navigation.navigate('Store', {
-        storeId: item._id,
-        itemId: item._id,
-    });
+    const { vendorLogin } = useContext(VendorContext);
+
+    const handlePress = () => {
+        if (type === 'store') {
+            navigation.navigate('Store', {
+                storeId: item._id,
+                itemId: item._id,
+            });
+        }
+        else {
+            vendorLogin(jwt._id, jwt.accessToken, item._id);
+            navigation.navigate('VendorDashboard');
+        }
+    }
 
     return (
         <TouchableOpacity
@@ -68,10 +80,17 @@ const StoreCard = ({
                         </View>
                     </View>
 
-                    <View style={styles.labelWrapper}>
-                        <Text style={[styles.isOpen, { color: item.isOpen ? Colors.fun : Colors.danger }]}>
+                    <View style={styles.statusWrapper}>
+                        {type === 'vendor' && jwt && item.ownerId && (
+                            <Text style={[styles.status, { color: item.ownerId._id === jwt._id ? Colors.primary : Colors.fun }]}>
+                                {item.ownerId._id === jwt._id ? 'owner' : 'staff'}
+                            </Text>
+                        )}
+
+                        <Text style={[styles.status, { color: item.isOpen ? Colors.fun : Colors.danger }]}>
                             {item.isOpen ? 'open' : 'closed'}
                         </Text>
+                        
                     </View>
                 </View> 
 
@@ -91,7 +110,7 @@ const StoreCard = ({
                         },
                     ]}>{item.name}</Text>}
 
-            {jwt && jwt.accessToken && (
+            {type === 'store' && jwt && jwt.accessToken && (
                 <FollowBtn
                     type='store'
                     userId={jwt._id}
@@ -136,6 +155,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginRight: 3,
     },
+    statusWrapper: {
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
     rating: {
         marginBottom: 6,
     },
@@ -143,8 +166,9 @@ const styles = StyleSheet.create({
         color: Colors.black,
         fontSize: 20,
     },
-    isOpen: {
+    status: {
         fontSize: 14,
+        marginLeft: 6,
     },
     alt: {
         position: 'absolute',

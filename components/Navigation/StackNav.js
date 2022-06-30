@@ -1,34 +1,43 @@
 import React, { useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HeaderBackButton } from '@react-navigation/elements';
 import Colors from '../../themes/Colors';
-import Splash from '../../screens/Splash';
-import Home from '../../screens/Home';
-import SignIn from '../../screens/SignIn';
-import SignUp from '../../screens/SignUp';
-import Category from '../../screens/Category';
-import Search from '../../screens/Search';
-import Product from '../../screens/Product';
-import Description from '../../screens/Description';
-import ReviewsAndRating from '../../screens/ReviewsAndRating';
+import Splash from '../../screens/core/Splash';
+import Home from '../../screens/core/Home';
+import SignIn from '../../screens/core/SignIn';
+import SignUp from '../../screens/core/SignUp';
+import Category from '../../screens/core/Category';
+import Search from '../../screens/core/Search';
+import Product from '../../screens/product/Product';
+import Description from '../../screens/product/Description';
+import ReviewsAndRating from '../../screens/product/ReviewsAndRating';
+import CreateStore from '../../screens/vendor/CreateStore';
+import Purchase from '../../screens/account/Purchase';
+import Order from '../../screens/account/Order';
+import Address from '../../screens/account/Address';
+import AddressAdd from '../../screens/account/AddressAdd';
+import AddressEdit from '../../screens/account/AddressEdit';
+import UserCoin from '../../screens/account/UserCoin';
+import UserReview from '../../screens/account/UserReview';
+import UserReviewEdit from '../../screens/account/UserReviewEdit';
+import UserWithdraw from '../../screens/account/UserWithdraw';
 import HomeNav from '../Navbar/HomeNav';
 import BottomTabNav from './BottomTabNav';
+import VendorDrawer from './DrawerNav';
 
-import { StoreTabScreen } from './TopTabNav';
+import { StoreTabScreen, UserTabScreen } from './TopTabNav';
 import PerNav from '../Navbar/PerNav';
 import { AuthContext } from '../../context/AuthContext';
 
-import ForgotPassword from '../../screens/ForgotPassword';
-import ChangeProfile from '../../screens/ChangeProfile';
-import ChangePassword from '../../screens/ChangePassword';
-import EditProfile from '../../screens/EditProfile';
-import UserAddress from '../../screens/UserAddress';
-import AddUserAddress from '../../screens/AddUserAddress';
-import EditUserAddress from '../../screens/EditUserAddress';
-import Cart from '../../screens/Cart';
-import Checkout from '../../screens/Checkout';
+import Cart from '../../screens/account/Cart';
+import Checkout from '../../screens/account/Checkout';
+import ForgotPassword from '../../screens/core/ForgotPassword';
+import ChangeProfile from '../../screens/account/ChangeProfile';
+import ChangePassword from '../../screens/account/ChangePassword';
+import EditProfile from '../../screens/account/EditProfile';
+
 
 const Stack = createNativeStackNavigator();
 const MyTheme = {
@@ -69,8 +78,6 @@ const StackScreen = () => {
                                     headerTransparent: true,
                                     headerTitle: () => <HomeNav navigation={navigation} />,
                             })}
-
-                                    
                         />
 
                         {!jwt.accessToken && (
@@ -92,55 +99,40 @@ const StackScreen = () => {
                                 }}
                             />
                         )}
-                         <Stack.Screen
+                        
+                        <Stack.Screen
                             name="ForgotPassword"
                             component={ForgotPassword}
                             options={{
                                 title: 'Forgot Password',
                             }}
-                            />
-                             <Stack.Screen
+                        />
+
+                        <Stack.Screen
                             name="ChangeProfile"
                             component={ChangeProfile}
                             options={{
                                 title: 'Change Profile',
                             }}
-                            />
-                            <Stack.Screen
+                        />
+                        
+                        <Stack.Screen
                             name="ChangePassword"
                             component={ChangePassword}
                             options={{
                                 title: 'Change Password',
                             }}
-                            />
-                              <Stack.Screen
+                        />
+
+                        <Stack.Screen
                             name="EditProfile"
                             component={EditProfile}
                             options={({ route, navigation })=>({
                                 title:route.params.title
                             })}
+
                             />
-                              <Stack.Screen
-                            name="UserAddress"
-                            component={UserAddress}
-                            options={({ navigation })=>({
-                                title:'Address'
-                            })}
-                            />
-                            <Stack.Screen
-                            name="AddUserAddress"
-                            component={AddUserAddress}
-                            options={({ navigation })=>({
-                                title:'Add Address'
-                            })}
-                            />
-                            <Stack.Screen
-                            name="EditUserAddress"
-                            component={EditUserAddress}
-                            options={({ route, navigation })=>({
-                                title:'Edit Address'
-                            })}
-                            />
+                              
                              <Stack.Screen
                             name="Cart"
                             component={Cart}
@@ -155,6 +147,7 @@ const StackScreen = () => {
                                 title:'Checkout'
                             })}
                             />
+
                         <Stack.Screen
                             name="Category"
                             component={Category}
@@ -224,6 +217,106 @@ const StackScreen = () => {
                         >
                             {({ route }) => <StoreTabScreen parRoute={route} />}
                         </Stack.Screen>
+
+                        <Stack.Screen
+                            name="User"
+                            options={{
+                                headerTransparent: true,
+                                header: ({ navigation, route }) => (
+                                    <PerNav navigation={navigation} route={route} type='user' />
+                                ),
+                            }}
+                        >
+                            {({ route }) => <UserTabScreen parRoute={route} />}
+                        </Stack.Screen>
+
+                        <Stack.Screen 
+                            name="VendorDashboard"
+                            component={VendorDrawer}
+                            options={{
+                                headerShown: false,
+                            }} 
+                        />
+                        
+                        <Stack.Screen 
+                            name="CreateStore"
+                            component={CreateStore}
+                            options={{
+                                title: 'Create Your Store',
+                            }} 
+                        />
+
+                        <Stack.Screen 
+                            name="Address"
+                            component={Address}
+                            options={{
+                                title: 'Your Address',
+                            }} 
+                        />
+                        
+                        <Stack.Screen 
+                            name="AddAddress"
+                            component={AddressAdd}
+                            options={{
+                                title: 'Add Address',
+                            }} 
+                        />
+
+                        <Stack.Screen 
+                            name="EditAddress"
+                            component={AddressEdit}
+                            options={{
+                                title: 'Edit Address',
+                            }} 
+                        />
+
+                        <Stack.Screen 
+                            name="Purchase"
+                            component={Purchase}
+                            options={{
+                                title: 'Purchase History',
+                            }} 
+                        />
+                        
+                        <Stack.Screen 
+                            name="Order"
+                            component={Order}
+                            options={{
+                                title: 'Order Detail',
+                            }} 
+                        />
+
+                        <Stack.Screen 
+                            name="UserReview"
+                            component={UserReview}
+                            options={{
+                                title: 'Review & Rate',
+                            }} 
+                        />
+                        
+                        <Stack.Screen 
+                            name="UserReviewEdit"
+                            component={UserReviewEdit}
+                            options={{
+                                title: 'Edit Your Review',
+                            }} 
+                        />
+
+                        <Stack.Screen 
+                            name="UserCoin"
+                            component={UserCoin}
+                            options={{
+                                title: 'Your E-Waller',
+                            }} 
+                        />
+
+                        <Stack.Screen 
+                            name="UserWithdraw"
+                            component={UserWithdraw}
+                            options={{
+                                title: 'Create Transaction',
+                            }} 
+                        />
                     </>
                 )}
             </Stack.Navigator>
