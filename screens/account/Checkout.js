@@ -447,7 +447,6 @@ const onSubmit = () => {
                 value,
             )
         }
-        
         onValidate={(flag) =>
             handleValidate('isValidPhone', flag)
         }
