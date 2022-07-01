@@ -69,7 +69,7 @@ const ChangePassword = ({ navigation }) => {
        {isLoading && <Spinner />}
         {isConfirming && (
                Alert.alert(
-                "Comfirm",
+                "Change Password",
                  "Are you sure you want to change password?",
                  [
                    

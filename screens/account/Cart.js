@@ -25,8 +25,7 @@ const Cart = ({ navigation }) => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
-    const showBottomSheet = () => setVisible(true);
-    const showCheck = () => setChecked(!checked);
+   
 
 
     const init = () => {

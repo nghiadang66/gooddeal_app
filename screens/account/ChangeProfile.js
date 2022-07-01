@@ -7,6 +7,7 @@ import { STATIC_URL } from '../../config';
 import { Avatar } from 'react-native-elements';
 import ImagePicker from 'react-native-image-crop-picker';
 import { ListItem} from 'react-native-elements'
+import { ScrollView } from 'react-native-gesture-handler';
 
 const ChangeProfile = ({ navigation }) => {
   const { jwt, userProfile, updateAvatar, updateCover } = useContext(AuthContext);
@@ -28,6 +29,11 @@ const ChangeProfile = ({ navigation }) => {
       title: 'Phone',
       value:userProfile.phone
       
+    },
+    {
+      title: 'Id card',
+      value:userProfile.id_card
+
     },
   ];
 
@@ -68,7 +74,11 @@ const ChangeProfile = ({ navigation }) => {
     {
       navigation.navigate('EditProfile',{title:'Edit phone',value:userProfile.phone,valid:'isValidPhone',validator:'phone',type:'phone'});
     }
-    if (i==4)
+    if(i==4)
+      {
+        navigation.navigate('EditProfile',{title:'Edit ID card',value:userProfile.id_card,valid:'isValidIdCard',validator:'id_card',type:'id_card'});
+      }
+    if (i==5)
     {
       navigation.navigate('ChangePassword');
     }
@@ -76,6 +86,7 @@ const ChangeProfile = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <ScrollView>
       <ImageBackground 
           source={{uri: STATIC_URL + userProfile.cover }} 
           style={styles.cover}
@@ -110,6 +121,8 @@ const ChangeProfile = ({ navigation }) => {
           <ListItem.Chevron  />
       </ListItem>
       ))}
+      </ScrollView>
+     
     </View>
   );
 }

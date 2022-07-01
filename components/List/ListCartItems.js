@@ -145,7 +145,7 @@ const ListCartItems = ({ navigation, cartId = '', storeId = '', userId = '', onR
                 <Alert1 type='success' content={success} /> : null}
             {isConfirming && (
                 Alert.alert(
-                    "Comfirm",
+                    "Delete item",
                     "Are you sure you want to delete item?",
                     [
 
