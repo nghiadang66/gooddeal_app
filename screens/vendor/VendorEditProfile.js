@@ -74,7 +74,7 @@ const VendorEditProfile = ({ navigation, route }) => {
     };
 
     return(
-        <ScrollView>
+        <ScrollView style={styles.container}>
             <View style={styles.rowContainer}>
                 <View style={{margin: 6,}}>
                     <BackBtn navigation={navigation} color='primary' />
@@ -130,6 +130,8 @@ const VendorEditProfile = ({ navigation, route }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: Colors.white,
+        padding: 6,
     },
     rowContainer: {
         flexDirection: 'row',
@@ -138,11 +140,12 @@ const styles = StyleSheet.create({
     },
     form: {
         flex: 1,
-        paddingVertical: 12,
+        padding: 6,
     },
     heading: {
         color: Colors.primary,
         fontSize: 20,
+        margin: 6,
     },
     title: {
         color: Colors.primary,

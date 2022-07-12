@@ -64,7 +64,7 @@ const Input = ({
 
                 <TextInput
                     style={styles.input}
-                    defaultValue={defaultValue.toString()}
+                    defaultValue={defaultValue}
                     value={input}
                     placeholder={title}
                     secureTextEntry={type==='password' && !showPasswordFlag}

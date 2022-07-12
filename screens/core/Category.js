@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, ScrollView, Text, StyleSheet } from 'react-native';
 import { listActiveCategories } from '../../services/category';
 import { listActiveProducts } from '../../services/product';
 import Slider from '../../components/Slider/CategorySlider';
@@ -8,26 +8,15 @@ import Filter from '../../components/Filter/Filter';
 import Alert from '../../components/Other/Alert';
 import Spinner from '../../components/Other/Spinner';
 import Colors from '../../themes/Colors';
+import useUpdateEffect from '../../hooks/useUpdateEffect';
 
 const Category = ({ route, navigation }) => {
     const [categories, setCategories] = useState();
     const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
     const [products, setProducts] = useState();
 
-    const [pagination, setPagination] = useState({
-        size: 0,
-    });
-    const [filter, setFilter] = useState({
-        search: '',
-        rating: '',
-        categoryId: route.params.category._id,
-        minPrice: 0,
-        maxPrice: '',
-        sortBy: 'sold',
-        order: 'desc',
-        limit: 4,
-        page: 1,
-    });
+    const [pagination, setPagination] = useState();
+    const [filter, setFilter] = useState();
 
     const [error, setError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -100,7 +89,7 @@ const Category = ({ route, navigation }) => {
         });
     }, [route.params.category]);
 
-    useEffect(() => {
+    useUpdateEffect(() => {
         getProducts();
     }, [filter]);
 
@@ -119,46 +108,47 @@ const Category = ({ route, navigation }) => {
     }
 
     return (
-        <>
-            {!isLoading && !error && (
-                <View style={styles.container}>
-                    {categories && categories.length > 0 && (
-                        <View style={styles.slider}>
-                            <Slider
-                                items={categories}
-                                currentIndex={currentCategoryIndex}
-                                handleSliderPress={handleSliderPress}
-                                setCurrentindex={setCurrentCategoryIndex}
-                            />
+        <View style={styles.container}>
+            <Filter filter={filter} setFilter={setFilter} />
+
+            <ScrollView>
+                {!isLoading && !error && (
+                    <View style={styles.container}>
+                        {categories && categories.length > 0 && (
+                            <View style={styles.slider}>
+                                <Slider
+                                    items={categories}
+                                    currentIndex={currentCategoryIndex}
+                                    handleSliderPress={handleSliderPress}
+                                    setCurrentindex={setCurrentCategoryIndex}
+                                />
+                            </View>
+                        )}
+
+                        <View style={styles.wrapper}>
+                            <Text style={styles.result}>{pagination ? pagination.size : '0'} results</Text>
                         </View>
-                    )}
 
-                    <Filter filter={filter} setFilter={setFilter} />
-
-                    <View style={styles.wrapper}>
-                        <Text style={styles.result}>{pagination.size} results</Text>
+                        <View style={styles.list}>
+                            {(isRefreshing && filter.page === 1)
+                                ? <Spinner />
+                                : products && products.length > 0 && 
+                                    <List
+                                        navigation={navigation}
+                                        type='product'
+                                        items={products}
+                                        loadMore={loadMore}
+                                        isRefreshing={isRefreshing}
+                                        pagination={pagination}
+                                    />}
+                        </View>
                     </View>
+                )}
 
-                    <View
-                        style={[styles.list, (!categories || categories.length == 0) && { flex: 1 }]}
-                    >
-                        {(isRefreshing && filter.page === 1)
-                            ? <Spinner />
-                            : products && products.length > 0 && 
-                                <List
-                                    navigation={navigation}
-                                    type='product'
-                                    items={products}
-                                    loadMore={loadMore}
-                                    isRefreshing={isRefreshing}
-                                />}
-                    </View>
-                </View>
-            )}
-
-            {isLoading && <Spinner />}
-            {error && <Alert type={'error'} />}
-        </>
+                {isLoading && <Spinner />}
+                {error && <Alert type={'error'} />}
+            </ScrollView>
+        </View>
     );
 }
 
@@ -180,7 +170,7 @@ const styles = StyleSheet.create({
         color: Colors.black,
     },
     list: {
-        flex: 0.7,
+        flex: 1,
     },
 });
 

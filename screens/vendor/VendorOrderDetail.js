@@ -107,23 +107,22 @@ const VendorOrderDetail = ({ navigation, route }) => {
     }
 
     return (
-        <ScrollView>
-            <View style={styles.container}>
+        <ScrollView style={styles.container}>
                 {!isLoading && !error && (
-                   <View style={styles.container}>
-                        <View style={[styles.container, styles.m6]}>
+                   <>
+                        <View style={[styles.container, styles.wrapper]}>
                             <View style={styles.rowContainer}>
                                 <BackBtn navigation={navigation} color='primary' />
                                 <Text style={[styles.heading, styles.container]}>
-                                    Order #{route.params.orderId}
+                                    #{route.params.orderId}
                                 </Text>
                             </View>
 
 
                             <View style={styles.rowContainer}>
                                 {!isLoading1 && !error1 && !success1 && (
-                                    <Text style={[{flex: 0.4}, styles.m6, { color: Colors[sttColor[order.status]] }]}>
-                                        {order.status}
+                                    <Text style={[styles.m6, { flex: 0.4, color: Colors[sttColor[order.status]] }]}>
+                                        {order.status} order
                                     </Text>
                                 )}
 
@@ -261,11 +260,10 @@ const VendorOrderDetail = ({ navigation, route }) => {
                                 {formatPrice(order.amountFromUser && order.amountFromUser.$numberDecimal)}
                             </Text>
                         </View>
-                   </View> 
+                   </> 
                 )}
                 {isLoading && <Spinner />}
                 {error ? <Alert type='error' content={error} /> : null}
-            </View>
         </ScrollView>
     );
 }
@@ -273,6 +271,8 @@ const VendorOrderDetail = ({ navigation, route }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: Colors.white,
+        padding: 6,
     },
     rowContainer: {
         flexDirection: 'row',
@@ -280,14 +280,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     wrapper: {
-        backgroundColor: Colors.white,
-        padding: 12,
-        borderRadius: 3,
+        padding: 6,
         marginBottom: 6,
+        borderBottomWidth: 2,
+        borderColor: Colors.primary,
     },
     heading: {
         fontSize: 20,
-        textAlign: 'center',
+        color: Colors.primary,
     },
     title: {
         color: Colors.primary,

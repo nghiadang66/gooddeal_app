@@ -10,27 +10,21 @@ const VendorChangeProfile = ({ navigation, route }) => {
     return (
         <ScrollView style={styles.container}>
             <View style={styles.rowContainer}>
-                <View style={styles.backBtn}>
-                    <BackBtn navigation={navigation} color='primary' />
-                </View>
+                <BackBtn navigation={navigation} color='primary' />
+                
                 <View style={styles.container}>
                     <Text style={styles.heading}>Store Profile</Text>
                 </View>
-                <View style={styles.backBtn}>
-                    <HeaderBtn color='primary' onPress={() => navigation.navigate('VendorEditProfile')} icon='pencil' />
-                </View>
+
+                <HeaderBtn color='primary' onPress={() => navigation.navigate('VendorEditProfile')} icon='pencil' />
             </View>
        
-            <View style={styles.p6}>
-                <View style={styles.wrapper}>
-                    <Text style={styles.title}>Name</Text>
-                    <Text style={styles.content}>{store.name}</Text>
-                </View>
-                
-                <View style={styles.wrapper}>
-                    <Text style={styles.title}>Bio</Text>
-                    <Text style={styles.content}>{store.bio}</Text>
-                </View>
+            <View style={styles.wrapper}>
+                <Text style={styles.title}>Name</Text>
+                <Text style={styles.content}>{store.name}</Text>
+            
+                <Text style={styles.title}>Bio</Text>
+                <Text style={styles.content}>{store.bio}</Text>
             </View>
         </ScrollView>
     );
@@ -39,24 +33,21 @@ const VendorChangeProfile = ({ navigation, route }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: Colors.white,
+        padding: 6,
     },
     rowContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-    wrapper: {
-        backgroundColor: Colors.white,
-        padding: 6,
-        borderRadius: 3,
-        marginBottom: 3,
-    },
-    backBtn: {
-        margin: 6,
-    },
     heading: {
         color: Colors.primary,
         fontSize: 20,
+        margin: 6,
+    },
+    wrapper: {
+        padding: 6,
     },
     title: {
         color: Colors.primary,
@@ -64,9 +55,6 @@ const styles = StyleSheet.create({
     content: {
         fontSize: 16,
         paddingVertical: 6,
-    },
-    p6: {
-        padding: 6,
     },
 });
 

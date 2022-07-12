@@ -21,10 +21,9 @@ const StoresManager = ({ navigation }) => {
         sortBy: 'name',
         sortMoreBy: 'rating',
         order: 'asc',
-        limit: 6,
+        limit: 4,
         page: 1,
     });
-    const [isLoading, setIsLoading] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [error, setError] = useState(false);
     
@@ -32,8 +31,7 @@ const StoresManager = ({ navigation }) => {
 
     const getStores = () => {
         setError(false);
-        if (filter.page === 1) setIsLoading(true);
-        else setIsRefreshing(true);
+        setIsRefreshing(true);
         listStoresByUser(jwt._id, jwt.accessToken, filter)
             .then(data => {
                 if (data.filter.pageCurrent === 1)
@@ -53,7 +51,6 @@ const StoresManager = ({ navigation }) => {
                 setError(true);
             })
             .finally(() => {
-                setIsLoading(false);
                 setIsRefreshing(false);
             });
             
@@ -61,7 +58,18 @@ const StoresManager = ({ navigation }) => {
 
     useEffect(() => {
         getStores();
-    }, [filter, isFocused]);
+    }, [filter, jwt]);
+
+    useEffect(() => {
+        setFilter({
+            search: '',
+            sortBy: 'name',
+            sortMoreBy: 'rating',
+            order: 'asc',
+            limit: 4,
+            page: 1,
+        });
+    }, [isFocused])
 
     const loadMore = () => {
         if (isRefreshing) return;
@@ -78,7 +86,7 @@ const StoresManager = ({ navigation }) => {
             <FloatBtn
                 onPress={() => navigation.navigate('CreateStore')}
             />
-            {!isLoading && !error && (
+            {!error && (
                 <>
                     <Text style={styles.result}>{pagination.size} results</Text>
                     <View style={styles.list}>
@@ -93,8 +101,6 @@ const StoresManager = ({ navigation }) => {
                     </View>
                 </>
             )}
-            
-            {isLoading && <Spinner />}
             {error && <Alert type={'error'} />}
         </View>
     );

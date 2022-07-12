@@ -114,6 +114,7 @@ const StoreSearch = ({ navigation, route }) => {
                                     items={products}
                                     loadMore={loadMore}
                                     isRefreshing={isRefreshing}
+                                    pagination={pagination}
                                 />}
                         </View>
                     </>

@@ -16,7 +16,7 @@ const HomeNav = ({ navigation, isMain = true }) => {
             )}
             <TouchableOpacity 
                 style={styles.searchbar}
-                onPress={() => navigation.navigate('Search')}
+                onPress={() => navigation.navigate('Search', { option: 'product' })}
             >
                 <Icon 
                     name={'search'}

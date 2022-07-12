@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { listActiveCategories } from '../../services/category';
 import ListRecommend from '../../components/List/ListRecommend';
 import Slider from '../../components/Slider/CategorySlider';
 import Alert from '../../components/Other/Alert';
 import Spinner from '../../components/Other/Spinner';
 import Colors from '../../themes/Colors';
-import Link from '../../components/Other/Link';
 
 const Home = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
@@ -86,14 +85,6 @@ const Home = ({ navigation }) => {
               navigation={navigation}
             />
           </View>
-
-          <View style={styles.discovery}>
-            <Link
-              title='discover...'
-              fontSize={24}
-              onPress={() => navigation.navigate('Search')}
-            />
-          </View>
         </ScrollView>
       )}
 
@@ -118,12 +109,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: 3,
   },
-  discovery: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-  }
 });
 
 export default Home;

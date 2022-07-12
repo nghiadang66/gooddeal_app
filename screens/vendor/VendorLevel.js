@@ -13,9 +13,8 @@ const VendorLevel = ({ navigation, route }) => {
     return (
         <View style={styles.container}>
             <View style={styles.rowContainer}>
-                <View style={styles.backBtn}>
-                    <BackBtn navigation={navigation} color='primary' />
-                </View>
+                <BackBtn navigation={navigation} color='primary' />
+                
                 <View style={styles.container}>
                     <Text style={styles.heading}>Store Level</Text>
                 </View>
@@ -59,18 +58,18 @@ const VendorLevel = ({ navigation, route }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: Colors.white,
+        padding: 6,
     },
     rowContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-    backBtn: {
-        margin: 6,
-    },
     heading: {
         color: Colors.primary,
         fontSize: 20,
+        margin: 6,
     },
     p6: {
         padding: 6,

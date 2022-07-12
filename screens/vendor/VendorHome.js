@@ -256,7 +256,7 @@ const VendorHome = ({ navigation, route }) => {
                                             chartConfig={styles.chartConfig}
                                             accessor={"value"}
                                             backgroundColor={Colors.white}
-                                            avoidFalseZero={true}
+                                            avoidFalseZero={false}
                                         />
                                     )}
                                 </View>

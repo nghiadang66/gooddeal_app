@@ -56,6 +56,7 @@ const StoreHome = ({ navigation, route }) => {
                                     sortBy='sold'
                                     storeId={store._id}
                                     navigation={navigation}
+                                    noEndLink={true}
                                 />
                             </View>
 
@@ -66,6 +67,7 @@ const StoreHome = ({ navigation, route }) => {
                                     sortBy='createdAt'
                                     storeId={store._id}
                                     navigation={navigation}
+                                    noEndLink={true}
                                 />
                             </View>
                         </>

@@ -77,14 +77,11 @@ const StoreAbout = ({ navigation, route }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: 6,
-        paddingVertical: 12,
+        backgroundColor: Colors.white,
+        padding: 12,
     },
     wrapper: {
-        backgroundColor: Colors.white,
-        padding: 6,
-        borderRadius: 3,
-        marginBottom: 3,
+        marginBottom: 12,
     },
     title: {
         color: Colors.primary,

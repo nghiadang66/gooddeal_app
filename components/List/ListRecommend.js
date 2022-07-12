@@ -35,7 +35,7 @@ const fetchFuncs = {
     'productByStore': listSellingProductsByStore,
 }
 
-const ListRecommend = ({ type = 'product', title = 'Best Seller', sortBy = 'sold', categoryId = '', storeId = '', navigation }) => {
+const ListRecommend = ({ type = 'product', title = 'Best Seller', sortBy = 'sold', categoryId = '', storeId = '', navigation, noEndLink = false }) => {
     const [items, setItems] = useState([]);
     const [filter, setFilter] = useState(initFilters[type]);
 
@@ -50,7 +50,6 @@ const ListRecommend = ({ type = 'product', title = 'Best Seller', sortBy = 'sold
                 setItems(data[type+'s']);
             })
             .catch(error => {
-                console.log(error);
                 setError(true);
             })
             .finally(() => {
@@ -87,6 +86,7 @@ const ListRecommend = ({ type = 'product', title = 'Best Seller', sortBy = 'sold
                     items={items}
                     horizontal={true}
                     border={true}
+                    onEndLink={ (!noEndLink && type !== 'productByStore') ? () => navigation.navigate('Search', { option: type }) : null}
                 />
             )}
             {isLoading && <Spinner />}

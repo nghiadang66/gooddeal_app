@@ -43,12 +43,12 @@ const PerNav = ({ navigation, route, type = 'account' }) => {
                     {type !== 'account' && (
                         <View style={styles.header}>
                             <View style={styles.headerItem}>
-                                <BackBtn navigation={navigation} background={true} />
+                                <BackBtn navigation={navigation} background={true} color={'fun'} />
                             </View>
 
                             {jwt && jwt.accessToken && (
                                 <View style={styles.headerItem}>
-                                    <CartBtn navigation={navigation} jwt={jwt} background={true} />
+                                    <CartBtn navigation={navigation} jwt={jwt} background={true} color={'fun'} />
                                 </View>
                             )}
                         </View>

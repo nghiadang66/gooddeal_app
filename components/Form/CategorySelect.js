@@ -7,6 +7,7 @@ import Spinner from '../Other/Spinner';
 import Alert from '../Other/Alert';
 import Icon from 'react-native-vector-icons/Ionicons';
 import useToggle from '../../hooks/useToggle';
+import useUpdateEffect from '../../hooks/useUpdateEffect'
 
 const CategorySelect = ({ 
     defaultValue,
@@ -100,11 +101,11 @@ const CategorySelect = ({
         loadCategories(1);
     }, []);
 
-    useEffect(() => {
+    useUpdateEffect(() => {
         loadCategories(2);
     }, [lv2Filter]);
 
-    useEffect(() => {
+    useUpdateEffect(() => {
         loadCategories(3);
     }, [lv3Filter]);
 
@@ -123,8 +124,7 @@ const CategorySelect = ({
         }
         else {
             setSelect(lv3Categories.find(category => category._id == value));
-            if (!defaultValue || !noChange)
-                onSet(value);
+            if (!defaultValue || !noChange) onSet(value);
         }
     };
     
@@ -138,17 +138,17 @@ const CategorySelect = ({
             <Text style={styles.title}>Level 1</Text>
             {!isLoading1 && <CategorySelectItem
                 values={lv1Categories}
-                selectedValue={lv2Categories.categoryId}
+                selectedValue={lv2Filter.categoryId}
                 onChange={(value) => handleChange(1, value)}
             />}
             {isLoading1 && <Spinner />}
             {error1 ? <Alert type='error' content={error1} /> : null}
 
             <Text style={styles.title}>Level 2</Text>
-            {!isLoading2 && !error2 && lv2Categories.length > 0 && (
+            {!isLoading2 && lv2Categories.length > 0 && (
                 <CategorySelectItem 
                     values={lv2Categories}
-                    selectedValue={lv3Categories.categoryId}
+                    selectedValue={lv3Filter.categoryId}
                     onChange={(value) => handleChange(2, value)}
                 />)}
             {isLoading2 && <Spinner />}
@@ -170,7 +170,7 @@ const CategorySelect = ({
                 'No value choosed'}
             </Text>
 
-            {defaultValue && (
+            {defaultValue ? (
                 <>
                     <Text style={styles.title}>Undo {'(No change category)'}</Text>
                     <View style={styles.rowContainer}>
@@ -185,7 +185,7 @@ const CategorySelect = ({
                         </TouchableOpacity>
                     </View>
                 </>
-            )}
+            ) : null}
         </View>
     );
 }

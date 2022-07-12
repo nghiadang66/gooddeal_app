@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, ScrollView, Text, StyleSheet } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
 import { VendorContext } from '../../context/VendorContext';
 import { createProduct } from '../../services/product';
@@ -288,7 +288,7 @@ const VendorProductAdd = ({ navigation, route }) => {
                     onSet={(value) => setNewProduct({
                         ...newProduct,
                         categoryId: value,
-                   })}
+                    })}
                 />
 
                 <Text style={styles.title}>Styles</Text>

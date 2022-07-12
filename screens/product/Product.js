@@ -68,12 +68,12 @@ const Product = ({ navigation, route }) => {
                         <View style={styles.container}>
                             <View style={styles.header}>
                                 <View style={styles.headerItem}>
-                                    <BackBtn navigation={navigation} background={true} />
+                                    <BackBtn navigation={navigation} background={true} color={'fun'} />
                                 </View>
 
                                 {jwt && jwt.accessToken && (
                                     <View style={styles.headerItem}>
-                                        <CartBtn navigation={navigation} jwt={jwt} background={true} />
+                                        <CartBtn navigation={navigation} jwt={jwt} background={true} color={'fun'} />
                                     </View>
                                 )}
                             </View>
@@ -191,6 +191,7 @@ const Product = ({ navigation, route }) => {
                                         product.categoryId.categoryId.categoryId._id
                                     }
                                     navigation={navigation}
+                                    noEndLink={true}
                                 />
                             </View>
 
@@ -207,6 +208,7 @@ const Product = ({ navigation, route }) => {
                                         product.storeId._id
                                     }
                                     navigation={navigation}
+                                    noEndLink={true}
                                 />
                             </View>
                         </View>

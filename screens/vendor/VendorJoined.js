@@ -11,9 +11,7 @@ const VendorJoined = ({ navigation, route }) => {
     return (
         <View style={styles.container}>
             <View style={styles.rowContainer}>
-                <View style={styles.backBtn}>
-                    <BackBtn navigation={navigation} color='primary' />
-                </View>
+                <BackBtn navigation={navigation} color='primary' />
                 <View style={styles.container}>
                     <Text style={styles.heading}>Other Infomation</Text>
                 </View>
@@ -44,6 +42,8 @@ const VendorJoined = ({ navigation, route }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: Colors.white,
+        padding: 6,
     },
     rowContainer: {
         flexDirection: 'row',
@@ -51,17 +51,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     wrapper: {
-        backgroundColor: Colors.white,
         padding: 6,
-        borderRadius: 3,
-        marginBottom: 3,
-    },
-    backBtn: {
-        margin: 6,
     },
     heading: {
         color: Colors.primary,
         fontSize: 20,
+        margin: 6,
     },
     title: {
         color: Colors.primary,

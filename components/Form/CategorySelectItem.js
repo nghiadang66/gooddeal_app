@@ -15,7 +15,6 @@ const CategorySelectItem = ({ values, selectedValue, onChange }) => {
         <View style={styles.pickerContainer}>
             <Picker
                 selectedValue={value}
-                value={value}
                 style={styles.picker}
                 itemStyle={styles.itemPicker}
                 dropdownIconColor={Colors.primary}

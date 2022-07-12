@@ -87,16 +87,16 @@ const Order = ({ navigation, route }) => {
             <View style={styles.container}>
                 {!isLoading && !error && (
                    <View style={styles.container}>
-                        <View style={[styles.container, styles.m6]}>
+                        <View style={[styles.container, , styles.wrapper]}>
                             <Text style={styles.heading}>
-                                Order #{route.params.orderId}
+                                #{route.params.orderId}
                             </Text>
 
 
-                            <View style={[styles.rowContainer, styles.m6]}>
+                            <View style={styles.rowContainer}>
                                 {!isLoading1 && !error1 && !success1 && (
                                     <Text style={[styles.content, { color: Colors[sttColor[order.status]] }]}>
-                                        {order.status}
+                                        {order.status} order
                                     </Text>
                                 )}
 
@@ -254,6 +254,8 @@ const Order = ({ navigation, route }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: Colors.white,
+        padding: 6,
     },
     rowContainer: {
         flexDirection: 'row',
@@ -261,13 +263,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     wrapper: {
-        backgroundColor: Colors.white,
-        padding: 12,
-        borderRadius: 3,
+        padding: 6,
         marginBottom: 6,
+        borderBottomWidth: 2,
+        borderColor: Colors.primary,
     },
     heading: {
         fontSize: 20,
+        color: Colors.primary,
         textAlign: 'center',
     },
     title: {

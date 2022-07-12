@@ -208,7 +208,7 @@ const VendorProfile = ({navigation, route}) => {
 
             <View style={styles.slider}>
                 <View style={styles.rowContainer}>
-                    <Text style={styles.title}>Featured Images</Text>
+                    <Text style={styles.title}> Featured Images</Text>
                     <TouchableOpacity
                         style={styles.feature_icon} 
                         onPress={
@@ -344,6 +344,8 @@ const styles = StyleSheet.create({
     slider: {
         marginVertical: 12,
         marginHorizontal: 3,
+        backgroundColor: Colors.white,
+        padding: 6,
     },
     slider_item: {
         flex: 1,

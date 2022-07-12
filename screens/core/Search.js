@@ -47,11 +47,11 @@ const filters = {
     },
 }
 
-const Search = ({ navigation }) => {
+const Search = ({ navigation, route }) => {
     const [results, setResults] = useState();
 
     const [keyword, setKeyword] = useState('');
-    const [option, setOption] = useState('product');
+    const [option, setOption] = useState(route.params.option);
     const [pagination, setPagination] = useState({ size: 0 });
     const [filter, setFilter] = useState(filters[option]);
 
@@ -98,6 +98,10 @@ const Search = ({ navigation }) => {
                 setIsRefreshing(false);
             });
     }
+
+    useEffect(() => {
+        setOption(route.params.option);
+    }, [route.params.option])
 
     useEffect(() => {
         getFilter();
@@ -177,6 +181,7 @@ const Search = ({ navigation }) => {
                                     items={results}
                                     loadMore={loadMore}
                                     isRefreshing={isRefreshing}
+                                    pagination={pagination}
                                 />}
                         </View>
                     </>

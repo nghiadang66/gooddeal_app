@@ -16,7 +16,7 @@ const ImageInput = ({
     isRequired = false,
     isValid= false,
     size='avatar',
-    key,
+    key = undefined,
 }) => {
     const [src, setSrc] = useState('');
 
@@ -40,7 +40,7 @@ const ImageInput = ({
     }
 
     return (
-        <View style={[styles.container, styles.size[size]]} key={key || 0}>
+        <View style={[styles.container, styles.size[size]]} key={key}>
             <Image
                 source={src ? {uri: src} : placeholderImage}
                 style={styles.img}
