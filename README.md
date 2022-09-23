@@ -20,7 +20,7 @@ Xây dựng hệ thống sàn thương mại điện tử, tương tự Shopee, 
 [Drive](https://drive.google.com/drive/folders/116zdlRDduq4NhTKdxk4soLIXoRWTy92R)
 
 ## Demo:
-[Youtube](https://www.youtube.com/watch?v=g10YjESD9j8&list=PLMRUYp6BdUWFJJLmRJcxZQ_iavZdspohu&index=1)
+[Youtube](https://www.youtube.com/watch?v=Z-RRAf6UqoA&list=PLMRUYp6BdUWFJJLmRJcxZQ_iavZdspohu&index=2)
 
 ## Member:
 1. Nghia Đặng:
